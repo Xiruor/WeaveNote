@@ -82,6 +82,18 @@ const PROMPT_GROUPS: Record<PromptGroup, string> = {
 - 对话中出现新的任务、约束或进度变化时 → updateAgentState
 
 `,
+  // 笔记检索 + 引用规则（M2）。两个场景都注入。
+  noteTools: `## 笔记检索与引用
+- **searchNotes**：在用户的全部笔记里做关键词 + 语义混合检索。问题涉及其他笔记、需要跨笔记汇总/对比，或当前笔记里找不到依据时调用。可传 noteIds 限定范围，默认跨全部笔记；返回的 sources 带有 index / noteId / title / heading / snippet
+- **readNote**：按 noteId 读取一篇笔记的完整正文。需要细读 searchNotes 返回的某条来源时调用
+
+## 引用规则
+- 依据检索结果作答时，在相应句子末尾标注 [1][2]，编号就是 sources 里的 index
+- 回答末尾加一个「来源」小节，每条写成 [笔记标题](/notes/noteId)，让用户能点进去
+- 没有检索到相关笔记就直说，不要编造内容或链接
+- 信息够用就停止检索，不要为同一个问题反复换关键词
+
+`,
   // 行为准则：不点名任何工具，所有场景都注入
   conduct: `## 行为准则
 - 始终用中文回复，语气自然像朋友，不要用"作为AI""根据你的请求"这类生硬表述

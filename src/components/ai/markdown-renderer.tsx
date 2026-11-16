@@ -88,17 +88,38 @@ export const MarkdownRenderer = memo(function MarkdownRenderer({ content }: Prop
           // 行内 HTML：<u> 下划线 — 原生会渲染，这里不需要额外组件
           // 但 ReactMarkdown 默认允许所有常见 HTML 标签
 
-          a: ({ children, href }) => (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "var(--studio-link)" }}
-              className="underline underline-offset-2 hover:opacity-80 transition-opacity"
-            >
-              {children}
-            </a>
-          ),
+          a: ({ children, href }) => {
+            // 笔记引用（M2）：提示词要求把来源写成 [标题](/notes/<id>)。
+            // 站内跳转不加 target=_blank，并渲染成引用芯片，和普通外链区分开。
+            if (typeof href === "string" && href.startsWith("/notes/")) {
+              return (
+                <a
+                  href={href}
+                  className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 no-underline align-baseline transition-opacity hover:opacity-80"
+                  style={{
+                    color: "var(--studio-link)",
+                    backgroundColor: "var(--studio-mark-bg)",
+                    fontSize: "0.92em",
+                  }}
+                >
+                  <span aria-hidden>↗</span>
+                  {children}
+                </a>
+              );
+            }
+
+            return (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "var(--studio-link)" }}
+                className="underline underline-offset-2 hover:opacity-80 transition-opacity"
+              >
+                {children}
+              </a>
+            );
+          },
 
           blockquote: ({ children }) => (
             <blockquote

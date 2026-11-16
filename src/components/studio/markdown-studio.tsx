@@ -203,12 +203,12 @@ export function MarkdownStudio({
   const flashTimerRef = useRef<number | null>(null);
   const aiUndoContentRef = useRef<string | null>(null);
 
-  /** AI 面板归属的文档/计划：面板据此从服务端取回自己的历史（不依赖 localStorage） */
+  /** AI 面板归属的笔记：面板据此从服务端取回自己的历史（不依赖 localStorage） */
   const aiThread = useMemo<AiChatThread | undefined>(() => {
     const kind = ai?.context?.kind;
     const refId = ai?.context?.refId;
     // 正向判断才能把 string 收窄成字面量联合（反向排除收窄不了 string）
-    if (kind === "doc" || kind === "plan") {
+    if (kind === "note") {
       if (refId) return { surface: kind, refId };
     }
     return undefined;
@@ -855,7 +855,6 @@ export function MarkdownStudio({
               <PanelGrip onPointerDown={(e) => startPanelDrag(e, "ai")} />
               <div className="flex h-full w-full">
                 <AiChatPanel
-                  document={content}
                   context={ai?.context}
                   onStreamEnd={handleAiStreamEnd}
                   quote={quote}
@@ -864,9 +863,6 @@ export function MarkdownStudio({
                   aiExpanded={aiExpanded}
                   onToggleAiExpanded={() => setAiExpanded((v) => !v)}
                   autoFocus={autoFocusAi}
-                  // 新建计划跳进来的引导语。措辞刻意不是「制定学习计划」——
-                  // 计划已经由 createBlankPlan 建好了，而且工作台场景不注册 createPlan
-                  // （见 lib/tools/router.ts），AI 该走 updatePlanInfo / updateDocument。
                   starterPrompt={autoFocusAi ? "帮我把这份空计划填起来，我的目标是：" : undefined}
                 />
               </div>

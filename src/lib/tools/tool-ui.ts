@@ -7,9 +7,10 @@
 // 摘要在**落库时**算好存下来（而不是存原始 input/output），见 lib/ai/parts.ts。
 // 好处：列表页不用再关心工具的入参结构，重构入参不会弄坏历史数据的展示。
 //
-// M0 裁剪后只登记保留的三个工具（getMyMemories / searchConversationHistory /
-// updateAgentState）。白名单是 fail-closed：往工具工厂里加一个新工具，它不会
-// 自动出现在这里，必须显式登记。漏登记的表现是卡片显示成裸工具名，属于静默降级。
+// M0 裁剪后只登记保留的工具（getMyMemories / searchConversationHistory /
+// updateAgentState），M2 追加 searchNotes / readNote。白名单是 fail-closed：
+// 往工具工厂里加一个新工具，它不会自动出现在这里，必须显式登记。漏登记的表现
+// 是卡片显示成裸工具名，属于静默降级。
 // ============================================================
 
 export type ToolKind = "read" | "write";
@@ -46,6 +47,15 @@ export const TOOL_UI: Record<string, ToolUiSpec> = {
     kind: "read",
     summarize: (input) => str(field(input, "query")),
   },
+
+  // M2：笔记检索（只读）
+  searchNotes: {
+    label: "检索笔记",
+    kind: "read",
+    summarize: (input) => str(field(input, "query")),
+  },
+
+  readNote: { label: "读取笔记", kind: "read" },
 
   // ---------- 写工具：展开成卡片 ----------
   updateAgentState: {

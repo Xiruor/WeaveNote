@@ -17,13 +17,16 @@ import {
 } from "@/lib/tools/router";
 import { createMemoryTools } from "@/lib/tools/memory-tools";
 import { createContextTools } from "@/lib/tools/context-tools";
+import { createNoteTools } from "@/lib/tools/note-tools";
 import { buildSystemPrompt } from "@/lib/deepseek";
 
-/** 统一契约：AI surface 只剩工作台与笔记，保留的 AI 工具只有这三个 */
+/** 统一契约：AI surface 只剩工作台与笔记，保留的 AI 工具（M2：+ 笔记检索） */
 const RETAINED_TOOLS = [
   "getMyMemories",
   "searchConversationHistory",
   "updateAgentState",
+  "searchNotes",
+  "readNote",
 ] as const;
 
 /** 已随旧学习业务删除的工具名——任何场景、任何提示词里都不该再出现 */
@@ -49,11 +52,12 @@ const DELETED_TOOLS = [
 /** 已删业务的关键词，提示词里不该残留 */
 const DELETED_BUSINESS_KEYWORDS = ["知识库", "待办", "打卡", "学习计划", "番茄钟"];
 
-/** 与 route.ts 同构地建出全部候选工具（契约：只剩 memory 与 context 两个工厂） */
+/** 与 route.ts 同构地建出全部候选工具（契约：memory / context / note 三个工厂） */
 function buildCandidates() {
   return {
     ...createMemoryTools("u1"),
     ...createContextTools("u1", "c1"),
+    ...createNoteTools("u1"),
   };
 }
 

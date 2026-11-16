@@ -29,6 +29,7 @@ import { streamTextWithFallback, isQuotaError, isTransientNetworkError } from "@
 import { assertInteractiveUsageAllowed, UsageLimitError, ENERGY_DOWN_MESSAGE } from "@/lib/usage";
 import { createMemoryTools } from "@/lib/tools";
 import { createContextTools } from "@/lib/tools/context-tools";
+import { createNoteTools } from "@/lib/tools/note-tools";
 import { pickTools, surfaceOf, type AiSurface } from "@/lib/tools/router";
 import {
   messageText,
@@ -209,12 +210,13 @@ export async function POST(request: NextRequest) {
       providerOptions: getDeepThinkOptions(deepThink ?? false),
       messages: modelMessages,
       // 工具集按场景裁剪（白名单见 lib/tools/router.ts）：
-      // 长期记忆读工具 + 会话上下文工具，两个场景统一。
-      // updateAgentState 只写当前会话的 AgentState，不碰业务数据。
+      // 长期记忆读工具 + 会话上下文工具 + 笔记检索工具（M2）。
+      // 全部只读；updateAgentState 只写当前会话的 AgentState，不碰业务数据。
       tools: pickTools(
         {
           ...createMemoryTools(user.id),
           ...createContextTools(user.id, activeConversationId),
+          ...createNoteTools(user.id),
         },
         surface
       ),

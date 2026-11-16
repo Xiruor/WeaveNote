@@ -6,6 +6,7 @@ import { TopNav } from "@/components/layout/top-nav";
 import { AgentOrb } from "@/components/agent/agent-orb";
 import { AnnouncementPopup } from "@/components/layout/announcement-popup";
 import { OnboardingProvider } from "@/components/onboarding/onboarding-provider";
+import { CommandPalette } from "@/components/notes/command-palette";
 
 export default async function DashboardLayout({
   children,
@@ -23,6 +24,7 @@ export default async function DashboardLayout({
         </main>
         <AnnouncementPopup userId={user.id} />
         <AgentOrb />
+        <CommandPalette />
       </OnboardingProvider>
     </div>
   );

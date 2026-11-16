@@ -11,52 +11,41 @@ import { readableAIError } from "@/lib/ai-error";
 import type { ChatMessage } from "@/types";
 
 // ============================================================
-// 文档工作室右侧 AI 对话面板（Phase 3）
-// · 携带当前文档内容请求 /api/ai（studioContext）
-// · AI 可调用文档修改工具（updateDocument / updatePlanInfo）
+// 笔记编辑器右侧 AI 对话面板（M1）
+// · 对话归属记在服务端 conversation.surface="note" + refId=noteId，
+//   发送时带 surface/refId，正文由服务端 Context Builder 注入
+//   （scene.ts），浏览器不再携带文档内容
 // · 流结束后通过 onStreamEnd 通知外层拉取最新文档并应用（可撤销）
 // ============================================================
 
 /**
- * 空态快捷提示词，按工作台给两套。
- *
- * 原先只有一套、文案是「计划」导向，却被文档工作台共用——在文档里点下去会粘一段
- * 讲计划的字。而且第二条「帮我把目标拆解成更具体的任务」会诱导模型去调
- * breakdownPlanTasks，但工作台现在没有这个工具（它只在智能体场景注册，
- * 见 lib/tools/router.ts）。工作台里拆任务的正确路径是让 AI 改文档里的
- * 「## 任务安排」段——改完由 plan-sync 回写 PlanTask。
+ * 空态快捷提示词（笔记工作台）。
+ * 旧版按 plan/doc 给两套、文案互相串场；M1 裁掉旧工作台后只剩笔记一套，
+ * 引导语对齐「AI 直接改笔记」的使用方式。
  */
-const QUICK_PROMPTS_BY_KIND: Record<"plan" | "doc", string[]> = {
-  plan: [
-    "把这份计划的节奏安排得更合理",
-    "帮我把「## 任务安排」里的任务拆得更具体",
-    "补充一段学习笔记",
-  ],
-  doc: [
-    "把这篇文档的结构理得更清楚",
-    "帮我把这段内容改得更简洁",
-    "补充一段学习笔记",
-  ],
-};
+const NOTE_QUICK_PROMPTS = [
+  "把这篇笔记的结构理得更清楚",
+  "帮我把这段内容展开得更详细",
+  "根据这篇笔记出几道自测题",
+];
 
-/** context.kind 缺失时按文档工作台处理（它是最通用的一套） */
-function quickPromptsFor(kind?: string): string[] {
-  return kind === "plan" ? QUICK_PROMPTS_BY_KIND.plan : QUICK_PROMPTS_BY_KIND.doc;
-}/**
+function quickPromptsFor(_kind?: string): string[] {
+  return NOTE_QUICK_PROMPTS;
+}
+
+/**
  * 一段对话归属哪个工作台的哪个对象。
  * 抽成具名类型是为了让 MarkdownStudio 与面板共用同一份定义——
  * 之前两边各写一遍字面量类型，`kind` 从 Record<string,string> 取出来是 string，
  * 不做这层收窄就传不进来（类型检查会拦下）。
  */
 export interface AiChatThread {
-  surface: "doc" | "plan";
+  surface: "note";
   refId: string;
 }
 
 interface AiChatPanelProps {
-  /** 当前文档内容（发送消息时随 studioContext 携带） */
-  document: string;
-  /** 额外上下文（如 { kind, refId }） */
+  /** 额外上下文（如 { kind: "note", refId }） */
   context?: Record<string, string>;
   /** AI 流结束后触发（外层拉取最新文档应用到编辑器） */
   onStreamEnd?: () => void;
@@ -86,7 +75,6 @@ interface AiChatPanelProps {
 }
 
 export function AiChatPanel({
-  document,
   context,
   onStreamEnd,
   quote,
@@ -198,7 +186,7 @@ export function AiChatPanel({
   async function send() {
     const content = input.trim();
     if (!content || loading) return;
-    const finalContent = quote ? `关于文档中选中的这段话：\n\n> ${quote}\n\n${content}` : content;
+    const finalContent = quote ? `关于笔记中选中的这段话：\n\n> ${quote}\n\n${content}` : content;
     setInput("");
     if (quote) onClearQuote?.();
     setLoading(true);
@@ -229,10 +217,12 @@ export function AiChatPanel({
         headers: { "Content-Type": "application/json" },
         signal: controller.signal,
         body: JSON.stringify({
-          // 只发当前用户消息；历史、摘要、状态栏由服务端 Context Builder 组装
+          // 只发当前用户消息；历史、摘要、状态栏由服务端 Context Builder 组装，
+          // 笔记正文由 scene.ts 按 surface + refId 在服务端注入
           messages: [{ role: "user", content: userMessage.content }],
           conversationId: conversationIdRef.current ?? undefined,
-          studioContext: context ? { ...context, document } : undefined,
+          surface: threadSurface ?? "note",
+          refId: threadRefId ?? undefined,
         }),
       });
       if (!res.ok) {
@@ -308,7 +298,7 @@ export function AiChatPanel({
         <Sparkle className="size-4 text-primary" weight="fill" />
         <span className="text-[13px] font-semibold">AI 对话</span>
         <span className="text-[10px] text-muted-foreground">
-          {context ? "基于当前文档" : "通用对话"}
+          {context ? "基于当前笔记" : "通用对话"}
         </span>
         <div className="ml-auto flex items-center gap-1">
           {onToggleAiExpanded && (
@@ -357,11 +347,11 @@ export function AiChatPanel({
               <Sparkle className="size-6" weight="duotone" />
             </div>
             <p className="mt-4 text-[13px] font-medium text-foreground">
-              {context ? "让我帮你改这篇文档" : "有什么想问的？"}
+              {context ? "让我帮你改这篇笔记" : "有什么想问的？"}
             </p>
             <p className="mt-1.5 max-w-[260px] text-xs leading-relaxed text-muted-foreground">
               {context
-                ? "可以直接说“把目标改得更具体”或“加一个任务”，我会直接修改文档，改完可以 Ctrl+Z 撤销。"
+                ? "可以直接说“把结构理清楚”或“把这段展开”，我会直接修改笔记，改完可以 Ctrl+Z 撤销。"
                 : "我可以解答学习问题、帮你制定计划。"}
             </p>
             {context && (
@@ -428,7 +418,7 @@ export function AiChatPanel({
               }
             }}
             rows={1}
-            placeholder="让 AI 阅读并修改这篇文档…"
+            placeholder="让 AI 阅读并修改这篇笔记…"
             className="no-scrollbar max-h-[90px] min-h-5 min-w-0 flex-1 resize-none overflow-y-auto border-0 bg-transparent py-1 text-xs text-foreground outline-none placeholder:text-muted-foreground/60"
           />
           <Tooltip>

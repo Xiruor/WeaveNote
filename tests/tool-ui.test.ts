@@ -2,17 +2,19 @@ import { describe, expect, it } from "vitest";
 
 // 工具卡片的展示元数据是 fail-closed 白名单：新加的工具不会自动出现在卡片上，
 // 漏登记的表现是「卡片显示成裸工具名」（能跑，但用户看到的是英文标识符）。
-// 注册表按契约裁剪后只覆盖三个保留工具；与 router 白名单的互相核对仍然保留，
+// 注册表按契约裁剪后覆盖保留工具；与 router 白名单的互相核对仍然保留，
 // 两边漂移了不会报错，只能靠测试钉住。
 
 import { SURFACE_POLICY } from "@/lib/tools/router";
 import { TOOL_UI, toolUi } from "@/lib/tools/tool-ui";
 
-/** 统一契约里保留的三个 AI 工具 */
+/** 统一契约里保留的 AI 工具（M2：+ 笔记检索） */
 const RETAINED_TOOLS = [
   "getMyMemories",
   "searchConversationHistory",
   "updateAgentState",
+  "searchNotes",
+  "readNote",
 ] as const;
 
 /** 所有场景白名单的并集 = 真正可能被模型调用的全部工具 */
@@ -25,7 +27,7 @@ function allWhitelistedTools(): string[] {
 }
 
 describe("TOOL_UI 注册表", () => {
-  it("注册表只含三个保留工具", () => {
+  it("注册表只含保留工具", () => {
     expect(Object.keys(TOOL_UI).sort()).toEqual([...RETAINED_TOOLS].sort());
   });
 
@@ -47,9 +49,11 @@ describe("TOOL_UI 注册表", () => {
     }
   });
 
-  it("读/写分类：两个检索类是 read，会话状态是 write", () => {
+  it("读/写分类：检索类与读笔记是 read，会话状态是 write", () => {
     expect(TOOL_UI.getMyMemories?.kind).toBe("read");
     expect(TOOL_UI.searchConversationHistory?.kind).toBe("read");
+    expect(TOOL_UI.searchNotes?.kind).toBe("read");
+    expect(TOOL_UI.readNote?.kind).toBe("read");
     expect(TOOL_UI.updateAgentState?.kind).toBe("write");
   });
 });

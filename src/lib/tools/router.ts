@@ -26,11 +26,13 @@ export type AiSurface = (typeof AI_SURFACES)[number];
  * 与 PROMPT_GROUPS 的 key 一一对应，两边必须同一次改齐。
  *
  * 各段含哪些工具名（决定它能不能给场景）：
- *   toolReference  getMyMemories, searchConversationHistory, updateAgentState
- *   conduct        不新增工具名
+ *   toolReference     getMyMemories, searchConversationHistory, updateAgentState
+ *   noteTools         searchNotes, readNote
+ *   conduct           不新增工具名
  */
 export const ALL_PROMPT_GROUPS = [
   "toolReference", // 能力清单 / 什么时候用工具
+  "noteTools", // 笔记检索引擎与引用规则
   "conduct", // 行为准则
 ] as const satisfies readonly string[];
 
@@ -40,6 +42,17 @@ export type PromptGroup = (typeof ALL_PROMPT_GROUPS)[number];
 const READ_TOOLS = [
   "getMyMemories",
 ] as const;
+
+/**
+ * 笔记检索工具（M2）。
+ *
+ * 两个场景都给：
+ *   · note      编辑器侧栏需要跨笔记回答「我另一篇笔记里怎么写的」
+ *   · workspace 跨笔记工作台的主职责就是检索与汇总
+ * 只读，作用域由 userId 收口，不给写工具（M3 再上 diff 确认）。
+ */
+const NOTE_TOOLS = ["searchNotes", "readNote"] as const;
+
 
 /**
  * 会话上下文工具（所有入口都需要）：
@@ -61,14 +74,14 @@ export interface SurfacePolicy {
 }
 
 export const SURFACE_POLICY: Record<AiSurface, SurfacePolicy> = {
-  // 两个场景当前拿同一套只读工具与提示词；差异等 M1（note 宿主接入）再引入。
+  // 两个场景拿同一套只读工具与提示词；差异等 M3（写工具 + diff 确认）再引入。
   workspace: {
-    tools: [...READ_TOOLS, ...CONTEXT_TOOLS],
+    tools: [...NOTE_TOOLS, ...READ_TOOLS, ...CONTEXT_TOOLS],
     promptGroups: ALL_PROMPT_GROUPS,
   },
 
   note: {
-    tools: [...READ_TOOLS, ...CONTEXT_TOOLS],
+    tools: [...NOTE_TOOLS, ...READ_TOOLS, ...CONTEXT_TOOLS],
     promptGroups: ALL_PROMPT_GROUPS,
   },
 };

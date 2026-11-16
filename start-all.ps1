@@ -1,16 +1,18 @@
 ﻿<#
 .SYNOPSIS
-    Summer Checkin 项目一键启动 / 停止脚本
+    WeaveNote 项目一键启动 / 停止脚本
 
 .DESCRIPTION
     自动完成以下工作：
-      1. 自行切换到脚本所在目录（项目根目录 d:\summer-checkin）
+      1. 自行切换到脚本所在目录（项目根目录）
       2. 启动 PostgreSQL（WSL2 Ubuntu 内，端口 5432）
-      3. 启动 WebSocket 服务（npm run ws:dev，端口 3001）
+      3. 按需启动 WebSocket 服务（仅当项目仍带 server/index.ts 与 npm run ws:dev；
+         当前 WeaveNote 版本聊天室已移除，自动跳过，不再视为失败）
       4. 启动 Next.js 前端 + 后端（npm run dev，端口 3000）
       5. 启动前自动检测端口冲突：若被本项目残留进程占用则清理，被外部进程占用则提示
-      6. 等待全部服务就绪后自动打开默认浏览器
-      7. 所有子进程均在隐藏窗口运行，日志写入 .start-all\logs\ 目录
+      6. 各步骤相互独立执行：单个失败不会阻断后续步骤，最后统一汇总
+      7. 全部就绪后自动打开默认浏览器
+      8. 所有子进程均在隐藏窗口运行，日志写入 .start-all\logs\ 目录
 
 .PARAMETER Status
     查看所有服务的运行状态（端口监听 + 进程信息）
@@ -46,10 +48,6 @@
 .EXAMPLE
     .\start-all.ps1 -Stop -KeepDb
         只停前后端，保留数据库
-
-.EXAMPLE
-    .\start-all.ps1 -NoBrowser
-        启动全部服务但不打开浏览器
 #>
 param(
     [switch]$Status,
@@ -72,9 +70,12 @@ $StateDir = Join-Path $Root ".start-all"
 $PidDir   = Join-Path $StateDir "pids"
 $LogDir   = Join-Path $StateDir "logs"
 
+New-Item -ItemType Directory -Force -Path $PidDir | Out-Null
+New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
+
 # 服务端口（按需修改）
 $WebPort = 3000      # Next.js 前端 + 后端
-$WsPort  = 3001      # WebSocket 服务（对应 server/config.ts 的 WS_PORT 默认值）
+$WsPort  = 3001      # WebSocket 服务（可选，仅在项目带 sidecar 时启用）
 $DbPort  = 5432      # PostgreSQL（WSL2 Ubuntu）
 
 # WSL 发行版名称（按需修改为你的发行版，可用 `wsl -l -q` 查看）
@@ -101,7 +102,7 @@ function Write-Log {
     $ts = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $logFile = Join-Path $LogDir "start-all.log"
     try {
-        Add-Content -Path $logFile -Value "[$ts] $Message" -ErrorAction SilentlyContinue
+        Add-Content -Path $logFile -Value "[$ts] $Message" -Encoding UTF8 -ErrorAction SilentlyContinue
     } catch { }
 }
 
@@ -110,7 +111,7 @@ function Show-ErrorBox {
     param([string]$Message)
     try {
         Add-Type -AssemblyName PresentationFramework -ErrorAction SilentlyContinue
-        [System.Windows.MessageBox]::Show($Message, "Summer Checkin 启动失败", "OK", "Error") | Out-Null
+        [System.Windows.MessageBox]::Show($Message, "WeaveNote 启动失败", "OK", "Error") | Out-Null
     } catch {
         # 退路：写入日志文件
         Write-Log "错误：$Message" "Red"
@@ -167,9 +168,9 @@ function Get-RecordedProcess {
     param([string]$Name)
     $pidFile = Join-Path $PidDir "$Name.pid"
     if (Test-Path $pidFile) {
-        $id = Get-Content $pidFile -ErrorAction SilentlyContinue
-        if ($id -match '^\d+$') {
-            $p = Get-Process -Id ([int]$id) -ErrorAction SilentlyContinue
+        $savedId = Get-Content $pidFile -ErrorAction SilentlyContinue
+        if ($savedId -match '^\d+$') {
+            $p = Get-Process -Id ([int]$savedId) -ErrorAction SilentlyContinue
             if ($p) { return $p }
         }
     }
@@ -178,9 +179,9 @@ function Get-RecordedProcess {
 
 # 保存 PID 到文件
 function Save-Pid {
-    param([string]$Name, [int]$Id)
+    param([string]$Name, [int]$ProcessId)
     New-Item -ItemType Directory -Force -Path $PidDir | Out-Null
-    Set-Content -Path (Join-Path $PidDir "$Name.pid") -Value $Id -ErrorAction SilentlyContinue
+    Set-Content -Path (Join-Path $PidDir "$Name.pid") -Value $ProcessId -ErrorAction SilentlyContinue
 }
 
 # 清理本项目残留进程（占用端口且命令行匹配关键字）
@@ -193,7 +194,7 @@ function Clear-StaleProcess {
             $cmdline = (Get-CimInstance Win32_Process -Filter "ProcessId=$($proc.Id)" -ErrorAction SilentlyContinue).CommandLine
         } catch { }
         $isOurs = $false
-        if ($cmdline -match 'summer-checkin') { $isOurs = $true }
+        if ($cmdline -match 'summer-checkin' -or $cmdline -match 'weavenote') { $isOurs = $true }
         foreach ($k in $Keywords) {
             if ($cmdline -match $k) { $isOurs = $true; break }
         }
@@ -210,6 +211,24 @@ function Clear-StaleProcess {
     return $true
 }
 
+# 把参数数组拼成命令行：含空格的参数必须显式加引号
+# （Start-Process 的 ArgumentList 只是用空格拼接，不会自动加引号，
+#   否则 sh -c "service postgresql start; exec sleep infinity" 会被拆成多个 argv）
+function ConvertTo-ArgLine {
+    param([string[]]$Arguments)
+    $parts = @()
+    foreach ($a in $Arguments) {
+        if ($null -eq $a -or $a -eq "") {
+            $parts += '""'
+        } elseif ($a -match '[\s"]') {
+            $parts += '"' + ($a -replace '"', '\"') + '"'
+        } else {
+            $parts += $a
+        }
+    }
+    return ($parts -join ' ')
+}
+
 # 隐藏启动子进程（重定向日志）
 function Start-HiddenProcess {
     param(
@@ -219,15 +238,80 @@ function Start-HiddenProcess {
         [string]$ErrLog
     )
     $params = @{
-        FilePath     = $FilePath
-        ArgumentList = $ArgumentList
+        FilePath         = $FilePath
+        ArgumentList     = (ConvertTo-ArgLine -Arguments $ArgumentList)
         WorkingDirectory = $Root
-        WindowStyle  = "Hidden"
-        PassThru     = $true
+        WindowStyle      = "Hidden"
+        PassThru         = $true
     }
     if ($OutLog) { $params.RedirectStandardOutput = $OutLog }
     if ($ErrLog) { $params.RedirectStandardError = $ErrLog }
-    return Start-Process @params
+    try {
+        return Start-Process @params
+    } catch {
+        # 某些代理软件会同时注入 HTTPS_PROXY / https_proxy，Windows 下二者等价，
+        # Start-Process 内部建哈希表时会抛「字典中的关键字已添加」，改用 .NET 直启兜底
+        Write-Log "Start-Process 失败（$($_.Exception.Message)），改用进程直启..." "Yellow"
+        return Start-HiddenProcessDirect `
+            -FilePath $FilePath `
+            -Arguments (ConvertTo-ArgLine -Arguments $ArgumentList) `
+            -OutLog $OutLog `
+            -ErrLog $ErrLog
+    }
+}
+
+# 兜底启动：System.Diagnostics.Process 直接继承父进程环境，不经 PowerShell 的哈希表
+# 日志重定向交给 cmd.exe 自己处理（路径不含空格，无需再加引号）
+function Start-HiddenProcessDirect {
+    param([string]$FilePath, [string]$Arguments, [string]$OutLog, [string]$ErrLog)
+    try {
+        $isCmd = ([System.IO.Path]::GetFileName($FilePath) -match '^(cmd|npm)')
+        if ($isCmd -and $OutLog) {
+            $Arguments = $Arguments + ' > "' + $OutLog + '" 2> "' + $ErrLog + '"'
+        }
+        $psi = New-Object System.Diagnostics.ProcessStartInfo
+        $psi.FileName = $FilePath
+        $psi.Arguments = $Arguments
+        $psi.WorkingDirectory = $Root
+        $psi.UseShellExecute = $false
+        $psi.CreateNoWindow = $true
+        $proc = New-Object System.Diagnostics.Process
+        $proc.StartInfo = $psi
+        [void]$proc.Start()
+        return $proc
+    } catch {
+        Write-Log "启动进程失败：$FilePath ($($_.Exception.Message))" "Red"
+        return $null
+    }
+}
+
+# 取日志尾部若干行，拼进失败提示里，省得再去找文件
+function Get-LogTail {
+    param([string]$Path, [int]$Lines = 6)
+    if ($Path -and (Test-Path $Path)) {
+        $tail = Get-Content -Path $Path -Tail $Lines -ErrorAction SilentlyContinue
+        if ($tail) { return (($tail | Where-Object { $_.Trim() -ne "" }) -join "`n") }
+    }
+    return ""
+}
+
+# 项目当前是否还带 WebSocket sidecar
+# （WeaveNote 版本已移除聊天室：server/index.ts 不存在、package.json 无 ws:dev，
+#   此时脚本应跳过该步骤而不是等 60 秒超时失败）
+function Test-WsEnabled {
+    $pkgFile = Join-Path $Root "package.json"
+    if (-not (Test-Path $pkgFile)) { return $false }
+    try {
+        $pkg = Get-Content -Path $pkgFile -Raw -Encoding UTF8 | ConvertFrom-Json
+    } catch {
+        return $false
+    }
+    $hasScript = $false
+    if ($pkg.scripts) {
+        $hasScript = (@($pkg.scripts.PSObject.Properties.Name) -contains "ws:dev")
+    }
+    $hasEntry = Test-Path (Join-Path $Root "server\index.ts")
+    return ($hasScript -and $hasEntry)
 }
 
 # ============================================================
@@ -235,25 +319,26 @@ function Start-HiddenProcess {
 # ============================================================
 function Show-Status {
     Write-Host ""
-    Write-Host "===== Summer Checkin 服务状态 =====" -ForegroundColor Cyan
+    Write-Host "===== WeaveNote 服务状态 =====" -ForegroundColor Cyan
 
     # 数据库
     $dbOk = Test-TcpPort "127.0.0.1" $DbPort
-    $dbProc = Get-RecordedProcess "db"
     if ($dbOk) {
         Write-Host ("  PostgreSQL      运行中  端口 {0} 已监听" -f $DbPort) -ForegroundColor Green
     } else {
         Write-Host ("  PostgreSQL      已停止  (端口 {0})" -f $DbPort) -ForegroundColor Red
     }
 
-    # WebSocket
+    # WebSocket（可选服务）
     $wsOk = Test-TcpPort "127.0.0.1" $WsPort
     $wsProc = Get-PortProcess -Port $WsPort
     if ($wsOk) {
         $wsInfo = if ($wsProc) { "PID $($wsProc.Id)" } else { "未知进程" }
         Write-Host ("  WebSocket       运行中  端口 {0} 已监听 ({1})" -f $WsPort, $wsInfo) -ForegroundColor Green
-    } else {
+    } elseif (Test-WsEnabled) {
         Write-Host ("  WebSocket       已停止  (端口 {0})" -f $WsPort) -ForegroundColor Red
+    } else {
+        Write-Host "  WebSocket       未启用  当前版本无 sidecar（聊天室已移除）" -ForegroundColor DarkGray
     }
 
     # Web (Next.js)
@@ -288,7 +373,7 @@ function Stop-Services {
         Stop-Process -Id $webProc.Id -Force -ErrorAction SilentlyContinue
     }
 
-    # 2. WebSocket
+    # 2. WebSocket（存在才停）
     $wsProc = Get-PortProcess -Port $WsPort
     if ($wsProc) {
         Write-Log "停止 WebSocket (PID $($wsProc.Id))..." "Yellow"
@@ -305,7 +390,10 @@ function Stop-Services {
         }
         # 优雅停止 postgres 服务
         try {
-            wsl.exe -d $WslDistro -- sh -c "service postgresql stop" 2>$null | Out-Null
+            if (Get-Command wsl.exe -ErrorAction SilentlyContinue) {
+                $stopLine = ConvertTo-ArgLine -Arguments @("-d", $WslDistro, "-u", "root", "--", "service", "postgresql", "stop")
+                Start-Process -FilePath "wsl.exe" -ArgumentList $stopLine -WindowStyle Hidden -Wait -ErrorAction SilentlyContinue
+            }
         } catch { }
     } else {
         Write-Log "保留数据库（-KeepDb）" "Gray"
@@ -325,6 +413,23 @@ function Stop-Services {
 # ============================================================
 # 启动数据库
 # ============================================================
+
+# 启动 WSL 常驻进程：先把 postgres 拉起来，再用 sleep infinity 让 VM 别闲着退出
+function Start-DbKeeper {
+    param([bool]$AsRoot)
+    $out = Join-Path $LogDir "db.log"
+    $err = Join-Path $LogDir "db.err.log"
+    $inner = 'service postgresql start >/dev/null 2>&1 || service postgresql restart >/dev/null 2>&1; echo "[start-all] postgres keepalive"; exec sleep infinity'
+    $wslArgs = @()
+    if ($AsRoot) {
+        $wslArgs += @("-d", $WslDistro, "-u", "root")
+    } else {
+        $wslArgs += @("-d", $WslDistro)
+    }
+    $wslArgs += @("--", "sh", "-c", $inner)
+    return Start-HiddenProcess -FilePath "wsl.exe" -ArgumentList $wslArgs -OutLog $out -ErrLog $err
+}
+
 function Start-Database {
     Write-Log "检查数据库 (PostgreSQL @ $DbPort)..." "Cyan"
 
@@ -336,49 +441,53 @@ function Start-Database {
         return $true
     }
 
-    if ($dbOk -and -not $dbKeeper) {
+    if ($dbOk) {
         Write-Log "数据库端口已通但无常驻进程，补启动 WSL 常驻以保持 VM 存活..." "Yellow"
     } else {
         Write-Log "启动 WSL 数据库..." "Yellow"
     }
 
-    $dbOut = Join-Path $LogDir "db.log"
-    $dbErr = Join-Path $LogDir "db.err.log"
-
-    # 启动常驻进程：启动 postgres 并保持 VM 存活
-    $keeper = Start-HiddenProcess `
-        -FilePath "wsl.exe" `
-        -ArgumentList @("-d", $WslDistro, "--", "sh", "-c", "service postgresql start; exec sleep infinity") `
-        -OutLog $dbOut `
-        -ErrLog $dbErr
-
-    if (-not $keeper) {
-        $msg = "无法启动 WSL 数据库进程，请确认已安装 WSL2 及发行版 '$WslDistro'。"
+    if (-not (Get-Command wsl.exe -ErrorAction SilentlyContinue)) {
+        $msg = "未找到 wsl.exe，请确认已安装 WSL2 及发行版 '$WslDistro'。"
         Write-Log $msg "Red"
         Show-ErrorBox $msg
         return $false
     }
-    Save-Pid "db" $keeper.Id
-    Write-Log "数据库常驻进程已启动 (PID $($keeper.Id))" "Gray"
 
-    # 等待就绪
+    # 优先以 root 启动（WSL 的 -u root 免密）；若失败再退回默认用户
+    $keeper = Start-DbKeeper -AsRoot $true
+    if ($keeper) {
+        Save-Pid "db" $keeper.Id
+        Write-Log "数据库常驻进程已启动 (PID $($keeper.Id))" "Gray"
+    }
+
     Write-Log "等待数据库就绪..." "Cyan"
     $deadline = (Get-Date).AddSeconds($DbTimeout)
+    $retried = $false
     while ((Get-Date) -lt $deadline) {
         if (Test-TcpPort "127.0.0.1" $DbPort) {
             Write-Log "数据库就绪。" "Green"
             return $true
         }
+        if ((-not $retried) -and ((-not $keeper) -or $keeper.HasExited)) {
+            $retried = $true
+            Write-Log "以 root 启动 WSL 失败，改用当前默认用户重试..." "Yellow"
+            $keeper = Start-DbKeeper -AsRoot $false
+            if ($keeper) { Save-Pid "db" $keeper.Id }
+        }
         Start-Sleep -Seconds 1
     }
-    $msg = "数据库启动超时（$DbTimeout 秒），请查看日志：$dbErr"
+
+    $tail = Get-LogTail (Join-Path $LogDir "db.err.log")
+    $msg = "数据库启动超时（$DbTimeout 秒）。日志：$(Join-Path $LogDir 'db.err.log')"
+    if ($tail) { $msg = $msg + "`n" + $tail }
     Write-Log $msg "Red"
     Show-ErrorBox $msg
     return $false
 }
 
 # ============================================================
-# 启动 WebSocket
+# 启动 WebSocket（可选）
 # ============================================================
 function Start-WebSocket {
     Write-Log "检查 WebSocket (端口 $WsPort)..." "Cyan"
@@ -411,9 +520,13 @@ function Start-WebSocket {
             Write-Log "WebSocket 就绪。" "Green"
             return $true
         }
+        if ($proc.HasExited) { break }
         Start-Sleep -Seconds 1
     }
-    $msg = "WebSocket 启动超时（$WsTimeout 秒），请查看日志：$wsErr"
+
+    $tail = Get-LogTail $wsErr
+    $msg = "WebSocket 启动失败，日志：$wsErr"
+    if ($tail) { $msg = $msg + "`n" + $tail }
     Write-Log $msg "Red"
     Show-ErrorBox $msg
     return $false
@@ -453,9 +566,13 @@ function Start-Web {
             Write-Log "Next.js 就绪：$WebUrl" "Green"
             return $true
         }
+        if ($proc.HasExited) { break }
         Start-Sleep -Seconds 1
     }
-    $msg = "Next.js 启动超时（$WebTimeout 秒），请查看日志：$webErr"
+
+    $tail = Get-LogTail $webErr
+    $msg = "Next.js 启动失败，日志：$webErr"
+    if ($tail) { $msg = $msg + "`n" + $tail }
     Write-Log $msg "Red"
     Show-ErrorBox $msg
     return $false
@@ -464,9 +581,6 @@ function Start-Web {
 # ============================================================
 # 主流程
 # ============================================================
-New-Item -ItemType Directory -Force -Path $PidDir | Out-Null
-New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
-
 if ($Status) {
     Show-Status
     exit 0
@@ -479,23 +593,39 @@ if ($Stop) {
 }
 
 # ---- 启动流程 ----
-Write-Log "========== 开始启动 Summer Checkin ==========" "Cyan"
+Write-Log "========== 开始启动 WeaveNote ==========" "Cyan"
 Write-Log "项目目录：$Root" "Gray"
 
-$ok = $true
-$ok = $ok -and (Start-Database)
-$ok = $ok -and (Start-WebSocket)
-$ok = $ok -and (Start-Web)
-
-if ($ok) {
-    Write-Log "========== 全部服务就绪 ==========" "Green"
-    if (-not $NoBrowser) {
-        Write-Log "正在打开浏览器：$WebUrl" "Cyan"
-        Start-Process $WebUrl
-    }
+$wsEnabled = Test-WsEnabled
+if ($wsEnabled) {
+    Write-Log "检测到 WebSocket sidecar（server/index.ts + ws:dev），将一并启动" "Gray"
 } else {
-    Write-Log "========== 启动失败，请查看日志 ==========" "Red"
+    Write-Log "未检测到 WebSocket sidecar（server/index.ts 或 ws:dev 缺失），跳过该步骤" "DarkGray"
+}
+
+# 各步骤独立执行：任一步失败只记入失败清单，不阻断后续步骤
+$failures = @()
+
+if (-not (Start-Database))    { $failures += "PostgreSQL" }
+if ($wsEnabled) {
+    if (-not (Start-WebSocket)) { $failures += "WebSocket" }
+}
+
+$webReady = Start-Web
+if (-not $webReady) { $failures += "Next.js" }
+
+# 只要前端起来了就先打开浏览器，不因为数据库 / WS 的问题让用户干等
+if ($webReady -and -not $NoBrowser) {
+    Write-Log "正在打开浏览器：$WebUrl" "Cyan"
+    Start-Process $WebUrl
+}
+
+if ($failures.Count -eq 0) {
+    Write-Log "========== 全部服务就绪 ==========" "Green"
+} else {
+    Write-Log ("========== 启动未全部成功，失败项：{0} ==========" -f ($failures -join "、")) "Red"
+    Write-Log "日志目录：$LogDir" "Gray"
     if ($Hidden) {
-        Show-ErrorBox "部分服务启动失败，请查看日志目录：$LogDir"
+        Show-ErrorBox ("以下服务启动失败：" + ($failures -join "、") + "`n日志目录：$LogDir")
     }
 }
