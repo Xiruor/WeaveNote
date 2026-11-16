@@ -240,22 +240,16 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
-  plans?: Prisma.PlanListRelationFilter
-  checkins?: Prisma.CheckinListRelationFilter
-  studyRecords?: Prisma.StudyRecordListRelationFilter
   memories?: Prisma.UserMemoryListRelationFilter
   memoryItems?: Prisma.MemoryListRelationFilter
   memoryEvents?: Prisma.MemoryEventListRelationFilter
   memoryCandidates?: Prisma.MemoryCandidateListRelationFilter
   conversations?: Prisma.ConversationListRelationFilter
-  planTasks?: Prisma.PlanTaskListRelationFilter
-  agentRuns?: Prisma.AgentRunListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
-  todos?: Prisma.TodoListRelationFilter
-  docs?: Prisma.DocumentListRelationFilter
-  documents?: Prisma.DocumentChunkListRelationFilter
-  knowledgeDocs?: Prisma.KnowledgeDocListRelationFilter
-  chatMessages?: Prisma.ChatMessageListRelationFilter
+  folders?: Prisma.FolderListRelationFilter
+  notes?: Prisma.NoteListRelationFilter
+  noteChunks?: Prisma.NoteChunkListRelationFilter
+  noteProposals?: Prisma.NoteProposalListRelationFilter
   tokenUsages?: Prisma.TokenUsageListRelationFilter
 }
 
@@ -274,22 +268,16 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
-  plans?: Prisma.PlanOrderByRelationAggregateInput
-  checkins?: Prisma.CheckinOrderByRelationAggregateInput
-  studyRecords?: Prisma.StudyRecordOrderByRelationAggregateInput
   memories?: Prisma.UserMemoryOrderByRelationAggregateInput
   memoryItems?: Prisma.MemoryOrderByRelationAggregateInput
   memoryEvents?: Prisma.MemoryEventOrderByRelationAggregateInput
   memoryCandidates?: Prisma.MemoryCandidateOrderByRelationAggregateInput
   conversations?: Prisma.ConversationOrderByRelationAggregateInput
-  planTasks?: Prisma.PlanTaskOrderByRelationAggregateInput
-  agentRuns?: Prisma.AgentRunOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
-  todos?: Prisma.TodoOrderByRelationAggregateInput
-  docs?: Prisma.DocumentOrderByRelationAggregateInput
-  documents?: Prisma.DocumentChunkOrderByRelationAggregateInput
-  knowledgeDocs?: Prisma.KnowledgeDocOrderByRelationAggregateInput
-  chatMessages?: Prisma.ChatMessageOrderByRelationAggregateInput
+  folders?: Prisma.FolderOrderByRelationAggregateInput
+  notes?: Prisma.NoteOrderByRelationAggregateInput
+  noteChunks?: Prisma.NoteChunkOrderByRelationAggregateInput
+  noteProposals?: Prisma.NoteProposalOrderByRelationAggregateInput
   tokenUsages?: Prisma.TokenUsageOrderByRelationAggregateInput
 }
 
@@ -311,22 +299,16 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
-  plans?: Prisma.PlanListRelationFilter
-  checkins?: Prisma.CheckinListRelationFilter
-  studyRecords?: Prisma.StudyRecordListRelationFilter
   memories?: Prisma.UserMemoryListRelationFilter
   memoryItems?: Prisma.MemoryListRelationFilter
   memoryEvents?: Prisma.MemoryEventListRelationFilter
   memoryCandidates?: Prisma.MemoryCandidateListRelationFilter
   conversations?: Prisma.ConversationListRelationFilter
-  planTasks?: Prisma.PlanTaskListRelationFilter
-  agentRuns?: Prisma.AgentRunListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
-  todos?: Prisma.TodoListRelationFilter
-  docs?: Prisma.DocumentListRelationFilter
-  documents?: Prisma.DocumentChunkListRelationFilter
-  knowledgeDocs?: Prisma.KnowledgeDocListRelationFilter
-  chatMessages?: Prisma.ChatMessageListRelationFilter
+  folders?: Prisma.FolderListRelationFilter
+  notes?: Prisma.NoteListRelationFilter
+  noteChunks?: Prisma.NoteChunkListRelationFilter
+  noteProposals?: Prisma.NoteProposalListRelationFilter
   tokenUsages?: Prisma.TokenUsageListRelationFilter
 }, "id" | "email">
 
@@ -381,22 +363,16 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -415,22 +391,16 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -449,22 +419,16 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -483,22 +447,16 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -597,11 +555,6 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
-export type UserNullableScalarRelationFilter = {
-  is?: Prisma.UserWhereInput | null
-  isNot?: Prisma.UserWhereInput | null
-}
-
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -646,76 +599,6 @@ export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAccountsInput, Prisma.UserUpdateWithoutAccountsInput>, Prisma.UserUncheckedUpdateWithoutAccountsInput>
 }
 
-export type UserCreateNestedOneWithoutPlansInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPlansInput, Prisma.UserUncheckedCreateWithoutPlansInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPlansInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutPlansNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPlansInput, Prisma.UserUncheckedCreateWithoutPlansInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPlansInput
-  upsert?: Prisma.UserUpsertWithoutPlansInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPlansInput, Prisma.UserUpdateWithoutPlansInput>, Prisma.UserUncheckedUpdateWithoutPlansInput>
-}
-
-export type UserCreateNestedOneWithoutPlanTasksInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPlanTasksInput, Prisma.UserUncheckedCreateWithoutPlanTasksInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPlanTasksInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutPlanTasksNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPlanTasksInput, Prisma.UserUncheckedCreateWithoutPlanTasksInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPlanTasksInput
-  upsert?: Prisma.UserUpsertWithoutPlanTasksInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPlanTasksInput, Prisma.UserUpdateWithoutPlanTasksInput>, Prisma.UserUncheckedUpdateWithoutPlanTasksInput>
-}
-
-export type UserCreateNestedOneWithoutTodosInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutTodosInput, Prisma.UserUncheckedCreateWithoutTodosInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTodosInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutTodosNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutTodosInput, Prisma.UserUncheckedCreateWithoutTodosInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTodosInput
-  upsert?: Prisma.UserUpsertWithoutTodosInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTodosInput, Prisma.UserUpdateWithoutTodosInput>, Prisma.UserUncheckedUpdateWithoutTodosInput>
-}
-
-export type UserCreateNestedOneWithoutCheckinsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCheckinsInput, Prisma.UserUncheckedCreateWithoutCheckinsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCheckinsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutCheckinsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCheckinsInput, Prisma.UserUncheckedCreateWithoutCheckinsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCheckinsInput
-  upsert?: Prisma.UserUpsertWithoutCheckinsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCheckinsInput, Prisma.UserUpdateWithoutCheckinsInput>, Prisma.UserUncheckedUpdateWithoutCheckinsInput>
-}
-
-export type UserCreateNestedOneWithoutStudyRecordsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutStudyRecordsInput, Prisma.UserUncheckedCreateWithoutStudyRecordsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStudyRecordsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutStudyRecordsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutStudyRecordsInput, Prisma.UserUncheckedCreateWithoutStudyRecordsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStudyRecordsInput
-  upsert?: Prisma.UserUpsertWithoutStudyRecordsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStudyRecordsInput, Prisma.UserUpdateWithoutStudyRecordsInput>, Prisma.UserUncheckedUpdateWithoutStudyRecordsInput>
-}
-
 export type UserCreateNestedOneWithoutConversationsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutConversationsInput, Prisma.UserUncheckedCreateWithoutConversationsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutConversationsInput
@@ -728,20 +611,6 @@ export type UserUpdateOneRequiredWithoutConversationsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutConversationsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConversationsInput, Prisma.UserUpdateWithoutConversationsInput>, Prisma.UserUncheckedUpdateWithoutConversationsInput>
-}
-
-export type UserCreateNestedOneWithoutAgentRunsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAgentRunsInput, Prisma.UserUncheckedCreateWithoutAgentRunsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAgentRunsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutAgentRunsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAgentRunsInput, Prisma.UserUncheckedCreateWithoutAgentRunsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAgentRunsInput
-  upsert?: Prisma.UserUpsertWithoutAgentRunsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAgentRunsInput, Prisma.UserUpdateWithoutAgentRunsInput>, Prisma.UserUncheckedUpdateWithoutAgentRunsInput>
 }
 
 export type UserCreateNestedOneWithoutMemoriesInput = {
@@ -800,40 +669,60 @@ export type UserUpdateOneRequiredWithoutMemoryCandidatesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMemoryCandidatesInput, Prisma.UserUpdateWithoutMemoryCandidatesInput>, Prisma.UserUncheckedUpdateWithoutMemoryCandidatesInput>
 }
 
-export type UserCreateNestedOneWithoutDocsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutDocsInput, Prisma.UserUncheckedCreateWithoutDocsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDocsInput
+export type UserCreateNestedOneWithoutFoldersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFoldersInput, Prisma.UserUncheckedCreateWithoutFoldersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFoldersInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutDocsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutDocsInput, Prisma.UserUncheckedCreateWithoutDocsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDocsInput
-  upsert?: Prisma.UserUpsertWithoutDocsInput
+export type UserUpdateOneRequiredWithoutFoldersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFoldersInput, Prisma.UserUncheckedCreateWithoutFoldersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFoldersInput
+  upsert?: Prisma.UserUpsertWithoutFoldersInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDocsInput, Prisma.UserUpdateWithoutDocsInput>, Prisma.UserUncheckedUpdateWithoutDocsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFoldersInput, Prisma.UserUpdateWithoutFoldersInput>, Prisma.UserUncheckedUpdateWithoutFoldersInput>
 }
 
-export type UserUpdateOneRequiredWithoutDocumentsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutDocumentsInput, Prisma.UserUncheckedCreateWithoutDocumentsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDocumentsInput
-  upsert?: Prisma.UserUpsertWithoutDocumentsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDocumentsInput, Prisma.UserUpdateWithoutDocumentsInput>, Prisma.UserUncheckedUpdateWithoutDocumentsInput>
-}
-
-export type UserCreateNestedOneWithoutKnowledgeDocsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutKnowledgeDocsInput, Prisma.UserUncheckedCreateWithoutKnowledgeDocsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutKnowledgeDocsInput
+export type UserCreateNestedOneWithoutNotesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotesInput, Prisma.UserUncheckedCreateWithoutNotesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotesInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutKnowledgeDocsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutKnowledgeDocsInput, Prisma.UserUncheckedCreateWithoutKnowledgeDocsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutKnowledgeDocsInput
-  upsert?: Prisma.UserUpsertWithoutKnowledgeDocsInput
+export type UserUpdateOneRequiredWithoutNotesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotesInput, Prisma.UserUncheckedCreateWithoutNotesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotesInput
+  upsert?: Prisma.UserUpsertWithoutNotesInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutKnowledgeDocsInput, Prisma.UserUpdateWithoutKnowledgeDocsInput>, Prisma.UserUncheckedUpdateWithoutKnowledgeDocsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotesInput, Prisma.UserUpdateWithoutNotesInput>, Prisma.UserUncheckedUpdateWithoutNotesInput>
+}
+
+export type UserCreateNestedOneWithoutNoteChunksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNoteChunksInput, Prisma.UserUncheckedCreateWithoutNoteChunksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNoteChunksInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNoteChunksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNoteChunksInput, Prisma.UserUncheckedCreateWithoutNoteChunksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNoteChunksInput
+  upsert?: Prisma.UserUpsertWithoutNoteChunksInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNoteChunksInput, Prisma.UserUpdateWithoutNoteChunksInput>, Prisma.UserUncheckedUpdateWithoutNoteChunksInput>
+}
+
+export type UserCreateNestedOneWithoutNoteProposalsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNoteProposalsInput, Prisma.UserUncheckedCreateWithoutNoteProposalsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNoteProposalsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNoteProposalsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNoteProposalsInput, Prisma.UserUncheckedCreateWithoutNoteProposalsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNoteProposalsInput
+  upsert?: Prisma.UserUpsertWithoutNoteProposalsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNoteProposalsInput, Prisma.UserUpdateWithoutNoteProposalsInput>, Prisma.UserUncheckedUpdateWithoutNoteProposalsInput>
 }
 
 export type UserCreateNestedOneWithoutNotificationsInput = {
@@ -848,22 +737,6 @@ export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutNotificationsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
-}
-
-export type UserCreateNestedOneWithoutChatMessagesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutChatMessagesInput, Prisma.UserUncheckedCreateWithoutChatMessagesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatMessagesInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneWithoutChatMessagesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutChatMessagesInput, Prisma.UserUncheckedCreateWithoutChatMessagesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatMessagesInput
-  upsert?: Prisma.UserUpsertWithoutChatMessagesInput
-  disconnect?: Prisma.UserWhereInput | boolean
-  delete?: Prisma.UserWhereInput | boolean
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChatMessagesInput, Prisma.UserUpdateWithoutChatMessagesInput>, Prisma.UserUncheckedUpdateWithoutChatMessagesInput>
 }
 
 export type UserCreateNestedOneWithoutTokenUsagesInput = {
@@ -894,22 +767,16 @@ export type UserCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -927,22 +794,16 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -976,22 +837,16 @@ export type UserUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -1009,22 +864,16 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1042,22 +891,16 @@ export type UserCreateWithoutAccountsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -1075,22 +918,16 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -1124,22 +961,16 @@ export type UserUpdateWithoutAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -1157,762 +988,16 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutPlansInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutPlansInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutPlansInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutPlansInput, Prisma.UserUncheckedCreateWithoutPlansInput>
-}
-
-export type UserUpsertWithoutPlansInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutPlansInput, Prisma.UserUncheckedUpdateWithoutPlansInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutPlansInput, Prisma.UserUncheckedCreateWithoutPlansInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutPlansInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutPlansInput, Prisma.UserUncheckedUpdateWithoutPlansInput>
-}
-
-export type UserUpdateWithoutPlansInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutPlansInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutPlanTasksInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutPlanTasksInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutPlanTasksInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutPlanTasksInput, Prisma.UserUncheckedCreateWithoutPlanTasksInput>
-}
-
-export type UserUpsertWithoutPlanTasksInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutPlanTasksInput, Prisma.UserUncheckedUpdateWithoutPlanTasksInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutPlanTasksInput, Prisma.UserUncheckedCreateWithoutPlanTasksInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutPlanTasksInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutPlanTasksInput, Prisma.UserUncheckedUpdateWithoutPlanTasksInput>
-}
-
-export type UserUpdateWithoutPlanTasksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutPlanTasksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutTodosInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutTodosInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutTodosInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutTodosInput, Prisma.UserUncheckedCreateWithoutTodosInput>
-}
-
-export type UserUpsertWithoutTodosInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutTodosInput, Prisma.UserUncheckedUpdateWithoutTodosInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutTodosInput, Prisma.UserUncheckedCreateWithoutTodosInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutTodosInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutTodosInput, Prisma.UserUncheckedUpdateWithoutTodosInput>
-}
-
-export type UserUpdateWithoutTodosInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutTodosInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutCheckinsInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutCheckinsInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutCheckinsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutCheckinsInput, Prisma.UserUncheckedCreateWithoutCheckinsInput>
-}
-
-export type UserUpsertWithoutCheckinsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutCheckinsInput, Prisma.UserUncheckedUpdateWithoutCheckinsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutCheckinsInput, Prisma.UserUncheckedCreateWithoutCheckinsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutCheckinsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutCheckinsInput, Prisma.UserUncheckedUpdateWithoutCheckinsInput>
-}
-
-export type UserUpdateWithoutCheckinsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutCheckinsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutStudyRecordsInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutStudyRecordsInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutStudyRecordsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutStudyRecordsInput, Prisma.UserUncheckedCreateWithoutStudyRecordsInput>
-}
-
-export type UserUpsertWithoutStudyRecordsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutStudyRecordsInput, Prisma.UserUncheckedUpdateWithoutStudyRecordsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutStudyRecordsInput, Prisma.UserUncheckedCreateWithoutStudyRecordsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutStudyRecordsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutStudyRecordsInput, Prisma.UserUncheckedUpdateWithoutStudyRecordsInput>
-}
-
-export type UserUpdateWithoutStudyRecordsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutStudyRecordsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1931,21 +1016,15 @@ export type UserCreateWithoutConversationsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -1964,21 +1043,15 @@ export type UserUncheckedCreateWithoutConversationsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -2013,21 +1086,15 @@ export type UserUpdateWithoutConversationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -2046,169 +1113,15 @@ export type UserUncheckedUpdateWithoutConversationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutAgentRunsInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutAgentRunsInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutAgentRunsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutAgentRunsInput, Prisma.UserUncheckedCreateWithoutAgentRunsInput>
-}
-
-export type UserUpsertWithoutAgentRunsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutAgentRunsInput, Prisma.UserUncheckedUpdateWithoutAgentRunsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutAgentRunsInput, Prisma.UserUncheckedCreateWithoutAgentRunsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutAgentRunsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutAgentRunsInput, Prisma.UserUncheckedUpdateWithoutAgentRunsInput>
-}
-
-export type UserUpdateWithoutAgentRunsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutAgentRunsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -2227,21 +1140,15 @@ export type UserCreateWithoutMemoriesInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -2260,21 +1167,15 @@ export type UserUncheckedCreateWithoutMemoriesInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -2309,21 +1210,15 @@ export type UserUpdateWithoutMemoriesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -2342,21 +1237,15 @@ export type UserUncheckedUpdateWithoutMemoriesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -2375,21 +1264,15 @@ export type UserCreateWithoutMemoryItemsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -2408,21 +1291,15 @@ export type UserUncheckedCreateWithoutMemoryItemsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -2457,21 +1334,15 @@ export type UserUpdateWithoutMemoryItemsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -2490,21 +1361,15 @@ export type UserUncheckedUpdateWithoutMemoryItemsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -2523,21 +1388,15 @@ export type UserCreateWithoutMemoryEventsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -2556,21 +1415,15 @@ export type UserUncheckedCreateWithoutMemoryEventsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -2605,21 +1458,15 @@ export type UserUpdateWithoutMemoryEventsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -2638,21 +1485,15 @@ export type UserUncheckedUpdateWithoutMemoryEventsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -2671,21 +1512,15 @@ export type UserCreateWithoutMemoryCandidatesInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -2704,21 +1539,15 @@ export type UserUncheckedCreateWithoutMemoryCandidatesInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -2753,21 +1582,15 @@ export type UserUpdateWithoutMemoryCandidatesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -2786,25 +1609,19 @@ export type UserUncheckedUpdateWithoutMemoryCandidatesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutDocsInput = {
+export type UserCreateWithoutFoldersInput = {
   id?: string
   name: string
   email: string
@@ -2819,25 +1636,19 @@ export type UserCreateWithoutDocsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutDocsInput = {
+export type UserUncheckedCreateWithoutFoldersInput = {
   id?: string
   name: string
   email: string
@@ -2852,41 +1663,35 @@ export type UserUncheckedCreateWithoutDocsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutDocsInput = {
+export type UserCreateOrConnectWithoutFoldersInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutDocsInput, Prisma.UserUncheckedCreateWithoutDocsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFoldersInput, Prisma.UserUncheckedCreateWithoutFoldersInput>
 }
 
-export type UserUpsertWithoutDocsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutDocsInput, Prisma.UserUncheckedUpdateWithoutDocsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutDocsInput, Prisma.UserUncheckedCreateWithoutDocsInput>
+export type UserUpsertWithoutFoldersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFoldersInput, Prisma.UserUncheckedUpdateWithoutFoldersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFoldersInput, Prisma.UserUncheckedCreateWithoutFoldersInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutDocsInput = {
+export type UserUpdateToOneWithWhereWithoutFoldersInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutDocsInput, Prisma.UserUncheckedUpdateWithoutDocsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFoldersInput, Prisma.UserUncheckedUpdateWithoutFoldersInput>
 }
 
-export type UserUpdateWithoutDocsInput = {
+export type UserUpdateWithoutFoldersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2901,25 +1706,19 @@ export type UserUpdateWithoutDocsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutDocsInput = {
+export type UserUncheckedUpdateWithoutFoldersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2934,25 +1733,19 @@ export type UserUncheckedUpdateWithoutDocsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutDocumentsInput = {
+export type UserCreateWithoutNotesInput = {
   id?: string
   name: string
   email: string
@@ -2967,25 +1760,19 @@ export type UserCreateWithoutDocumentsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutDocumentsInput = {
+export type UserUncheckedCreateWithoutNotesInput = {
   id?: string
   name: string
   email: string
@@ -3000,41 +1787,35 @@ export type UserUncheckedCreateWithoutDocumentsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutDocumentsInput = {
+export type UserCreateOrConnectWithoutNotesInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutDocumentsInput, Prisma.UserUncheckedCreateWithoutDocumentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotesInput, Prisma.UserUncheckedCreateWithoutNotesInput>
 }
 
-export type UserUpsertWithoutDocumentsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutDocumentsInput, Prisma.UserUncheckedUpdateWithoutDocumentsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutDocumentsInput, Prisma.UserUncheckedCreateWithoutDocumentsInput>
+export type UserUpsertWithoutNotesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNotesInput, Prisma.UserUncheckedUpdateWithoutNotesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotesInput, Prisma.UserUncheckedCreateWithoutNotesInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutDocumentsInput = {
+export type UserUpdateToOneWithWhereWithoutNotesInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutDocumentsInput, Prisma.UserUncheckedUpdateWithoutDocumentsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNotesInput, Prisma.UserUncheckedUpdateWithoutNotesInput>
 }
 
-export type UserUpdateWithoutDocumentsInput = {
+export type UserUpdateWithoutNotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3049,25 +1830,19 @@ export type UserUpdateWithoutDocumentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutDocumentsInput = {
+export type UserUncheckedUpdateWithoutNotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3082,25 +1857,19 @@ export type UserUncheckedUpdateWithoutDocumentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutKnowledgeDocsInput = {
+export type UserCreateWithoutNoteChunksInput = {
   id?: string
   name: string
   email: string
@@ -3115,25 +1884,19 @@ export type UserCreateWithoutKnowledgeDocsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutKnowledgeDocsInput = {
+export type UserUncheckedCreateWithoutNoteChunksInput = {
   id?: string
   name: string
   email: string
@@ -3148,41 +1911,35 @@ export type UserUncheckedCreateWithoutKnowledgeDocsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutKnowledgeDocsInput = {
+export type UserCreateOrConnectWithoutNoteChunksInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutKnowledgeDocsInput, Prisma.UserUncheckedCreateWithoutKnowledgeDocsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNoteChunksInput, Prisma.UserUncheckedCreateWithoutNoteChunksInput>
 }
 
-export type UserUpsertWithoutKnowledgeDocsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutKnowledgeDocsInput, Prisma.UserUncheckedUpdateWithoutKnowledgeDocsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutKnowledgeDocsInput, Prisma.UserUncheckedCreateWithoutKnowledgeDocsInput>
+export type UserUpsertWithoutNoteChunksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNoteChunksInput, Prisma.UserUncheckedUpdateWithoutNoteChunksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNoteChunksInput, Prisma.UserUncheckedCreateWithoutNoteChunksInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutKnowledgeDocsInput = {
+export type UserUpdateToOneWithWhereWithoutNoteChunksInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutKnowledgeDocsInput, Prisma.UserUncheckedUpdateWithoutKnowledgeDocsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNoteChunksInput, Prisma.UserUncheckedUpdateWithoutNoteChunksInput>
 }
 
-export type UserUpdateWithoutKnowledgeDocsInput = {
+export type UserUpdateWithoutNoteChunksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3197,25 +1954,19 @@ export type UserUpdateWithoutKnowledgeDocsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutKnowledgeDocsInput = {
+export type UserUncheckedUpdateWithoutNoteChunksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3230,21 +1981,139 @@ export type UserUncheckedUpdateWithoutKnowledgeDocsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutNoteProposalsInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  password?: string | null
+  bio?: string | null
+  theme?: string
+  vip?: boolean
+  announcementSeenOn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
+  memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
+  memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
+  memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutNoteProposalsInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  password?: string | null
+  bio?: string | null
+  theme?: string
+  vip?: boolean
+  announcementSeenOn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
+  memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
+  memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
+  memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutNoteProposalsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNoteProposalsInput, Prisma.UserUncheckedCreateWithoutNoteProposalsInput>
+}
+
+export type UserUpsertWithoutNoteProposalsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNoteProposalsInput, Prisma.UserUncheckedUpdateWithoutNoteProposalsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNoteProposalsInput, Prisma.UserUncheckedCreateWithoutNoteProposalsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNoteProposalsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNoteProposalsInput, Prisma.UserUncheckedUpdateWithoutNoteProposalsInput>
+}
+
+export type UserUpdateWithoutNoteProposalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  theme?: Prisma.StringFieldUpdateOperationsInput | string
+  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
+  memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
+  memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
+  memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNoteProposalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  theme?: Prisma.StringFieldUpdateOperationsInput | string
+  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
+  memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
+  memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
+  memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -3263,21 +2132,15 @@ export type UserCreateWithoutNotificationsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -3296,21 +2159,15 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -3345,21 +2202,15 @@ export type UserUpdateWithoutNotificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -3378,169 +2229,15 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutChatMessagesInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutChatMessagesInput = {
-  id?: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  password?: string | null
-  bio?: string | null
-  theme?: string
-  vip?: boolean
-  announcementSeenOn?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
-  memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
-  memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
-  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutChatMessagesInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutChatMessagesInput, Prisma.UserUncheckedCreateWithoutChatMessagesInput>
-}
-
-export type UserUpsertWithoutChatMessagesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutChatMessagesInput, Prisma.UserUncheckedUpdateWithoutChatMessagesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutChatMessagesInput, Prisma.UserUncheckedCreateWithoutChatMessagesInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutChatMessagesInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutChatMessagesInput, Prisma.UserUncheckedUpdateWithoutChatMessagesInput>
-}
-
-export type UserUpdateWithoutChatMessagesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutChatMessagesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  theme?: Prisma.StringFieldUpdateOperationsInput | string
-  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
-  memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
-  memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
-  memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
-  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -3559,22 +2256,16 @@ export type UserCreateWithoutTokenUsagesInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTokenUsagesInput = {
@@ -3592,22 +2283,16 @@ export type UserUncheckedCreateWithoutTokenUsagesInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
-  checkins?: Prisma.CheckinUncheckedCreateNestedManyWithoutUserInput
-  studyRecords?: Prisma.StudyRecordUncheckedCreateNestedManyWithoutUserInput
   memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
   memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
   memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
-  planTasks?: Prisma.PlanTaskUncheckedCreateNestedManyWithoutUserInput
-  agentRuns?: Prisma.AgentRunUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  todos?: Prisma.TodoUncheckedCreateNestedManyWithoutUserInput
-  docs?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
-  documents?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutUserInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedCreateNestedManyWithoutUserInput
-  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTokenUsagesInput = {
@@ -3641,22 +2326,16 @@ export type UserUpdateWithoutTokenUsagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTokenUsagesInput = {
@@ -3674,22 +2353,16 @@ export type UserUncheckedUpdateWithoutTokenUsagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
-  checkins?: Prisma.CheckinUncheckedUpdateManyWithoutUserNestedInput
-  studyRecords?: Prisma.StudyRecordUncheckedUpdateManyWithoutUserNestedInput
   memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
   memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
   memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
-  planTasks?: Prisma.PlanTaskUncheckedUpdateManyWithoutUserNestedInput
-  agentRuns?: Prisma.AgentRunUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  todos?: Prisma.TodoUncheckedUpdateManyWithoutUserNestedInput
-  docs?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
-  documents?: Prisma.DocumentChunkUncheckedUpdateManyWithoutUserNestedInput
-  knowledgeDocs?: Prisma.KnowledgeDocUncheckedUpdateManyWithoutUserNestedInput
-  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -3700,44 +2373,32 @@ export type UserUncheckedUpdateWithoutTokenUsagesInput = {
 export type UserCountOutputType = {
   sessions: number
   accounts: number
-  plans: number
-  checkins: number
-  studyRecords: number
   memories: number
   memoryItems: number
   memoryEvents: number
   memoryCandidates: number
   conversations: number
-  planTasks: number
-  agentRuns: number
   notifications: number
-  todos: number
-  docs: number
-  documents: number
-  knowledgeDocs: number
-  chatMessages: number
+  folders: number
+  notes: number
+  noteChunks: number
+  noteProposals: number
   tokenUsages: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-  plans?: boolean | UserCountOutputTypeCountPlansArgs
-  checkins?: boolean | UserCountOutputTypeCountCheckinsArgs
-  studyRecords?: boolean | UserCountOutputTypeCountStudyRecordsArgs
   memories?: boolean | UserCountOutputTypeCountMemoriesArgs
   memoryItems?: boolean | UserCountOutputTypeCountMemoryItemsArgs
   memoryEvents?: boolean | UserCountOutputTypeCountMemoryEventsArgs
   memoryCandidates?: boolean | UserCountOutputTypeCountMemoryCandidatesArgs
   conversations?: boolean | UserCountOutputTypeCountConversationsArgs
-  planTasks?: boolean | UserCountOutputTypeCountPlanTasksArgs
-  agentRuns?: boolean | UserCountOutputTypeCountAgentRunsArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
-  todos?: boolean | UserCountOutputTypeCountTodosArgs
-  docs?: boolean | UserCountOutputTypeCountDocsArgs
-  documents?: boolean | UserCountOutputTypeCountDocumentsArgs
-  knowledgeDocs?: boolean | UserCountOutputTypeCountKnowledgeDocsArgs
-  chatMessages?: boolean | UserCountOutputTypeCountChatMessagesArgs
+  folders?: boolean | UserCountOutputTypeCountFoldersArgs
+  notes?: boolean | UserCountOutputTypeCountNotesArgs
+  noteChunks?: boolean | UserCountOutputTypeCountNoteChunksArgs
+  noteProposals?: boolean | UserCountOutputTypeCountNoteProposalsArgs
   tokenUsages?: boolean | UserCountOutputTypeCountTokenUsagesArgs
 }
 
@@ -3763,27 +2424,6 @@ export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.E
  */
 export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AccountWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountPlansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PlanWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCheckinsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CheckinWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountStudyRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.StudyRecordWhereInput
 }
 
 /**
@@ -3824,20 +2464,6 @@ export type UserCountOutputTypeCountConversationsArgs<ExtArgs extends runtime.Ty
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountPlanTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PlanTaskWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountAgentRunsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AgentRunWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.NotificationWhereInput
 }
@@ -3845,36 +2471,29 @@ export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Ty
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountTodosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TodoWhereInput
+export type UserCountOutputTypeCountFoldersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FolderWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountDocsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DocumentWhereInput
+export type UserCountOutputTypeCountNotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NoteWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DocumentChunkWhereInput
+export type UserCountOutputTypeCountNoteChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NoteChunkWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountKnowledgeDocsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.KnowledgeDocWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountChatMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ChatMessageWhereInput
+export type UserCountOutputTypeCountNoteProposalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NoteProposalWhereInput
 }
 
 /**
@@ -3900,22 +2519,16 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
-  plans?: boolean | Prisma.User$plansArgs<ExtArgs>
-  checkins?: boolean | Prisma.User$checkinsArgs<ExtArgs>
-  studyRecords?: boolean | Prisma.User$studyRecordsArgs<ExtArgs>
   memories?: boolean | Prisma.User$memoriesArgs<ExtArgs>
   memoryItems?: boolean | Prisma.User$memoryItemsArgs<ExtArgs>
   memoryEvents?: boolean | Prisma.User$memoryEventsArgs<ExtArgs>
   memoryCandidates?: boolean | Prisma.User$memoryCandidatesArgs<ExtArgs>
   conversations?: boolean | Prisma.User$conversationsArgs<ExtArgs>
-  planTasks?: boolean | Prisma.User$planTasksArgs<ExtArgs>
-  agentRuns?: boolean | Prisma.User$agentRunsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
-  todos?: boolean | Prisma.User$todosArgs<ExtArgs>
-  docs?: boolean | Prisma.User$docsArgs<ExtArgs>
-  documents?: boolean | Prisma.User$documentsArgs<ExtArgs>
-  knowledgeDocs?: boolean | Prisma.User$knowledgeDocsArgs<ExtArgs>
-  chatMessages?: boolean | Prisma.User$chatMessagesArgs<ExtArgs>
+  folders?: boolean | Prisma.User$foldersArgs<ExtArgs>
+  notes?: boolean | Prisma.User$notesArgs<ExtArgs>
+  noteChunks?: boolean | Prisma.User$noteChunksArgs<ExtArgs>
+  noteProposals?: boolean | Prisma.User$noteProposalsArgs<ExtArgs>
   tokenUsages?: boolean | Prisma.User$tokenUsagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -3969,22 +2582,16 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
-  plans?: boolean | Prisma.User$plansArgs<ExtArgs>
-  checkins?: boolean | Prisma.User$checkinsArgs<ExtArgs>
-  studyRecords?: boolean | Prisma.User$studyRecordsArgs<ExtArgs>
   memories?: boolean | Prisma.User$memoriesArgs<ExtArgs>
   memoryItems?: boolean | Prisma.User$memoryItemsArgs<ExtArgs>
   memoryEvents?: boolean | Prisma.User$memoryEventsArgs<ExtArgs>
   memoryCandidates?: boolean | Prisma.User$memoryCandidatesArgs<ExtArgs>
   conversations?: boolean | Prisma.User$conversationsArgs<ExtArgs>
-  planTasks?: boolean | Prisma.User$planTasksArgs<ExtArgs>
-  agentRuns?: boolean | Prisma.User$agentRunsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
-  todos?: boolean | Prisma.User$todosArgs<ExtArgs>
-  docs?: boolean | Prisma.User$docsArgs<ExtArgs>
-  documents?: boolean | Prisma.User$documentsArgs<ExtArgs>
-  knowledgeDocs?: boolean | Prisma.User$knowledgeDocsArgs<ExtArgs>
-  chatMessages?: boolean | Prisma.User$chatMessagesArgs<ExtArgs>
+  folders?: boolean | Prisma.User$foldersArgs<ExtArgs>
+  notes?: boolean | Prisma.User$notesArgs<ExtArgs>
+  noteChunks?: boolean | Prisma.User$noteChunksArgs<ExtArgs>
+  noteProposals?: boolean | Prisma.User$noteProposalsArgs<ExtArgs>
   tokenUsages?: boolean | Prisma.User$tokenUsagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -3996,22 +2603,16 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
-    plans: Prisma.$PlanPayload<ExtArgs>[]
-    checkins: Prisma.$CheckinPayload<ExtArgs>[]
-    studyRecords: Prisma.$StudyRecordPayload<ExtArgs>[]
     memories: Prisma.$UserMemoryPayload<ExtArgs>[]
     memoryItems: Prisma.$MemoryPayload<ExtArgs>[]
     memoryEvents: Prisma.$MemoryEventPayload<ExtArgs>[]
     memoryCandidates: Prisma.$MemoryCandidatePayload<ExtArgs>[]
     conversations: Prisma.$ConversationPayload<ExtArgs>[]
-    planTasks: Prisma.$PlanTaskPayload<ExtArgs>[]
-    agentRuns: Prisma.$AgentRunPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
-    todos: Prisma.$TodoPayload<ExtArgs>[]
-    docs: Prisma.$DocumentPayload<ExtArgs>[]
-    documents: Prisma.$DocumentChunkPayload<ExtArgs>[]
-    knowledgeDocs: Prisma.$KnowledgeDocPayload<ExtArgs>[]
-    chatMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
+    folders: Prisma.$FolderPayload<ExtArgs>[]
+    notes: Prisma.$NotePayload<ExtArgs>[]
+    noteChunks: Prisma.$NoteChunkPayload<ExtArgs>[]
+    noteProposals: Prisma.$NoteProposalPayload<ExtArgs>[]
     tokenUsages: Prisma.$TokenUsagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -4431,22 +3032,16 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  plans<T extends Prisma.User$plansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$plansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  checkins<T extends Prisma.User$checkinsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$checkinsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CheckinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  studyRecords<T extends Prisma.User$studyRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$studyRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   memories<T extends Prisma.User$memoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$memoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserMemoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   memoryItems<T extends Prisma.User$memoryItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$memoryItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   memoryEvents<T extends Prisma.User$memoryEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$memoryEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemoryEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   memoryCandidates<T extends Prisma.User$memoryCandidatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$memoryCandidatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemoryCandidatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversations<T extends Prisma.User$conversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  planTasks<T extends Prisma.User$planTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$planTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlanTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  agentRuns<T extends Prisma.User$agentRunsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$agentRunsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AgentRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  todos<T extends Prisma.User$todosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$todosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TodoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  docs<T extends Prisma.User$docsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$docsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  documents<T extends Prisma.User$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentChunkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  knowledgeDocs<T extends Prisma.User$knowledgeDocsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$knowledgeDocsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$KnowledgeDocPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  chatMessages<T extends Prisma.User$chatMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  folders<T extends Prisma.User$foldersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$foldersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notes<T extends Prisma.User$notesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  noteChunks<T extends Prisma.User$noteChunksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$noteChunksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoteChunkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  noteProposals<T extends Prisma.User$noteProposalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$noteProposalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoteProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tokenUsages<T extends Prisma.User$tokenUsagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tokenUsagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TokenUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4930,78 +3525,6 @@ export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * User.plans
- */
-export type User$plansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Plan
-   */
-  select?: Prisma.PlanSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Plan
-   */
-  omit?: Prisma.PlanOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PlanInclude<ExtArgs> | null
-  where?: Prisma.PlanWhereInput
-  orderBy?: Prisma.PlanOrderByWithRelationInput | Prisma.PlanOrderByWithRelationInput[]
-  cursor?: Prisma.PlanWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PlanScalarFieldEnum | Prisma.PlanScalarFieldEnum[]
-}
-
-/**
- * User.checkins
- */
-export type User$checkinsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Checkin
-   */
-  select?: Prisma.CheckinSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Checkin
-   */
-  omit?: Prisma.CheckinOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CheckinInclude<ExtArgs> | null
-  where?: Prisma.CheckinWhereInput
-  orderBy?: Prisma.CheckinOrderByWithRelationInput | Prisma.CheckinOrderByWithRelationInput[]
-  cursor?: Prisma.CheckinWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CheckinScalarFieldEnum | Prisma.CheckinScalarFieldEnum[]
-}
-
-/**
- * User.studyRecords
- */
-export type User$studyRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the StudyRecord
-   */
-  select?: Prisma.StudyRecordSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the StudyRecord
-   */
-  omit?: Prisma.StudyRecordOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.StudyRecordInclude<ExtArgs> | null
-  where?: Prisma.StudyRecordWhereInput
-  orderBy?: Prisma.StudyRecordOrderByWithRelationInput | Prisma.StudyRecordOrderByWithRelationInput[]
-  cursor?: Prisma.StudyRecordWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.StudyRecordScalarFieldEnum | Prisma.StudyRecordScalarFieldEnum[]
-}
-
-/**
  * User.memories
  */
 export type User$memoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5122,54 +3645,6 @@ export type User$conversationsArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * User.planTasks
- */
-export type User$planTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PlanTask
-   */
-  select?: Prisma.PlanTaskSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PlanTask
-   */
-  omit?: Prisma.PlanTaskOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PlanTaskInclude<ExtArgs> | null
-  where?: Prisma.PlanTaskWhereInput
-  orderBy?: Prisma.PlanTaskOrderByWithRelationInput | Prisma.PlanTaskOrderByWithRelationInput[]
-  cursor?: Prisma.PlanTaskWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PlanTaskScalarFieldEnum | Prisma.PlanTaskScalarFieldEnum[]
-}
-
-/**
- * User.agentRuns
- */
-export type User$agentRunsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the AgentRun
-   */
-  select?: Prisma.AgentRunSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the AgentRun
-   */
-  omit?: Prisma.AgentRunOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AgentRunInclude<ExtArgs> | null
-  where?: Prisma.AgentRunWhereInput
-  orderBy?: Prisma.AgentRunOrderByWithRelationInput | Prisma.AgentRunOrderByWithRelationInput[]
-  cursor?: Prisma.AgentRunWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.AgentRunScalarFieldEnum | Prisma.AgentRunScalarFieldEnum[]
-}
-
-/**
  * User.notifications
  */
 export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5194,123 +3669,99 @@ export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * User.todos
+ * User.folders
  */
-export type User$todosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$foldersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Todo
+   * Select specific fields to fetch from the Folder
    */
-  select?: Prisma.TodoSelect<ExtArgs> | null
+  select?: Prisma.FolderSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Todo
+   * Omit specific fields from the Folder
    */
-  omit?: Prisma.TodoOmit<ExtArgs> | null
+  omit?: Prisma.FolderOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TodoInclude<ExtArgs> | null
-  where?: Prisma.TodoWhereInput
-  orderBy?: Prisma.TodoOrderByWithRelationInput | Prisma.TodoOrderByWithRelationInput[]
-  cursor?: Prisma.TodoWhereUniqueInput
+  include?: Prisma.FolderInclude<ExtArgs> | null
+  where?: Prisma.FolderWhereInput
+  orderBy?: Prisma.FolderOrderByWithRelationInput | Prisma.FolderOrderByWithRelationInput[]
+  cursor?: Prisma.FolderWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TodoScalarFieldEnum | Prisma.TodoScalarFieldEnum[]
+  distinct?: Prisma.FolderScalarFieldEnum | Prisma.FolderScalarFieldEnum[]
 }
 
 /**
- * User.docs
+ * User.notes
  */
-export type User$docsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$notesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Document
+   * Select specific fields to fetch from the Note
    */
-  select?: Prisma.DocumentSelect<ExtArgs> | null
+  select?: Prisma.NoteSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Document
+   * Omit specific fields from the Note
    */
-  omit?: Prisma.DocumentOmit<ExtArgs> | null
+  omit?: Prisma.NoteOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.DocumentInclude<ExtArgs> | null
-  where?: Prisma.DocumentWhereInput
-  orderBy?: Prisma.DocumentOrderByWithRelationInput | Prisma.DocumentOrderByWithRelationInput[]
-  cursor?: Prisma.DocumentWhereUniqueInput
+  include?: Prisma.NoteInclude<ExtArgs> | null
+  where?: Prisma.NoteWhereInput
+  orderBy?: Prisma.NoteOrderByWithRelationInput | Prisma.NoteOrderByWithRelationInput[]
+  cursor?: Prisma.NoteWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.DocumentScalarFieldEnum | Prisma.DocumentScalarFieldEnum[]
+  distinct?: Prisma.NoteScalarFieldEnum | Prisma.NoteScalarFieldEnum[]
 }
 
 /**
- * User.documents
+ * User.noteChunks
  */
-export type User$documentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$noteChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the DocumentChunk
+   * Select specific fields to fetch from the NoteChunk
    */
-  select?: Prisma.DocumentChunkSelect<ExtArgs> | null
+  select?: Prisma.NoteChunkSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the DocumentChunk
+   * Omit specific fields from the NoteChunk
    */
-  omit?: Prisma.DocumentChunkOmit<ExtArgs> | null
+  omit?: Prisma.NoteChunkOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.DocumentChunkInclude<ExtArgs> | null
-  where?: Prisma.DocumentChunkWhereInput
-  orderBy?: Prisma.DocumentChunkOrderByWithRelationInput | Prisma.DocumentChunkOrderByWithRelationInput[]
-  cursor?: Prisma.DocumentChunkWhereUniqueInput
+  include?: Prisma.NoteChunkInclude<ExtArgs> | null
+  where?: Prisma.NoteChunkWhereInput
+  orderBy?: Prisma.NoteChunkOrderByWithRelationInput | Prisma.NoteChunkOrderByWithRelationInput[]
+  cursor?: Prisma.NoteChunkWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.DocumentChunkScalarFieldEnum | Prisma.DocumentChunkScalarFieldEnum[]
+  distinct?: Prisma.NoteChunkScalarFieldEnum | Prisma.NoteChunkScalarFieldEnum[]
 }
 
 /**
- * User.knowledgeDocs
+ * User.noteProposals
  */
-export type User$knowledgeDocsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$noteProposalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the KnowledgeDoc
+   * Select specific fields to fetch from the NoteProposal
    */
-  select?: Prisma.KnowledgeDocSelect<ExtArgs> | null
+  select?: Prisma.NoteProposalSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the KnowledgeDoc
+   * Omit specific fields from the NoteProposal
    */
-  omit?: Prisma.KnowledgeDocOmit<ExtArgs> | null
+  omit?: Prisma.NoteProposalOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.KnowledgeDocInclude<ExtArgs> | null
-  where?: Prisma.KnowledgeDocWhereInput
-  orderBy?: Prisma.KnowledgeDocOrderByWithRelationInput | Prisma.KnowledgeDocOrderByWithRelationInput[]
-  cursor?: Prisma.KnowledgeDocWhereUniqueInput
+  include?: Prisma.NoteProposalInclude<ExtArgs> | null
+  where?: Prisma.NoteProposalWhereInput
+  orderBy?: Prisma.NoteProposalOrderByWithRelationInput | Prisma.NoteProposalOrderByWithRelationInput[]
+  cursor?: Prisma.NoteProposalWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.KnowledgeDocScalarFieldEnum | Prisma.KnowledgeDocScalarFieldEnum[]
-}
-
-/**
- * User.chatMessages
- */
-export type User$chatMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ChatMessage
-   */
-  select?: Prisma.ChatMessageSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ChatMessage
-   */
-  omit?: Prisma.ChatMessageOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ChatMessageInclude<ExtArgs> | null
-  where?: Prisma.ChatMessageWhereInput
-  orderBy?: Prisma.ChatMessageOrderByWithRelationInput | Prisma.ChatMessageOrderByWithRelationInput[]
-  cursor?: Prisma.ChatMessageWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ChatMessageScalarFieldEnum | Prisma.ChatMessageScalarFieldEnum[]
+  distinct?: Prisma.NoteProposalScalarFieldEnum | Prisma.NoteProposalScalarFieldEnum[]
 }
 
 /**

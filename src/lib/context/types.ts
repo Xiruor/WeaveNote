@@ -44,8 +44,6 @@ export interface ContextBuildInput {
   /** 本轮用户消息纯文本 */
   currentUserText: string;
   userName?: string | null;
-  /** 工作台编辑器的当前内容（可选；没有则用数据库里的最新内容） */
-  clientDocument?: string | null;
 }
 
 export interface ContextBuildResult {

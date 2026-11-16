@@ -4,7 +4,7 @@ import { startOfDay } from "date-fns";
 // ============================================================
 // 用户每日 AI token 用量与限额
 // 模型池（completionsWithFallback / streamTextWithFallback）统一记账；
-// 交互式面（agent / studio / 聊天室）超限抛 UsageLimitError，后端返回友好提示。
+// 交互式面（workspace / note）超限抛 UsageLimitError，后端返回友好提示。
 // ============================================================
 
 /** 余额不足或每日精力用完时的统一回复文案 */
@@ -49,11 +49,11 @@ export function buildTodayUsage(limit: number, isVip: boolean, used: number): To
 /**
  * 计入用户每日限额的 surface —— 只有「用户主动发起的 AI 对话」。
  *
- * 其余 surface（title / memory / split / agent-bg）是系统自己产生的开销：
+ * 其余 surface（title / memory / agent-bg）是系统自己产生的开销：
  * 用户没点任何东西就烧掉的 token 不该记在他头上。它们仍然照常记账
  * （recordUsage 不动，库里查得到总消耗），只是不计入限额与精力条。
  */
-export const COUNTED_SURFACES = ["agent", "studio", "chatroom"] as const;
+export const COUNTED_SURFACES = ["workspace", "note"] as const;
 
 export async function getTodayUsage(userId: string): Promise<TodayUsage> {
   const limit = usageLimit();

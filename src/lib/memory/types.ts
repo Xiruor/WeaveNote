@@ -17,12 +17,12 @@ export const MEMORY_KINDS = [
 
 export type MemoryKind = (typeof MEMORY_KINDS)[number];
 
-/** 检索任务类型：决定类型配额与上下文排序。 */
-export const MEMORY_TASKS = ["chat", "planning", "analysis", "doc_edit"] as const;
+/** 检索任务类型：决定类型配额与上下文排序。M0 与 AI surface 同名同值；M4 再按任务细化。 */
+export const MEMORY_TASKS = ["workspace", "note"] as const;
 export type MemoryTask = (typeof MEMORY_TASKS)[number];
 
 /** AI 入口场景，与 src/lib/tools/router.ts 的 AiSurface 保持一致。 */
-export const MEMORY_SURFACES = ["agent", "plan", "doc"] as const;
+export const MEMORY_SURFACES = ["workspace", "note"] as const;
 export type MemorySurface = (typeof MEMORY_SURFACES)[number];
 
 export function isMemoryKind(value: unknown): value is MemoryKind {

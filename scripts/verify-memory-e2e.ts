@@ -175,8 +175,8 @@ async function main() {
     console.log("\n③ 读链路：buildMemoryContext(query=React)");
     const context = await buildMemoryContext({
       userId: user.id,
-      surface: "agent",
-      task: "chat",
+      surface: "workspace",
+      task: "workspace",
       query: "React 学得怎么样",
     });
     check("上下文非空", context.prompt.length > 0);

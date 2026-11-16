@@ -30,25 +30,28 @@ model User {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  sessions      Session[]
-  accounts      Account[]
-  plans         Plan[]
-  checkins      Checkin[]
-  studyRecords  StudyRecord[]
-  memories      UserMemory[]
-  memoryItems   Memory[]
-  memoryEvents  MemoryEvent[]
+  // ── 鉴权 ──
+  sessions         Session[]
+  accounts         Account[]
+
+  // ── 记忆：v1 UserMemory（只读回滚点）+ v2 Memory 三件套 ──
+  memories         UserMemory[]
+  memoryItems      Memory[]
+  memoryEvents     MemoryEvent[]
   memoryCandidates MemoryCandidate[]
-  conversations Conversation[]
-  planTasks     PlanTask[]
-  agentRuns     AgentRun[]
-  notifications Notification[]
-  todos           Todo[]
-  docs            Document[]
-  documents       DocumentChunk[]
-  knowledgeDocs   KnowledgeDoc[]
-  chatMessages    ChatMessage[]
-  tokenUsages     TokenUsage[]
+
+  // ── 对话与通知 ──
+  conversations    Conversation[]
+  notifications    Notification[]
+
+  // ── 笔记库 ──
+  folders          Folder[]
+  notes            Note[]
+  noteChunks       NoteChunk[]
+  noteProposals    NoteProposal[]
+
+  // ── 用量记账 ──
+  tokenUsages      TokenUsage[]
 
   @@map("user")
 }
@@ -86,129 +89,6 @@ model Account {
   @@map("account")
 }
 
-model Plan {
-  id              String    @id @default(cuid())
-  userId          String
-  name            String
-  description     String?
-  goal            String?
-  document        String?
-  // 任务最后一次拆分时所用文档的哈希，用于判断文档改动后任务是否过期（抽屉手动刷新）
-  tasksSourceHash String?
-  // 任务正在后台拆分的起始时间（非空 = 刷新中），供抽屉显示"任务刷新中"
-  tasksSplittingAt DateTime?
-  startDate       DateTime?
-  status          String    @default("active")
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  checkins Checkin[]
-  tasks    PlanTask[]
-
-  @@map("plan")
-}
-
-model PlanTask {
-  id          String    @id @default(cuid())
-  planId      String
-  userId      String
-  title       String
-  description String?
-  dayNumber   Int?
-  weekNumber  Int?
-  category    String    @default("study")
-  status      String    @default("pending")
-  priority    String    @default("normal")
-  completedAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plan Plan @relation(fields: [planId], references: [id], onDelete: Cascade)
-
-  @@index([planId])
-  @@index([userId, status])
-  @@index([userId, dayNumber])
-  @@map("plantask")
-}
-
-model Todo {
-  id        String   @id @default(cuid())
-  userId    String
-  title     String
-  completed Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId, completed])
-  @@index([userId, createdAt])
-  @@map("todo")
-}
-
-model Checkin {
-  id           String   @id @default(cuid())
-  userId       String
-  planId       String?
-  /**
-   * 来源任务 id。**没有外键**，只是个裸字符串——用于「一个任务只产生一条打卡记录」
-   * 的幂等键（见 lib/tools/agent-tools.ts 完成任务时的那段）。签到（手动到访）
-   * 永远为 null。
-   */
-  sourceTaskId String?
-  content      String
-  /**
-   * ⚠️ 遗留列，**已经没有任何代码写入**。
-   *
-   * 手动签到恒为 0；AI 标记完成任务那条路也在 2026-10 去掉了——当时 `updateTaskStatus`
-   * 带一个 hours 参数，由模型自己填，等于「模型猜 → 入库 → 下一轮被当成事实引用」的
-   * 闭环。真实学习时长一律以番茄钟为准（StudyRecord.totalMinutes，那才是计时的）。
-   *
-   * 现在只有打卡页的小岛在 `_sum` 它，读到的都是历史值（2026-07/08 富签到表单留下的）。
-   */
-  hours        Float    @default(0)
-  /** 科目，取自 PlanTask.category。只有「完成任务」那类记录才有值。 */
-  subject      String?
-  /**
-   * ⚠️ 遗留列，**没有任何代码读写它**，保留只是因为库里有 6 行历史数据
-   * （2026-07 那批「富签到表单」留下来的心情值）。
-   * 现在的签到界面不收集心情。确认那 6 行可以丢之后再删这一列。
-   */
-  mood         String?
-  checkinDate  DateTime @default(now())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plan Plan? @relation(fields: [planId], references: [id])
-
-  @@index([userId, checkinDate])
-  @@index([sourceTaskId])
-  @@map("checkin")
-}
-
-model StudyRecord {
-  id           String   @id @default(cuid())
-  userId       String
-  date         DateTime
-  totalMinutes Float    @default(0)
-  subject      String?
-  /**
-   * ⚠️ 名字有误导性：它**不是** Checkin.id，也没有外键。
-   * 实际存的是番茄钟的会话 id（形如 "focus-…"，见 api/focus/sessions）。
-   * 统计页靠 `startsWith("focus-")` 把它们和别的记录区分开。
-   */
-  checkinId    String?
-  createdAt    DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId, date])
-  @@map("studyrecord")
-}
-
 model AvatarChange {
   id        String   @id @default(cuid())
   userId    String
@@ -223,22 +103,11 @@ model Conversation {
   id        String   @id @default(cuid())
   userId    String
   /**
-   * 界面来源，三选一：agent 智能体页 / doc 文档工作台 / plan 计划工作台。
-   * 三者共用这一张表，靠 surface + refId 才能严格区分。
-   *
-   * 注意：与 tokenusage.surface 是**两套不同的口径**，不要强行对齐——
-   * 那边是记账用的（agent | studio | chatroom | title | memory | split | agent-bg），
-   * 历史数据已按旧口径落库，且把文档与计划合并为 studio 即可满足统计需要；
-   * 这里要区分到「哪篇文档/计划」，粒度更细。
+   * 界面来源：workspace 跨笔记工作台 / note 笔记编辑器侧栏；refId = noteId
    */
-  surface   String   @default("agent")
+  surface   String   @default("workspace")
   /**
-   * 归属对象：surface=doc 时为文档 id，surface=plan 时为计划 id，agent 时为 null。
-   *
-   * 有了这一列，工作台才能直接问服务端「这篇文档/计划的对话是哪一条」——
-   * 在此之前这个绑定只存在浏览器 localStorage 里（studio-chat:doc:<id>），
-   * 换设备 / 清缓存就断，点「新对话」更会把上一条变成谁也够不着的孤儿。
-   * 历史上（2026-09 之前）创建的对话没有这一列的值，无法追溯归属，只能为 null。
+   * surface=note 时为笔记 id
    */
   refId     String?
   title     String   @default("新对话")
@@ -317,57 +186,6 @@ model AgentState {
 
   @@index([conversationId])
   @@map("agentstate")
-}
-
-model AgentRun {
-  id          String    @id @default(cuid())
-  userId      String
-  mode        String    @default("planner")
-  goal        String
-  status      String    @default("queued")
-  currentStep Int       @default(0)
-  maxSteps    Int       @default(12)
-  summary     String?
-  error       String?
-  startedAt   DateTime?
-  completedAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  /// 本地日期 YYYY-MM-DD，仅「每日分析」写入；配合下面的唯一约束做幂等抢锁。
-  /// 可空是为了不影响其他 mode 的行——Postgres 视多个 NULL 互不相等，
-  /// 所以存量行（全是 NULL）不会与唯一索引冲突。
-  runDate String?
-
-  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  steps     AgentStep[]
-
-  @@unique([userId, runDate])
-  @@index([userId, updatedAt])
-  @@index([userId, status])
-  @@map("agentrun")
-}
-
-model AgentStep {
-  id          String    @id @default(cuid())
-  runId       String
-  stepNumber  Int
-  kind        String
-  status      String    @default("pending")
-  title       String
-  detail      String?
-  input       Json?
-  output      Json?
-  error       String?
-  startedAt   DateTime?
-  completedAt DateTime?
-  createdAt   DateTime  @default(now())
-
-  run       AgentRun        @relation(fields: [runId], references: [id], onDelete: Cascade)
-
-  @@unique([runId, stepNumber])
-  @@index([runId, status])
-  @@map("agentstep")
 }
 
 model UserMemory {
@@ -501,50 +319,91 @@ model MemoryCandidate {
   @@map("memorycandidate")
 }
 
-model Document {
-  id        String   @id @default(cuid())
-  userId    String
-  title     String
-  content   String   @default("")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// ============================================================
+// 笔记库：Folder（文件夹树）/ Note（笔记）/ NoteChunk（向量检索切片）/ NoteProposal（AI 改稿提案）
+//
+// NoteChunk.embedding 的 HNSW 向量索引、Note 标题/正文的 trgm 关键词索引
+// Prisma 表达不了，见 prisma/add-note-search.sql。
+// ============================================================
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Folder {
+  id        String    @id @default(cuid())
+  userId    String
+  name      String
+  parentId  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent    Folder?   @relation("FolderTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children  Folder[]  @relation("FolderTree")
+  notes     Note[]
+
+  @@index([userId, parentId])
+  @@map("folder")
+}
+
+model Note {
+  id        String    @id @default(cuid())
+  userId    String
+  folderId  String?
+  title     String
+  content   String    @default("")
+  pinned    Boolean   @default(false)
+  /// 已索引正文的 sha256；与当前 content 不等 = 语义索引落后，检索时懒建
+  indexHash String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder    Folder?   @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  chunks    NoteChunk[]
+  proposals NoteProposal[]
 
   @@index([userId, updatedAt])
-  @@map("document")
+  @@index([userId, folderId])
+  @@map("note")
 }
 
-model DocumentChunk {
-  id         String                      @id @default(cuid())
-  userId     String
-  sourceName String
-  sourceType String                      @default("text")
-  chunkIndex Int
-  content    String
-  embedding  Unsupported("vector(1024)")
-  createdAt  DateTime                    @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId, sourceName])
-  @@index([sourceName])
-  @@map("documentchunk")
-}
-
-model KnowledgeDoc {
+model NoteChunk {
   id         String   @id @default(cuid())
+  noteId     String
   userId     String
-  sourceName String
-  sourceType String
+  chunkIndex Int
+  /// 所属标题路径（如 "## 分布式 > ### Raft"），来源引用与上下文回填用
+  heading    String?
   content    String
+  embedding  Unsupported("vector(1024)")?
   createdAt  DateTime @default(now())
 
+  note Note @relation(fields: [noteId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, sourceName])
+  @@index([noteId])
   @@index([userId])
-  @@map("knowledgedoc")
+  @@map("notechunk")
+}
+
+model NoteProposal {
+  id             String    @id @default(cuid())
+  userId         String
+  noteId         String
+  conversationId String?
+  newTitle       String?
+  newContent     String
+  /// 提案时的内容 sha256，应用时校验，防止覆盖用户后来的编辑
+  baseHash       String
+  reason         String?
+  status         String    @default("pending") // pending | accepted | rejected | stale
+  createdAt      DateTime  @default(now())
+  decidedAt      DateTime?
+
+  note Note @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status, createdAt])
+  @@index([noteId, status])
+  @@map("noteproposal")
 }
 
 model Notification {
@@ -564,56 +423,12 @@ model Notification {
   @@map("notification")
 }
 
-model ChatMessage {
-  id        String   @id @default(cuid())
-  userId    String?
-  /// WebSocket 消息级幂等键，由客户端为一次发送生成；重试必须复用同一个值。
-  /// AI 消息为空，不参与用户消息幂等约束。
-  clientId  String?
-  role      String   @default("user")
-  content   String
-  /** 聊天室 AI 角色（温柔宝/嘴欠宝）；AI 消息用于区分，让上下文标注不串风格 */
-  aiRole    String?
-  /** 引用回复：被引用的消息 id（无 = 普通消息） */
-  replyToId String?
-  createdAt DateTime @default(now())
-
-  user    User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
-  replyTo ChatMessage?  @relation("ChatReply", fields: [replyToId], references: [id], onDelete: SetNull)
-  replies ChatMessage[] @relation("ChatReply")
-
-  @@index([createdAt])
-  @@index([replyToId])
-  @@unique([userId, clientId])
-  @@map("chatmessage")
-}
-
-// ── 新用户引导模板（注册时克隆给新用户） ──
-model PlanTemplate {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
-  goal        String?
-  document    String? // Markdown，含「## 任务安排」段落；克隆后 syncTasksFromDocument 生成任务
-  createdAt   DateTime @default(now())
-
-  @@map("plantemplate")
-}
-
-model DocumentTemplate {
-  id        String   @id @default(cuid())
-  title     String
-  content   String   @default("")
-  createdAt DateTime @default(now())
-
-  @@map("documenttemplate")
-}
-
 // ── 用户 AI token 用量（每日限额；模型池统一记账） ──
 model TokenUsage {
   id           String   @id @default(cuid())
   userId       String
-  surface      String // agent | studio | chatroom | title | memory | split | agent-bg
+  // 记账口径：workspace | note | title | memory | note-index（交互面 workspace/note 计入限额，系统面不计）
+  surface      String
   tier         String // low | high
   model        String // 实际使用模型
   inputTokens  Int      @default(0)

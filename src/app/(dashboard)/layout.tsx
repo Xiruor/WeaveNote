@@ -3,7 +3,6 @@
 // ============================================================
 import { requireAuth } from "@/lib/auth-utils";
 import { TopNav } from "@/components/layout/top-nav";
-import { DailyAgentCheck } from "@/components/dashboard/daily-agent-check";
 import { AgentOrb } from "@/components/agent/agent-orb";
 import { AnnouncementPopup } from "@/components/layout/announcement-popup";
 import { OnboardingProvider } from "@/components/onboarding/onboarding-provider";
@@ -22,7 +21,6 @@ export default async function DashboardLayout({
         <main className="relative flex flex-1 flex-col px-0 py-0">
           {children}
         </main>
-        <DailyAgentCheck />
         <AnnouncementPopup userId={user.id} />
         <AgentOrb />
       </OnboardingProvider>

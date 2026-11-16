@@ -33,31 +33,6 @@ export type Session = Prisma.SessionModel
  */
 export type Account = Prisma.AccountModel
 /**
- * Model Plan
- * 
- */
-export type Plan = Prisma.PlanModel
-/**
- * Model PlanTask
- * 
- */
-export type PlanTask = Prisma.PlanTaskModel
-/**
- * Model Todo
- * 
- */
-export type Todo = Prisma.TodoModel
-/**
- * Model Checkin
- * 
- */
-export type Checkin = Prisma.CheckinModel
-/**
- * Model StudyRecord
- * 
- */
-export type StudyRecord = Prisma.StudyRecordModel
-/**
  * Model AvatarChange
  * 
  */
@@ -88,16 +63,6 @@ export type ConversationMessage = Prisma.ConversationMessageModel
  */
 export type AgentState = Prisma.AgentStateModel
 /**
- * Model AgentRun
- * 
- */
-export type AgentRun = Prisma.AgentRunModel
-/**
- * Model AgentStep
- * 
- */
-export type AgentStep = Prisma.AgentStepModel
-/**
  * Model UserMemory
  * 
  */
@@ -118,40 +83,30 @@ export type MemoryEvent = Prisma.MemoryEventModel
  */
 export type MemoryCandidate = Prisma.MemoryCandidateModel
 /**
- * Model Document
+ * Model Folder
  * 
  */
-export type Document = Prisma.DocumentModel
+export type Folder = Prisma.FolderModel
 /**
- * Model DocumentChunk
+ * Model Note
  * 
  */
-export type DocumentChunk = Prisma.DocumentChunkModel
+export type Note = Prisma.NoteModel
 /**
- * Model KnowledgeDoc
+ * Model NoteChunk
  * 
  */
-export type KnowledgeDoc = Prisma.KnowledgeDocModel
+export type NoteChunk = Prisma.NoteChunkModel
+/**
+ * Model NoteProposal
+ * 
+ */
+export type NoteProposal = Prisma.NoteProposalModel
 /**
  * Model Notification
  * 
  */
 export type Notification = Prisma.NotificationModel
-/**
- * Model ChatMessage
- * 
- */
-export type ChatMessage = Prisma.ChatMessageModel
-/**
- * Model PlanTemplate
- * 
- */
-export type PlanTemplate = Prisma.PlanTemplateModel
-/**
- * Model DocumentTemplate
- * 
- */
-export type DocumentTemplate = Prisma.DocumentTemplateModel
 /**
  * Model TokenUsage
  * 

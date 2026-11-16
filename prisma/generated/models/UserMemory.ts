@@ -475,6 +475,18 @@ export type UserMemoryUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.UserMemoryScalarWhereInput | Prisma.UserMemoryScalarWhereInput[]
 }
 
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type UserMemoryCreateWithoutUserInput = {
   id?: string
   type?: string

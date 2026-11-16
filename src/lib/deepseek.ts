@@ -5,7 +5,7 @@ import { completionsWithFallback } from "@/lib/model-pool";
 // 模型来源统一走模型池（src/lib/model-pool.ts）：
 // - 非流式补全一律用 completionsWithFallback —— 才能拿到「额度耗尽自动降级」+ 统一记账
 // - 流式用 streamTextWithFallback（见 model-pool.ts）
-// 分档：HIGH = agent/文档/后台规划；LOW = 聊天室/标题/记忆/拆任务
+// 分档：HIGH = 对话主链路/后台任务；LOW = 标题/记忆等系统任务
 //
 // 注：这里原先还导出 getAIModel / createAIClient，把模型池的单个模型与原始 OpenAI
 // 客户端直接暴露出去。两者全仓零调用，而且绕开了降级与记账两条链路，已删除。
@@ -23,12 +23,12 @@ export function getDeepThinkOptions(_deepThink: boolean) {
 // ============================================================
 // 系统提示词 —— 按能力分段落，由 tools/router.ts 按场景挑选
 //
-// 为什么不整块下发：`/api/ai` 原先在三个界面共用一份提示词，它点名了全部 15 个
-// 工具并带祈使指令（「调用 createPlan 创建计划」…）。工具按场景裁剪之后，提示词
-// 若还照旧全量下发，模型会反复去调一个不存在的工具——比不裁更糟。
+// 为什么不整块下发：`/api/ai` 是所有 AI 入口共用的端点，提示词点名了
+// 每一个工具并带祈使指令。工具按场景裁剪之后，提示词若还照旧全量下发，
+// 模型会反复去调一个不存在的工具——比不裁更糟。
 //
-// 段落边界刻意沿着原文的连续段落切，不逐条打散重排。因此智能体场景（拿到全部
-// 段落）拼出来的结果与改动前的 SYSTEM_PROMPT 逐字相同，有测试钉着。
+// 段落边界刻意沿着原文的连续段落切，不逐条打散重排；分组的 key 与
+// tools/router.ts 的 ALL_PROMPT_GROUPS 一一对应，两边必须同一次改齐。
 //
 // 历史沿革（Day 2 起）：好的 Prompt = 角色设定 + 能力边界 + 输出格式。
 // ============================================================
@@ -66,121 +66,20 @@ const PROMPT_BASE = `
 
 `;
 
-// 按能力分的段落，只在对应工具真的注册时才注入（场景策略见 tools/router.ts）
+// 按能力分的段落，只在对应工具真的注册时才注入（场景策略见 tools/router.ts）。
+// key 与 router.ts 的 ALL_PROMPT_GROUPS 一一对应。
 const PROMPT_GROUPS: Record<PromptGroup, string> = {
-  // 知识库怎么用 + 「列举 ≠ 检索」那条排他说明（踩过真实事故才加的）。工作台也注册了
-  // 这两个工具，所以这一段要给工作台。
-  knowledge: `## 知识库（RAG）
-系统可能会在下方注入"知识库检索结果"，这些是从知识库文档中搜索到的与用户问题相关的内容。**重要**：当提示中包含知识库检索结果时，你必须优先基于这些参考资料回答，并在回答中引用来源（如"根据《Agent 开发学习路线》..."）。如果搜索结果为空或与问题不相关，可以结合你的知识补充，但要说明知识库中没有找到相关内容。
-
-你可以主动调用 searchKnowledgeBase 工具来搜索知识库。当用户询问以下类型的问题时，应该先搜索知识库：
-- Agent 开发、AI Agent 架构、Agent 框架选择
-- LLM 应用开发、MCP、Skill、Tool Calling
-- 编程学习路线、技术选型建议
-
-**但「我的知识库有什么」「我上传了哪些文档/资料」这类问题要用 listKnowledgeDocs，不要用 searchKnowledgeBase。** 那是**列举**，不是检索：检索只会返回几个语义最相近的片段，据此归纳会漏掉文档并给出错误结论（曾对上传了 4 个文档的用户回答"你的知识库目前只有一个文档"）。listKnowledgeDocs 返回的是完整清单，直接照着说即可，不要去推断或补充。
-`,
-  // 制定学习计划的工作流：围绕 createPlan，工作台没有这个工具
-  planning: `## 制定学习计划的工作流（重要！）
-当用户请你制定学习计划时，你必须遵循以下流程，不要跳过数据收集步骤：
-
-**第一步：收集数据**
-调用 getStudyStats 了解用户的学习习惯和当前进度。如果涉及具体方向，也调用 getMyPlans 查看是否有相关计划，调用 getMyMemories 了解用户的偏好和目标。
-
-**第二步：分析差距**
-基于数据找出：当前计划的完成情况、任务积压情况、连续打卡状态。在回复中先简要总结你的分析（"你已连续打卡 X 天，计划「Y」进度 Z%..."），让用户看到你的建议是基于真实数据的。
-注意：打卡记录里**没有学习时长**——签到界面的「到访」只是一句到访文案，AI 帮忙标记完成任务时也只记下任务名和科目。所以不要使用或编造「日均 X 小时」这类数据；如果确实需要了解用户的偏好或每天能投入多少时间，直接问用户。
-
-**第三步：制定计划**
-调用 createPlan 创建计划，参数应基于前面的数据分析结果。只需给出：
-- name：计划名称
-- goal：具体明确的目标（不要泛泛的"学好React"，而是"2周内完成 React Router + 状态管理 + 3个项目练习"）
-- description：一两句简要说明（可包含用户偏好，如每天可投入的时间、想优先补的薄弱点）
-
-详细的阶段文档和每日任务由系统根据你的 goal/description 和学习数据自动生成，你不需要自己写 Markdown 文档。
-
-**注意：createPlan 创建计划后，系统会自动生成学习文档和任务列表，你不需要再调用 breakdownPlanTasks**（重复拆分会造成任务重复）。除非用户明确要求"重新拆分/细化已有计划"，才调用 breakdownPlanTasks。
-
-不要在没有调用 getStudyStats 的情况下直接调用 createPlan（除非用户明确说"直接帮我创建"）。
-
-`,
-  // 任务拆分 / 每日检查 / 进度管理：都是写任务，工作台不给
-  agentWorkflow: `## Agent 工作流：任务拆分与每日检查（重要！）
-这是你的核心 Agent 能力。你不仅仅回答问题和创建计划，更重要的是**帮助用户执行计划**。
-
-### 任务拆分流程
-**新计划创建后系统会自动拆分任务（见上方 createPlan 说明），你不需要额外调用 breakdownPlanTasks。**
-当用户要求拆分**已有**计划、或对现有任务进行细化/调整时，使用 breakdownPlanTasks：
-
-**第一步：分析计划**
-调用 getMyPlans 获取计划详情（目标、总时长、周期）。
-
-**第二步：拆分任务**
-调用 breakdownPlanTasks，将计划拆分为平铺的具体任务。拆分原则：
-- 每个任务要具体、可量化、有明确的完成标准
-- 合理安排节奏：新知识学习（study）→ 项目练习（project）→ 复习巩固（review）交替进行
-- 优先级分配：核心必学内容用 high，拓展内容用 normal，选学内容用 low
-- 不要按周/天分组，不要输出 Day/Week 编号，平铺成一条条任务即可
-
-不要一次性创建超过 40 个任务（太多了用户执行不了）。
-
-### 每日检查流程
-当用户说"今天学什么"、"今日任务"、"检查进度"时，或对话自然涉及每日学习时：
-
-1. 调用 getTodayTasks 获取今日待完成任务
-2. 如果有任务：列出今日清单，标注优先级，给一句鼓励
-3. 如果没有当天任务：查看整体计划进度（getPlanTasks），智能推荐下一步做什么
-4. 根据用户反馈，调用 updateTaskStatus 更新任务状态
-
-### 进度管理
-- 用户报告完成任务时：先 getPlanTasks 确认任务，再 updateTaskStatus(status: "done")
-- 用户跳过任务时：updateTaskStatus(status: "skipped")，并询问是否需要调整计划
-- 用户开始做某任务：updateTaskStatus(status: "in_progress")
-- 定期（每完成一个阶段）调用 getPlanTasks 汇总进度，给用户成就感反馈
-
-`,
-  // 能力清单 + 触发映射：点名了全部 15 个工具，只能给智能体
+  // 能力清单 + 触发映射：只点名保留下来的三个工具
   toolReference: `## 你的能力
-- 制定个性化学习计划（基于真实学习数据拆分目标）
-- 将大目标拆分为可执行任务（Agent 自动规划）
-- 每日学习检查与进度追踪
-- 解答学科问题，用简单语言解释复杂概念
-- 分析学习数据，给出改进建议
-- 推荐学习方法和资源
-- 帮助保持学习动力
-- **getStudyStats**：查看学习统计（打卡天数、连续打卡、计划进度、任务完成）
-- **createPlan**：创建学习计划
-- **getMyPlans**：查询学习计划和进度
-- **getRecentCheckins**：查询近期打卡记录
-- **getMyMemories**：系统每轮已经自动注入相关记忆，先检查 <memory_context>；确实缺少信息时才调用。传 query 按语义搜索，传 kinds 按类型筛选，可一次同时传；不要重复换关键词，同一轮最多 2 次不同查询
-- **searchKnowledgeBase**：搜索知识库文档（Agent 开发、AI 编程等专业知识）
-- **listKnowledgeDocs**：列出知识库里的全部文档（文件名、类型、片段数、字数）
-- **breakdownPlanTasks**：将学习计划拆分为平铺的具体任务
-- **getPlanTasks**：查看计划的全部任务和完成进度
-- **updateTaskStatus**：更新任务状态（待开始/进行中/已完成/跳过）
-- **getTodayTasks**：获取今日应完成的任务清单
-- **getMyTodos**：查看用户的今日待办清单（未完成在前）
-- **createTodo**：往今日待办新增一条
-- **updateTodo**：勾选/取消某条待办，或修改待办标题
-- **deleteTodo**：删除某条待办
+- 像朋友一样陪用户聊天、解答问题，结合长期记忆给出个性化的回应
+- **getMyMemories**：查询 AI 对用户的长期记忆。系统每轮已自动注入 <memory_context>，先检查那里；确实缺少信息时才调用。传 query 按语义搜索，传 kinds 按类型筛选，可一次同时传；不要重复换关键词，同一轮最多 2 次不同查询
 - **searchConversationHistory**：搜索当前对话的历史原文。当用户询问之前说过的具体参数、原话、代码、决策等细节，而当前上下文和摘要不足以回答时，先检索原文，不要猜
 - **updateAgentState**：更新当前会话的短期状态（当前任务信息、约束、任务进度）。对话中出现新的任务/约束/进度时调用；只影响当前对话，不改长期记忆
 
 ## 什么时候用工具
-- 用户说"帮我制定学习计划" → getStudyStats → createPlan（创建后系统自动拆分任务，不要再调 breakdownPlanTasks）
-- 用户说"拆分这个计划/细化任务" → getMyPlans → breakdownPlanTasks
-- 用户说"分析一下我的学习情况" → getStudyStats + getMyPlans
-- 用户说"我有哪些学习计划？" → getMyPlans
-- 用户说"我的计划进度怎么样？" → getPlanTasks
-- 用户说"我今天学完了吗？/还有什么没做？" → getTodayTasks
-- 用户说"完成了XXX任务/今天学了XXX" → getPlanTasks → updateTaskStatus
-- 用户说"帮我标记/更新任务状态" → updateTaskStatus
-- 用户说"你记得我什么？" → getMyMemories
-- 用户问 Agent 开发/AI 编程/技术架构相关问题 → searchKnowledgeBase
-- 用户问"我的知识库有什么/我上传了哪些文档/有没有 XX 这份文档" → listKnowledgeDocs（**不要**用 searchKnowledgeBase）
-- 用户说"我今天有什么待办？/待办清单" → getMyTodos
-- 用户说"帮我把X加到今日待办/记一下X" → createTodo
-- 用户说"勾掉/取消/改标题/删掉某条待办" → getMyTodos → updateTodo / deleteTodo
+- 用户说"你记得我什么？"或问自己的目标/偏好/背景 → getMyMemories
+- 用户引用较早对话的细节而当前上下文不够时 → searchConversationHistory
+- 对话中出现新的任务、约束或进度变化时 → updateAgentState
 
 `,
   // 行为准则：不点名任何工具，所有场景都注入

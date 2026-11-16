@@ -71,19 +71,14 @@ COPY --from=builder /app/node_modules ./node_modules
 # 知识库为运行时 volume（compose 挂 knowledge_data 到 /app/knowledge），无需随镜像 COPY
 RUN mkdir -p /app/knowledge
 
-# 复制 WebSocket sidecar（独立进程，复用应用依赖 + ws）
-COPY --from=builder /app/server ./server
-COPY --from=builder /app/src ./src
-COPY --from=builder /app/tsconfig.json ./tsconfig.json
-COPY --from=builder /app/node_modules/ws ./node_modules/ws
-
-# 复制运维脚本。两个地方依赖它，漏了这一行容器内就没有 /app/scripts：
-#   - 知识库上传 PDF/Word：route.ts 用 path.join(process.cwd(), "scripts", ...)
-#     拼路径调 python scripts/extract_{pdf,docx}.py
-#   - 维护脚本：重置密码、pgvector 校验/归一化等，靠 docker exec 跑
+# 复制运维脚本 + 其依赖的源码。tsx 跑 scripts/*.ts 时会动态 import ../src/lib/*，
+# 且 src 内部使用 "@/..." 别名，需要 tsconfig.json 才能解析：
+#   - 维护脚本：重置密码、memory 评测/重放等，靠 docker exec 跑
 # 整个 scripts/ 会一起进来（.dockerignore 的 deploy* 只匹配构建上下文根目录，
 # 拦不住 scripts/deploy.sh，已实测）
 COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/src ./src
+COPY --from=builder /app/tsconfig.json ./tsconfig.json
 
 # 设置文件权限
 RUN chown -R nextjs:nodejs /app

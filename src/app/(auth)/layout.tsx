@@ -8,7 +8,7 @@ export default async function AuthLayout({
   children: React.ReactNode;
 }) {
   const user = await getCurrentUser();
-  if (user) redirect("/dashboard");
+  if (user) redirect("/notes");
 
   return <AuthSceneShell>{children}</AuthSceneShell>;
 }

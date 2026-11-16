@@ -51,8 +51,8 @@ export default function RegisterPage() {
       if (result.error) {
         toast.error(translateError(result.error.message || ""));
       } else {
-        toast.success("注册成功！欢迎加入 Summer Checkin。");
-        router.push("/dashboard");
+        toast.success("注册成功！欢迎加入织念 WeaveNote。");
+        router.push("/notes");
       }
     } catch {
       toast.error("注册出错，请重试");
@@ -67,7 +67,7 @@ export default function RegisterPage() {
         <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
           <Sparkle className="size-4" weight="fill" />
         </span>
-        Summer Checkin
+        织念
       </Link>
 
       <div className="mb-8">

@@ -5,14 +5,12 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LogoutButton } from "@/app/(dashboard)/actions";
 import {
-  ChartLine,
-  ListChecks,
   List,
-  Note,
+  Notebook,
   Question,
+  Sparkle,
   X,
   Leaf,
-  Tree,
 } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { AppAvatar } from "@/components/ui/app-avatar";
@@ -30,10 +28,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { NotificationBell } from "@/components/layout/notification-bell";
 import { AmbientSound } from "@/components/dashboard/ambient-sound";
-import { ChatRoom } from "@/components/chatroom/chat-room";
 import { BlogLink } from "@/components/layout/blog-link";
 import { GithubLink } from "@/components/layout/github-link";
-import { useSceneCopy } from "@/context/scene-context";
 import { useOnboarding } from "@/components/onboarding/onboarding-provider";
 
 interface TopNavProps {
@@ -45,19 +41,10 @@ interface TopNavProps {
   };
 }
 
-// 次要导航：场景无关的固定文字
-const STATIC_NAV = [
-  { href: "/checkin", label: "小岛" },
-  { href: "/plans", label: "计划" },
-  { href: "/docs", label: "阅读" },
-  { href: "/statistics", label: "主页" },
-] as const;
-
-const STATIC_FULL_NAV = [
-  { href: "/checkin", label: "小岛", icon: Tree },
-  { href: "/plans", label: "计划", icon: ListChecks },
-  { href: "/docs", label: "阅读", icon: Note },
-  { href: "/statistics", label: "主页", icon: ChartLine },
+// 主导航：织念的两个核心页面
+const MAIN_NAV = [
+  { href: "/notes", label: "笔记库", icon: Notebook },
+  { href: "/agent", label: "智能体", icon: Sparkle },
 ] as const;
 
 export function TopNav({ user }: TopNavProps) {
@@ -73,46 +60,34 @@ export function TopNav({ user }: TopNavProps) {
     window.addEventListener("avatar:changed", onAvatarChanged);
     return () => window.removeEventListener("avatar:changed", onAvatarChanged);
   }, []);
-  const { labelShort } = useSceneCopy();
   const { startTour } = useOnboarding();
 
-  // 主要导航（顶部居中显示）：第一项按场景动态，其余静态
-  const mainNav = [
-    { href: "/dashboard", label: labelShort },
-    ...STATIC_NAV,
-  ];
-  const fullNav = [
-    { href: "/dashboard", label: labelShort, icon: Tree },
-    ...STATIC_FULL_NAV,
-  ];
-
   const isActive = (href: string) =>
-    pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
+    pathname === href || (href !== "/notes" && pathname.startsWith(href));
 
   return (
     <>
       <header className="dashboard-nav pointer-events-none sticky top-0 z-40 w-full text-white">
         <div className="dashboard-nav__inner mx-auto flex h-20 max-w-[1440px] items-center justify-between gap-4 px-4 md:px-8">
-          <Link href="/dashboard" className="pointer-events-auto flex items-center gap-2 rounded-full border border-white/12 bg-[var(--surface-nav-bg)] p-1.5 pr-3 text-xs font-semibold shadow-xl backdrop-blur-2xl lg:hidden"><span className="flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground"><Leaf className="size-3.5" weight="fill" /></span>Summer Checkin</Link>
+          <Link href="/notes" className="pointer-events-auto flex items-center gap-2 rounded-full border border-white/12 bg-[var(--surface-nav-bg)] p-1.5 pr-3 text-xs font-semibold shadow-xl backdrop-blur-2xl lg:hidden"><span className="flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground"><Leaf className="size-3.5" weight="fill" /></span>织念</Link>
           <div className="atomic-nav pointer-events-auto hidden items-center lg:flex">
-            <Link href="/dashboard" className="atomic-nav__brand flex shrink-0 items-center gap-2.5">
+            <Link href="/notes" className="atomic-nav__brand flex shrink-0 items-center gap-2.5">
               <span className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground"><Leaf className="size-4" weight="fill" /></span>
-              <span className="whitespace-nowrap text-sm font-semibold">Summer Checkin</span>
+              <span className="whitespace-nowrap text-sm font-semibold">织念</span>
             </Link>
             <nav className="atomic-nav__links flex items-center gap-1 justify-around" aria-label="主导航">
-              {mainNav.map((item) => (
+              {MAIN_NAV.map((item) => (
                 <Link key={item.href} href={item.href} className={cn("rounded-full px-3 py-2 text-xs font-medium whitespace-nowrap transition-colors", isActive(item.href) ? "bg-primary text-primary-foreground" : "text-white/52 hover:bg-white/8 hover:text-white")}>{item.label}</Link>
               ))}
             </nav>
           </div>
 
-          {/* 右侧工具条：收起时只留「聊天室 + 头像 + GitHub」。
+          {/* 右侧工具条：头像 + GitHub。
               其余入口收在最右边一个组里，hover / focus 时整组滑开（规则见 globals.css）。
               之所以把它们集中到一组而不是散在原位：宽度过渡要靠 overflow 裁切，
               逐个裁会把环境音面板和博客 tooltip 也裁掉；集中一组才能让裁剪窗口
               在动画结束后统一放开。 */}
           <div className="dashboard-nav__tools pointer-events-auto hidden items-center gap-1 rounded-full border border-white/12 bg-[var(--surface-nav-bg)] p-1.5 shadow-xl backdrop-blur-2xl lg:flex">
-            <ChatRoom />
             <DropdownMenu>
               <DropdownMenuTrigger aria-label="打开用户菜单" className="flex items-center gap-2 rounded-full bg-white/7 p-1 backdrop-blur-sm transition-all hover:bg-white/12">
                 <AppAvatar image={avatarId} name={user.name ?? "U"} size="sm" />
@@ -156,7 +131,7 @@ export function TopNav({ user }: TopNavProps) {
                 <div className="flex h-16 items-center justify-between border-b border-border px-4">
                   <div className="flex items-center gap-2">
                     <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold text-xs">
-                      SC
+                      织
                     </div>
                     <span className="font-semibold text-sm">菜单</span>
                   </div>
@@ -165,7 +140,7 @@ export function TopNav({ user }: TopNavProps) {
                   </Button>
                 </div>
                 <nav className="grid gap-1 p-3">
-                  {fullNav.map((item) => (
+                  {MAIN_NAV.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}

@@ -6,7 +6,6 @@ import {
   Brain,
   CaretLeft,
   ChatsCircle,
-  Files,
   MagicWand,
   PaperPlaneTilt,
   Plus,
@@ -24,7 +23,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { readableAIError } from "@/lib/ai-error";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
-import { KnowledgeBase } from "./knowledge-base";
 import { isViewParts, partsText, toViewParts, type ChatUIMessage } from "@/lib/ai/parts";
 import type { ChatMessage } from "@/types";
 import { useSceneCopy } from "@/context/scene-context";
@@ -35,7 +33,7 @@ interface Conversation {
   updatedAt: string;
 }
 
-type MobilePanel = "history" | "chat" | "knowledge";
+type MobilePanel = "history" | "chat";
 
 /** /api/conversations/[id] 返回的一条消息（Prisma 行原样） */
 interface MessageDTO {
@@ -86,11 +84,11 @@ function currentUserMessage(
   };
 }
 
-// 计划生成直接在对话框里和 AI 说，右侧只保留知识库
+// 笔记相关的事都直接在对话框里和 AI 说
 const quickPrompts = [
-  { label: "拆解本周目标", prompt: "根据我的学习情况，帮我拆解本周最重要的三个目标。" },
-  { label: "生成学习计划", prompt: "为我制定一个 7 天学习计划，目标是：" },
-  { label: "复盘最近进度", prompt: "结合我最近的打卡和计划，指出进展、风险和下一步。" },
+  { label: "梳理笔记", prompt: "帮我梳理最近记下的想法，看看哪些值得写成一篇完整笔记。" },
+  { label: "总结要点", prompt: "把我们最近的讨论整理成一份结构化的要点。" },
+  { label: "回顾记忆", prompt: "你记得我们聊过哪些话题？帮我做个回顾。" },
 ];
 
 function timeAgo(value: string) {
@@ -175,8 +173,8 @@ export function RainforestExplorer({ initialPlanner = false }: { initialPlanner?
   const [history, setHistory] = useState<ChatMessage[]>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
-  // 从「新建计划」跳转（/agent?new=1 → initialPlanner）时预填目标提示
-  const [input, setInput] = useState(initialPlanner ? "为我制定一个 7 天学习计划，目标是：" : "");
+  // 从外部入口跳转（/agent?new=1 → initialPlanner）时预填开场提示
+  const [input, setInput] = useState(initialPlanner ? "帮我把一个想法整理成笔记：" : "");
   const [mobilePanel, setMobilePanel] = useState<MobilePanel>("chat");
   const [deepThink, setDeepThink] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -300,7 +298,7 @@ export function RainforestExplorer({ initialPlanner = false }: { initialPlanner?
     bottomRef.current?.scrollIntoView({ behavior: loading ? "auto" : "smooth" });
   }, [messages, loading]);
 
-  // 进入智能体页即聚焦输入框（双 rAF 等布局稳定；新建计划场景由 initialPlanner 初始化内容）
+  // 进入智能体页即聚焦输入框（双 rAF 等布局稳定；预填场景由 initialPlanner 初始化内容）
   useEffect(() => {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => inputRef.current?.focus());
@@ -353,8 +351,8 @@ export function RainforestExplorer({ initialPlanner = false }: { initialPlanner?
     // 只有首次进入（selectLatest）显示骨架屏；每轮对话后的后台刷新不闪骨架
     if (selectLatest) setConversationsLoading(true);
     try {
-      // 显式只取智能体页的对话：工作台（文档/计划）的对话也在同一张表里
-      const response = await fetch("/api/conversations?surface=agent");
+      // 显式只取智能体页的对话：其他页面的对话也在同一张表里
+      const response = await fetch("/api/conversations?surface=workspace");
       if (!response.ok) return;
       const data = await response.json();
       const list = (data.conversations ?? []) as Conversation[];
@@ -490,7 +488,7 @@ export function RainforestExplorer({ initialPlanner = false }: { initialPlanner?
                   </TooltipTrigger>
                   <TooltipContent>返回</TooltipContent>
                 </Tooltip>
-                <div><p className="text-sm font-semibold">学习对话</p><p className="text-[11px] text-white/40">询问、复盘与深入理解</p></div>
+                <div><p className="text-sm font-semibold">织念对话</p><p className="text-[11px] text-white/40">提问、整理与深入理解</p></div>
               </div>
             </header>
             <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto thin-scrollbar px-4 py-5 sm:px-7 [overflow-anchor:none]">
@@ -500,7 +498,7 @@ export function RainforestExplorer({ initialPlanner = false }: { initialPlanner?
                 <div className="mx-auto flex h-full max-w-xl flex-col items-center justify-center text-center">
                   <div className="relative flex size-14 items-center justify-center rounded-lg border border-primary/30 bg-primary/10 text-primary"><Sparkle className="size-6" weight="fill" /></div>
                   <h2 className="mt-5 text-xl font-semibold">今天想探索什么？</h2>
-                  <p className="mt-2 max-w-md text-sm leading-6 text-white/48">我可以和你讨论知识，也可以读取学习节奏并创建可执行的计划草案。</p>
+                  <p className="mt-2 max-w-md text-sm leading-6 text-white/48">我可以和你讨论笔记里的内容，也会记得我们聊过的东西。</p>
                   <div className="mt-6 grid w-full gap-2 sm:grid-cols-3">
                     {quickPrompts.map((item) => <button key={item.label} onClick={() => applyPrompt(item.prompt)} className="rounded-md border border-white/10 bg-white/4 px-3 py-3 text-xs text-white/66 transition hover:border-primary/35 hover:bg-primary/7 hover:text-white">{item.label}</button>)}
                   </div>
@@ -527,23 +525,8 @@ export function RainforestExplorer({ initialPlanner = false }: { initialPlanner?
             </div>
           </section>
 
-          <aside className={cn("rainforest-panel rainforest-panel--right", mobilePanel !== "knowledge" && "rainforest-panel--mobile-hidden")}>
-            {/* ── 右面板：知识库（计划生成直接在对话里和 AI 说） ── */}
-            <div className="flex h-16 items-center justify-between border-b border-white/10 px-4">
-              <div className="flex items-center gap-2">
-                <Files className="size-4 text-white/60" />
-                <span className="text-sm font-semibold">知识库</span>
-              </div>
-            </div>
-            <div className="min-h-0 flex-1 overflow-y-auto thin-scrollbar" key="knowledge">
-              <div className="rainforest-panel-content">
-                <KnowledgeBase />
-              </div>
-            </div>
-          </aside>
-
           <nav className="rainforest-mobile-nav lg:hidden">
-            {([{ key: "history", label: "记录", icon: ChatsCircle }, { key: "chat", label: "探索", icon: Sparkle }, { key: "knowledge", label: "知识库", icon: Files }] as const).map((item) => <button key={item.key} onClick={() => setMobilePanel(item.key)} className={cn(mobilePanel === item.key && "text-primary")}><item.icon weight={mobilePanel === item.key ? "fill" : "regular"} /><span>{item.label}</span></button>)}
+            {([{ key: "history", label: "记录", icon: ChatsCircle }, { key: "chat", label: "对话", icon: Sparkle }] as const).map((item) => <button key={item.key} onClick={() => setMobilePanel(item.key)} className={cn(mobilePanel === item.key && "text-primary")}><item.icon weight={mobilePanel === item.key ? "fill" : "regular"} /><span>{item.label}</span></button>)}
           </nav>
     </div>
   );

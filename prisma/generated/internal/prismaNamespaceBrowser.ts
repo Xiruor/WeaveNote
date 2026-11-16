@@ -54,28 +54,19 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Plan: 'Plan',
-  PlanTask: 'PlanTask',
-  Todo: 'Todo',
-  Checkin: 'Checkin',
-  StudyRecord: 'StudyRecord',
   AvatarChange: 'AvatarChange',
   Conversation: 'Conversation',
   ConversationMessage: 'ConversationMessage',
   AgentState: 'AgentState',
-  AgentRun: 'AgentRun',
-  AgentStep: 'AgentStep',
   UserMemory: 'UserMemory',
   Memory: 'Memory',
   MemoryEvent: 'MemoryEvent',
   MemoryCandidate: 'MemoryCandidate',
-  Document: 'Document',
-  DocumentChunk: 'DocumentChunk',
-  KnowledgeDoc: 'KnowledgeDoc',
+  Folder: 'Folder',
+  Note: 'Note',
+  NoteChunk: 'NoteChunk',
+  NoteProposal: 'NoteProposal',
   Notification: 'Notification',
-  ChatMessage: 'ChatMessage',
-  PlanTemplate: 'PlanTemplate',
-  DocumentTemplate: 'DocumentTemplate',
   TokenUsage: 'TokenUsage',
   Announcement: 'Announcement'
 } as const
@@ -144,85 +135,6 @@ export const AccountScalarFieldEnum = {
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
 
 
-export const PlanScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  name: 'name',
-  description: 'description',
-  goal: 'goal',
-  document: 'document',
-  tasksSourceHash: 'tasksSourceHash',
-  tasksSplittingAt: 'tasksSplittingAt',
-  startDate: 'startDate',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type PlanScalarFieldEnum = (typeof PlanScalarFieldEnum)[keyof typeof PlanScalarFieldEnum]
-
-
-export const PlanTaskScalarFieldEnum = {
-  id: 'id',
-  planId: 'planId',
-  userId: 'userId',
-  title: 'title',
-  description: 'description',
-  dayNumber: 'dayNumber',
-  weekNumber: 'weekNumber',
-  category: 'category',
-  status: 'status',
-  priority: 'priority',
-  completedAt: 'completedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type PlanTaskScalarFieldEnum = (typeof PlanTaskScalarFieldEnum)[keyof typeof PlanTaskScalarFieldEnum]
-
-
-export const TodoScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  title: 'title',
-  completed: 'completed',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TodoScalarFieldEnum = (typeof TodoScalarFieldEnum)[keyof typeof TodoScalarFieldEnum]
-
-
-export const CheckinScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  planId: 'planId',
-  sourceTaskId: 'sourceTaskId',
-  content: 'content',
-  hours: 'hours',
-  subject: 'subject',
-  mood: 'mood',
-  checkinDate: 'checkinDate',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type CheckinScalarFieldEnum = (typeof CheckinScalarFieldEnum)[keyof typeof CheckinScalarFieldEnum]
-
-
-export const StudyRecordScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  date: 'date',
-  totalMinutes: 'totalMinutes',
-  subject: 'subject',
-  checkinId: 'checkinId',
-  createdAt: 'createdAt'
-} as const
-
-export type StudyRecordScalarFieldEnum = (typeof StudyRecordScalarFieldEnum)[keyof typeof StudyRecordScalarFieldEnum]
-
-
 export const AvatarChangeScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -272,45 +184,6 @@ export const AgentStateScalarFieldEnum = {
 } as const
 
 export type AgentStateScalarFieldEnum = (typeof AgentStateScalarFieldEnum)[keyof typeof AgentStateScalarFieldEnum]
-
-
-export const AgentRunScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  mode: 'mode',
-  goal: 'goal',
-  status: 'status',
-  currentStep: 'currentStep',
-  maxSteps: 'maxSteps',
-  summary: 'summary',
-  error: 'error',
-  startedAt: 'startedAt',
-  completedAt: 'completedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  runDate: 'runDate'
-} as const
-
-export type AgentRunScalarFieldEnum = (typeof AgentRunScalarFieldEnum)[keyof typeof AgentRunScalarFieldEnum]
-
-
-export const AgentStepScalarFieldEnum = {
-  id: 'id',
-  runId: 'runId',
-  stepNumber: 'stepNumber',
-  kind: 'kind',
-  status: 'status',
-  title: 'title',
-  detail: 'detail',
-  input: 'input',
-  output: 'output',
-  error: 'error',
-  startedAt: 'startedAt',
-  completedAt: 'completedAt',
-  createdAt: 'createdAt'
-} as const
-
-export type AgentStepScalarFieldEnum = (typeof AgentStepScalarFieldEnum)[keyof typeof AgentStepScalarFieldEnum]
 
 
 export const UserMemoryScalarFieldEnum = {
@@ -392,41 +265,61 @@ export const MemoryCandidateScalarFieldEnum = {
 export type MemoryCandidateScalarFieldEnum = (typeof MemoryCandidateScalarFieldEnum)[keyof typeof MemoryCandidateScalarFieldEnum]
 
 
-export const DocumentScalarFieldEnum = {
+export const FolderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  title: 'title',
-  content: 'content',
+  name: 'name',
+  parentId: 'parentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
+export type FolderScalarFieldEnum = (typeof FolderScalarFieldEnum)[keyof typeof FolderScalarFieldEnum]
 
 
-export const DocumentChunkScalarFieldEnum = {
+export const NoteScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  sourceName: 'sourceName',
-  sourceType: 'sourceType',
+  folderId: 'folderId',
+  title: 'title',
+  content: 'content',
+  pinned: 'pinned',
+  indexHash: 'indexHash',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof NoteScalarFieldEnum]
+
+
+export const NoteChunkScalarFieldEnum = {
+  id: 'id',
+  noteId: 'noteId',
+  userId: 'userId',
   chunkIndex: 'chunkIndex',
+  heading: 'heading',
   content: 'content',
   createdAt: 'createdAt'
 } as const
 
-export type DocumentChunkScalarFieldEnum = (typeof DocumentChunkScalarFieldEnum)[keyof typeof DocumentChunkScalarFieldEnum]
+export type NoteChunkScalarFieldEnum = (typeof NoteChunkScalarFieldEnum)[keyof typeof NoteChunkScalarFieldEnum]
 
 
-export const KnowledgeDocScalarFieldEnum = {
+export const NoteProposalScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  sourceName: 'sourceName',
-  sourceType: 'sourceType',
-  content: 'content',
-  createdAt: 'createdAt'
+  noteId: 'noteId',
+  conversationId: 'conversationId',
+  newTitle: 'newTitle',
+  newContent: 'newContent',
+  baseHash: 'baseHash',
+  reason: 'reason',
+  status: 'status',
+  createdAt: 'createdAt',
+  decidedAt: 'decidedAt'
 } as const
 
-export type KnowledgeDocScalarFieldEnum = (typeof KnowledgeDocScalarFieldEnum)[keyof typeof KnowledgeDocScalarFieldEnum]
+export type NoteProposalScalarFieldEnum = (typeof NoteProposalScalarFieldEnum)[keyof typeof NoteProposalScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {
@@ -441,42 +334,6 @@ export const NotificationScalarFieldEnum = {
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
-
-
-export const ChatMessageScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  clientId: 'clientId',
-  role: 'role',
-  content: 'content',
-  aiRole: 'aiRole',
-  replyToId: 'replyToId',
-  createdAt: 'createdAt'
-} as const
-
-export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
-
-
-export const PlanTemplateScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  description: 'description',
-  goal: 'goal',
-  document: 'document',
-  createdAt: 'createdAt'
-} as const
-
-export type PlanTemplateScalarFieldEnum = (typeof PlanTemplateScalarFieldEnum)[keyof typeof PlanTemplateScalarFieldEnum]
-
-
-export const DocumentTemplateScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  content: 'content',
-  createdAt: 'createdAt'
-} as const
-
-export type DocumentTemplateScalarFieldEnum = (typeof DocumentTemplateScalarFieldEnum)[keyof typeof DocumentTemplateScalarFieldEnum]
 
 
 export const TokenUsageScalarFieldEnum = {

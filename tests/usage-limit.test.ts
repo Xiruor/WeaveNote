@@ -78,8 +78,12 @@ describe("getTodayUsage 的记账口径", () => {
     expect(arg.where).toEqual({
       userId: "u1",
       createdAt: { gte: expect.any(Date) },
-      surface: { in: ["agent", "studio", "chatroom"] },
+      surface: { in: [...COUNTED_SURFACES] },
     });
+  });
+
+  it("COUNTED_SURFACES 按契约只剩 workspace 与 note", () => {
+    expect([...COUNTED_SURFACES].sort()).toEqual(["note", "workspace"]);
   });
 
   it("系统自动产生的 surface 不在白名单里", () => {

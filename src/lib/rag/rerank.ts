@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // RAG 重排（cross-encoder 精排）
 //
 // 在向量召回之后、返回结果之前，用真正的 cross-encoder 对候选重新打分。
@@ -19,7 +19,14 @@ import {
   isTransientNetworkError,
   type RerankScore,
 } from "@/lib/model-pool";
-import type { DocChunk } from "./retriever";
+/**
+ * 重排候选的最小形状：只要求 id（回填分数用）与 content（送检文本）。
+ * M0 之后检索管线待 M2 以 Note 口径重建，届时它自己的行类型天然满足这个形状。
+ */
+export interface RerankCandidate {
+  id: string;
+  content: string;
+}
 
 /**
  * 单篇文档送入重排的最大字符数。
@@ -90,10 +97,10 @@ export function clampRerankDocuments(
  *  2. **没拿到分数的候选追加在尾部，不丢弃**——丢弃会把一次重排抖动变成上下文缺失。
  *  3. 不修改入参数组。
  */
-export function orderByRerank(candidates: DocChunk[], scores: RerankScore[]): DocChunk[] {
+export function orderByRerank(candidates: RerankCandidate[], scores: RerankScore[]): RerankCandidate[] {
   const scoreByIndex = new Map(scores.map((s) => [s.index, s.score]));
-  const scored: Array<{ chunk: DocChunk; score: number; originalIndex: number }> = [];
-  const unscored: DocChunk[] = [];
+  const scored: Array<{ chunk: RerankCandidate; score: number; originalIndex: number }> = [];
+  const unscored: RerankCandidate[] = [];
 
   candidates.forEach((chunk, originalIndex) => {
     const score = scoreByIndex.get(originalIndex);
@@ -113,11 +120,11 @@ function isTimeoutError(err: unknown): boolean {
 }
 
 export interface RerankOutcome {
-  ordered: DocChunk[];
+  ordered: RerankCandidate[];
   model: string;
   /**
    * chunk.id → 重排分。
-   * 单独回传而不是塞进 DocChunk：`similarity` 是余弦、这里是 cross-encoder 分，
+   * 单独回传而不是塞进 RerankCandidate：`similarity` 是余弦、这里是 cross-encoder 分，
    * 两者不同量纲，混进同一个字段就是范畴错误。没分到分的 chunk 不在表里。
    */
   scoreById: Map<string, number>;
@@ -131,7 +138,7 @@ export interface RerankOutcome {
  */
 export async function rerankChunks(
   query: string,
-  candidates: DocChunk[]
+  candidates: RerankCandidate[]
 ): Promise<RerankOutcome | null> {
   if (rerankDisabled) return null;
   if (candidates.length === 0) return null;

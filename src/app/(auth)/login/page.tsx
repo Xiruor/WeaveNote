@@ -43,7 +43,7 @@ export default function LoginPage() {
         toast.error(translateError(result.error.message || ""));
       } else {
         toast.success("欢迎回来！");
-        const redirectTo = searchParams.get("redirect") || "/dashboard";
+        const redirectTo = searchParams.get("redirect") || "/notes";
         router.push(redirectTo);
       }
     } catch {

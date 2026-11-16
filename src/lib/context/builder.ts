@@ -34,9 +34,8 @@ type ChatUIMessage = UIMessage<{ createdAt?: string }>;
 function taskForSurface(
   surface: ContextBuildInput["conversation"]["surface"]
 ): MemoryTask {
-  if (surface === "plan") return "planning";
-  if (surface === "doc") return "doc_edit";
-  return "chat";
+  // M0：检索任务与 AI surface 同名同值（workspace/note）；M4 再按任务维度细化拆分。
+  return surface;
 }
 
 function isRawParts(value: unknown): value is ChatUIMessage["parts"] {
@@ -156,7 +155,6 @@ export async function buildConversationContext(
       userId: input.userId,
       surface: input.conversation.surface,
       refId: input.conversation.refId,
-      clientDocument: input.clientDocument,
     }),
     buildMemoryContext({
       userId: input.userId,

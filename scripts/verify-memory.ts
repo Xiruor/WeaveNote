@@ -182,8 +182,8 @@ async function main() {
     // ---- ④ 检索不返回 superseded ----
     const retrieved = await retrieveMemories({
       userId: user.id,
-      surface: "agent",
-      task: "chat",
+      surface: "workspace",
+      task: "workspace",
       query: "React 熟练度怎么样",
     });
     check(

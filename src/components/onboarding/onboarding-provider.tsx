@@ -3,9 +3,9 @@
 // ============================================================
 // 新手引导 Provider（driver.js）
 // - 按页面分段播放，段间用 router.push 跳页接续；流程顺序见 tour-steps.ts 的
-//   TOUR_ROUTE_ORDER（dashboard → checkin → plans → docs → statistics）
-// - 引导从"当前所在页面"开始讲起：你在文档页触发，就先讲文档页再往后走；
-//   新用户首次登录落在 /dashboard，因此自动播放完整流程
+//   TOUR_ROUTE_ORDER（notes → agent）
+// - 引导从"当前所在页面"开始讲起：你在笔记库触发，就先讲笔记库再往后走；
+//   新用户首次登录落在 /notes，因此自动播放完整流程
 // - 看过一次后不再自动出现（localStorage 按 userId + 版本号记忆），
 //   顶栏用户菜单提供"新手引导"入口可随时重看
 // - 外观完全跟随场景主题色（--theme-primary / --surface-*），见 styles/onboarding.css
@@ -17,6 +17,7 @@ import { driver, type DriveStep } from "driver.js";
 import "driver.js/dist/driver.css";
 import "@/styles/onboarding.css";
 import {
+  TOUR_ROUTE_ORDER,
   TOUR_SEGMENTS,
   TOUR_STEP_INDEX,
   TOUR_TOTAL_STEPS,
@@ -26,7 +27,7 @@ import {
 } from "./tour-steps";
 
 interface OnboardingContextValue {
-  /** 播放新手引导：从当前所在页面开始讲起（该页无引导段则回 /dashboard 从头讲） */
+  /** 播放新手引导：从当前所在页面开始讲起（该页不在引导流程内则回第一页） */
   startTour: () => void;
 }
 
@@ -55,6 +56,11 @@ export function hasSeenTour(userId: string) {
  * （表现为「点下一步公告就弹出来了」）。
  */
 let tourPlaying = false;
+
+// 段间跳页可能跨布局（/notes ↔ /agent 不共享外层布局），Provider 会随之重挂载。
+// 用模块级变量把「待接续页面 / 待补发公告」带过这次重挂载（与 tourPlaying 同一套路）。
+let pendingTourPage: string | null = null;
+let pendingTourAnnounce = false;
 
 export function isTourPlaying() {
   return tourPlaying;
@@ -110,10 +116,7 @@ export function OnboardingProvider({ userId, children }: { userId: string; child
   const driverRef = useRef<ReturnType<typeof driver> | null>(null);
   const activeRef = useRef(false); // 整个引导是否在播放（跨渲染）
   const navigatingRef = useRef(false); // 段间跳页中（销毁 driver 时不标记"已看过"）
-  const pendingRouteRef = useRef<string | null>(null); // 跳页后待接续的页面
   const autoStartedRef = useRef(false);
-  // 点「完成」时若不在 dashboard：先把人送回去，到了那边再派发 tour:finished
-  const announceAfterNavRef = useRef(false);
 
   const removeNavExpand = useCallback(() => {
     document.querySelector(".atomic-nav")?.classList.remove("atomic-nav--tour");
@@ -156,7 +159,7 @@ export function OnboardingProvider({ userId, children }: { userId: string; child
         navigatingRef.current = true;
         driverRef.current?.destroy();
         driverRef.current = null;
-        pendingRouteRef.current = target;
+        pendingTourPage = target;
         router.push(target);
       };
 
@@ -195,15 +198,18 @@ export function OnboardingProvider({ userId, children }: { userId: string; child
             return;
           }
           // 最后一站点"完成"：标记已看过并收尾。
-          // 引导的最后一站不一定是 dashboard，但公告该在 dashboard 上弹，
-          // 所以不在 dashboard 就先记一个待办，等跳回去再派发 tour:finished。
+          // 引导的最后一站不一定是笔记库，但公告该在笔记库上弹，
+          // 所以不在笔记库就先记一个待办，等跳回去再派发 tour:finished。
           // 这里读 window.location 而不是 pathnameRef：后者被 React Compiler
           // 判定为不可在 memo 回调里引用（"This value cannot be modified"）。
           markSeen(userId);
-          const needHome = window.location.pathname !== "/dashboard";
-          announceAfterNavRef.current = needHome;
+          const needHome = window.location.pathname !== TOUR_ROUTE_ORDER[0];
+          if (needHome) {
+            pendingTourPage = TOUR_ROUTE_ORDER[0];
+            pendingTourAnnounce = true;
+          }
           cleanup();
-          if (needHome) router.push("/dashboard");
+          if (needHome) router.push(TOUR_ROUTE_ORDER[0]);
         },
         onDestroyed: () => {
           // 任何方式销毁后：复位状态、清理导航展开；非段间跳页都视为"看过"。
@@ -217,9 +223,9 @@ export function OnboardingProvider({ userId, children }: { userId: string; child
             markSeen(userId);
             // 引导真的结束了（完成 / 关闭 / Esc 都算；段间跳页不算）。
             // 公告弹窗挂在这个事件上，保证"先引导完，再弹公告"。
-            // 例外：点「完成」且当时不在 dashboard 时先不派发 —— 等跳回
-            // dashboard 再派（由下面的 pathname effect 消费 announceAfterNavRef）。
-            if (!announceAfterNavRef.current) {
+            // 例外：点「完成」且当时不在笔记库时先不派发 —— 等跳回
+            // 笔记库再派（由下面的 pathname effect 消费 pendingTourAnnounce）。
+            if (!pendingTourAnnounce) {
               window.dispatchEvent(new CustomEvent("tour:finished"));
             }
           }
@@ -254,33 +260,34 @@ export function OnboardingProvider({ userId, children }: { userId: string; child
     pathnameRef.current = pathname;
   }, [pathname]);
 
-  /** 播放引导：总是从 /dashboard 重走完整流程（无论当前在哪个页面） */
+  /** 播放引导：在引导流程内的页面就地开始，否则回到第一页从头讲 */
   const startTour = useCallback(() => {
     if (activeRef.current) return; // 已在播放
     cleanup();
     navigatingRef.current = false;
     const current = pathnameRef.current;
-    if (current === "/dashboard") {
-      void beginSegment("/dashboard");
+    if ((TOUR_ROUTE_ORDER as readonly string[]).includes(current)) {
+      void beginSegment(current);
       return;
     }
-    pendingRouteRef.current = "/dashboard";
-    router.push("/dashboard");
+    pendingTourPage = TOUR_ROUTE_ORDER[0];
+    router.push(TOUR_ROUTE_ORDER[0]);
   }, [router, cleanup, beginSegment]);
 
   // 路径变化：接续跳页段落 / 首次挂载自动播放
   useEffect(() => {
-    // 点「完成」后先跳回 dashboard，到了这里再放公告
-    if (announceAfterNavRef.current && pathname === "/dashboard") {
-      announceAfterNavRef.current = false;
-      window.dispatchEvent(new CustomEvent("tour:finished"));
-    }
-
-    if (pendingRouteRef.current && pendingRouteRef.current === pathname) {
-      const page = pendingRouteRef.current;
-      pendingRouteRef.current = null;
+    // 跨布局跳页（Provider 重挂载）或段间跳页后消费待办：
+    // 要么接续播放该页段落，要么在回到第一页后补发 tour:finished 公告
+    if (pendingTourPage !== null && pendingTourPage === pathname) {
+      const announce = pendingTourAnnounce;
+      pendingTourPage = null;
+      pendingTourAnnounce = false;
       navigatingRef.current = false;
-      void beginSegment(page);
+      if (announce) {
+        window.dispatchEvent(new CustomEvent("tour:finished"));
+        return;
+      }
+      void beginSegment(pathname);
       return;
     }
 

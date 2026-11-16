@@ -1,13 +1,27 @@
 // ============================================================
 // Tools 统一导出
-// Day 7: Study tools (createPlan, getMyPlans, etc.)
-// Day 16: RAG tools (searchKnowledgeBase)
-// Day 22-25: Agent Workflow tools (breakdownPlanTasks, etc.)
-// 今日待办: Todo tools (getMyTodos, createTodo, etc.)
+//
+// M0 裁剪后只剩会话链路需要的部分：
+//   context-tools  会话上下文工具（searchConversationHistory / updateAgentState）
+//   memory-tools   长期记忆读工具工厂（createMemoryTools → getMyMemories）
+//   router         场景白名单 / 提示词分组
+//   tool-ui        工具卡片展示元数据
+//   utils          safeExecute
 // ============================================================
 
-export { createStudyTools } from "./study-tools";
-export { createRAGTool } from "./rag-tools";
-export { createAgentTools } from "./agent-tools";
-export { createTodoTools } from "./todo-tools";
+export { createContextTools } from "./context-tools";
+export { createMemoryTools, recallMemories } from "./memory-tools";
+export {
+  AI_SURFACES,
+  ALL_PROMPT_GROUPS,
+  SURFACE_POLICY,
+  type AiSurface,
+  type PromptGroup,
+  type SurfacePolicy,
+  pickTools,
+  promptGroupsFor,
+  surfaceOf,
+  toolNamesFor,
+} from "./router";
+export { toolUi, type ToolKind, type ToolUiSpec } from "./tool-ui";
 export { safeExecute } from "./utils";

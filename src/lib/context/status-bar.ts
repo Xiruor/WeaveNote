@@ -10,9 +10,8 @@ import { sanitizeMemoryContent } from "@/lib/memory/render";
 import type { AgentStateData, TodoItem } from "./types";
 
 const SURFACE_LABEL: Record<MemorySurface, string> = {
-  agent: "智能体",
-  plan: "计划工作台",
-  doc: "文档工作台",
+  workspace: "跨笔记工作台",
+  note: "笔记编辑",
 };
 
 function todoLabel(status: TodoItem["status"]): string {

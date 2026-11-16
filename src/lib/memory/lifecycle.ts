@@ -13,7 +13,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { embeddingWithFallback } from "@/lib/model-pool";
-import { toPgVector } from "@/lib/rag/retriever";
+import { toPgVector } from "@/lib/rag/vector";
 import {
   insertMemoryEvent,
   listMemoriesMissingEmbedding,

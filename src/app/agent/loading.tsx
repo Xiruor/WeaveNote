@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-// /agent 的服务端入口需要 await requireAuth；客户端还要拉会话、历史和知识库。
+// /agent 的服务端入口需要 await requireAuth；客户端还要拉会话与历史。
 // 这里覆盖“页面还没出来”的那段时间，避免白屏。
 export default function AgentLoading() {
   return (
@@ -78,30 +78,6 @@ export default function AgentLoading() {
           <Skeleton className="mx-auto h-24 max-w-3xl rounded-lg bg-white/5" />
         </div>
       </section>
-
-      <aside className="rainforest-panel rainforest-panel--right">
-        <div className="flex h-16 items-center gap-2 border-b border-white/10 px-4">
-          <Skeleton className="size-4 rounded bg-white/8" />
-          <Skeleton className="h-3.5 w-16 bg-white/10" />
-        </div>
-        <div className="space-y-1 px-3 pt-4">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <div
-              key={index}
-              className="flex items-start gap-3 rounded-lg border border-white/6 bg-white/3 p-3"
-            >
-              <Skeleton className="size-8 shrink-0 rounded-md bg-white/8" />
-              <div className="min-w-0 flex-1 space-y-2">
-                <Skeleton
-                  className="h-3 bg-white/8"
-                  style={{ width: `${55 + ((index * 13) % 35)}%` }}
-                />
-                <Skeleton className="h-2.5 w-2/5 bg-white/5" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </aside>
     </div>
   );
 }

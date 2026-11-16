@@ -3,7 +3,7 @@
 // 按页面分段：driver 只在"当前页面"渲染其步骤，段落播完后自动跳到
 // 流程里的下一页（nextPageOf），由 OnboardingProvider 接续播放。
 // 流程顺序见 TOUR_ROUTE_ORDER，引导可以"从当前所在页面"开始，
-// 例如你正在文档页，触发引导就先讲文档页，再往后走。
+// 例如你正在智能体页，触发引导就先讲智能体页，再往后走。
 // ============================================================
 
 export type TourStepSide = "top" | "right" | "bottom" | "left";
@@ -19,47 +19,37 @@ export interface TourStepConfig {
   side?: TourStepSide;
   align?: TourStepAlign;
   data?: {
-    /** 该步骤高亮期间把顶部原子导航展开（把隐藏的五个页面链接露出来） */
+    /** 该步骤高亮期间把顶部原子导航展开（把主导航链接完整露出来） */
     expandNav?: boolean;
   };
 }
 
 /** 引导覆盖的页面（顺序即引导播放顺序；段落播完自动进下一页） */
 export const TOUR_ROUTE_ORDER = [
-  "/dashboard",
-  "/checkin",
-  "/plans",
-  "/docs",
-  "/statistics",
+  "/notes",
+  "/agent",
 ] as const;
 
 /**
- * 步骤按页面分组；key 与 (dashboard) 路由路径一致。
+ * 步骤按页面分组；key 与路由路径一致。
  * 调整内容时把 TOUR_VERSION 升级（v2...），已看过旧版的用户会再看一遍新引导。
  */
-export const TOUR_VERSION = "v2";
+export const TOUR_VERSION = "v3";
 
 export const TOUR_SEGMENTS: Record<string, TourStepConfig[]> = {
-  "/dashboard": [
+  "/notes": [
     {
-      title: "欢迎来到 Summer Checkin 🌱",
+      title: "欢迎来到织念 ✨",
       description:
-        "打卡 · 计划 · 阅读 · 专注——一个把学习节奏收拢到一起的栖息地。用几步带你逛一圈，马上就能上手。",
+        "与 AI 共笔的沉浸式笔记库——它读得懂你所有的笔记，也记得你。用几步带你逛一圈，马上就能上手。",
     },
     {
       title: "顶部导航",
       description:
-        "专注 · 小岛 · 计划 · 阅读 · 主页，五个页面来回切换，你的学习都从这里出发。",
+        "笔记库和智能体两个入口都在顶栏：笔记库安放你的想法，智能体随时和你共笔。",
       selector: ".atomic-nav",
       side: "bottom",
       data: { expandNav: true },
-    },
-    {
-      title: "聊天室",
-      description:
-        "顶栏右边那个实心彩色圆按钮就是聊天室入口——进去是多人实时群聊，在输入框 @AI 还能把温柔宝 / 嘴欠宝叫出来陪你聊天。",
-      selector: '[data-tour="chatroom-entry"]',
-      side: "bottom",
     },
     {
       title: "点亮 Star ⭐",
@@ -69,63 +59,24 @@ export const TOUR_SEGMENTS: Record<string, TourStepConfig[]> = {
       side: "bottom",
     },
     {
-      title: "沉浸专注",
+      title: "去智能体页看看",
       description:
-        "点一下进入沉浸模式，隐藏所有干扰，只留番茄钟和白噪音。深度的学习状态，从这里开始。",
-      selector: '[data-tour="focus-immersive"]',
-      side: "bottom",
+        "接下来去智能体页：它可以读你的笔记、引用原文，还会记住你们聊过的东西。",
     },
   ],
 
-  "/checkin": [
+  "/agent": [
     {
-      title: "场景切换",
+      title: "与 AI 共笔",
       description:
-        "雨林 · 雪景 · 暖云。选一个合眼缘的学习氛围，整个界面的主题色会跟着一起变。",
-      selector: '[data-tour="scene-selector"]',
+        "左边是你们的对话历史；中间直接和 AI 说——它能结合你的笔记回答，也会长期记住你们聊过的内容。",
+      selector: ".rainforest-panel--left",
       side: "right",
-    },
-    {
-      title: "每日打卡",
-      description:
-        "每次学习结束点一下，在小岛留下足迹、点亮热力图。把坚持变成一件很有手感的事。",
-      selector: '[data-tour="checkin-button"]',
-      side: "top",
-    },
-  ],
-
-  "/plans": [
-    {
-      title: "学习计划",
-      description:
-        "把长期目标收拢成清晰、能执行的下一步，AI 还能帮你拆任务、定节奏。",
-      selector: ".product-header",
-      side: "bottom",
-    },
-  ],
-
-  "/docs": [
-    {
-      title: "文档工作台",
-      description:
-        "新建文档、导入 Markdown，写下的内容还能加入知识库，让 AI 帮你阅读和修改。",
-      selector: '[data-tour="docs-new"]',
-      side: "bottom",
-    },
-  ],
-
-  "/statistics": [
-    {
-      title: "学习数据",
-      description:
-        "加入天数、连续活跃、任务完成率……你在这里留下足迹，数据也会记住你的每一步努力。",
-      selector: ".product-metrics",
-      side: "bottom",
     },
     {
       title: "都准备好啦 ✨",
       description:
-        "这就是全部啦！记得先完成今天的第一次打卡。任何时候点右上角头像 →「新手引导」都能再看一遍。",
+        "这就是全部啦！回到笔记库写下第一条想法，任何时候点头像 →「新手引导」都能再看一遍。",
     },
   ],
 };

@@ -10,12 +10,11 @@ type Surface = AiSurface;
 
 // GET /api/conversations — 获取对话列表
 //
-// 三种界面（智能体页 / 文档工作台 / 计划工作台）的对话存在同一张表里，
+// 两个 AI 入口（跨笔记工作台 / 笔记编辑器侧栏）的对话存在同一张表里，
 // 必须带 surface 才不串台：
-//   ?surface=agent（缺省）        智能体页的对话
-//   ?surface=doc&refId=<文档 id>  某篇文档的对话
-//   ?surface=plan&refId=<计划 id> 某个计划的对话
-// doc / plan 必须带 refId：不带就等于把该用户所有文档的对话一起列出来，
+//   ?surface=workspace（缺省）             跨笔记工作台的对话
+//   ?surface=note&refId=<笔记 id>          某篇笔记的对话
+// note 必须带 refId：不带就等于把该用户所有笔记的对话一起列出来，
 // 既没有意义也违背「严格区分」，所以直接 400 挡掉。
 export async function GET(request: NextRequest) {
   try {
@@ -25,7 +24,7 @@ export async function GET(request: NextRequest) {
     }
 
     const params = new URL(request.url).searchParams;
-    const surface = (params.get("surface") ?? "agent") as Surface;
+    const surface = (params.get("surface") ?? "workspace") as Surface;
     if (!SURFACES.includes(surface)) {
       return NextResponse.json(
         { error: `surface 只能是 ${SURFACES.join(" / ")}` },
@@ -34,7 +33,7 @@ export async function GET(request: NextRequest) {
     }
 
     const refId = params.get("refId");
-    if (surface !== "agent" && !refId) {
+    if (surface !== "workspace" && !refId) {
       return NextResponse.json(
         { error: `surface=${surface} 必须带 refId` },
         { status: 400 }
@@ -78,9 +77,9 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const title = body.title?.trim() || "新对话";
-    const surface: Surface = SURFACES.includes(body.surface) ? body.surface : "agent";
+    const surface: Surface = SURFACES.includes(body.surface) ? body.surface : "workspace";
     const refId = typeof body.refId === "string" && body.refId ? body.refId : null;
-    if (surface !== "agent" && !refId) {
+    if (surface !== "workspace" && !refId) {
       return NextResponse.json(
         { error: `surface=${surface} 必须带 refId` },
         { status: 400 }

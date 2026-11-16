@@ -19,7 +19,7 @@ function state(overrides: Partial<AgentStateData> = {}): AgentStateData {
 
 describe("buildAgentStatusBar", () => {
   it("没有状态时返回空字符串", () => {
-    expect(buildAgentStatusBar({ state: state(), surface: "agent" })).toBe("");
+    expect(buildAgentStatusBar({ state: state(), surface: "workspace" })).toBe("");
   });
 
   it("生成场景、当前任务、进度和约束", () => {
@@ -35,11 +35,11 @@ describe("buildAgentStatusBar", () => {
           { id: "t3", content: "检查修改结果", status: "pending" },
         ],
       }),
-      surface: "doc",
+      surface: "note",
     });
 
     expect(bar).toContain("<agent_status>");
-    expect(bar).toContain("当前场景：文档工作台");
+    expect(bar).toContain("当前场景：笔记编辑");
     expect(bar).toContain("当前任务：保留原有文档结构");
     expect(bar).toContain("已完成：分析原文");
     expect(bar).toContain("进行中：调整学习阶段");
@@ -47,12 +47,22 @@ describe("buildAgentStatusBar", () => {
     expect(bar).toContain("重要约束：");
   });
 
+  it("workspace 场景显示跨笔记工作台", () => {
+    const bar = buildAgentStatusBar({
+      state: state({
+        workingMemory: [{ content: "随便看看", importance: "low" }],
+      }),
+      surface: "workspace",
+    });
+    expect(bar).toContain("当前场景：跨笔记工作台");
+  });
+
   it("低重要性信息不进入约束区", () => {
     const bar = buildAgentStatusBar({
       state: state({
         workingMemory: [{ content: "随便看看", importance: "low" }],
       }),
-      surface: "agent",
+      surface: "workspace",
     });
     expect(bar).toContain("当前任务：随便看看");
     expect(bar).not.toContain("重要约束：");

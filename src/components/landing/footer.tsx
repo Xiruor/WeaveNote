@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { CalendarCheck, ClockCountdown, Leaf, ListChecks, Sparkle } from "@phosphor-icons/react/dist/ssr";
+import { Brain, ChatsCircle, Leaf, Notebook } from "@phosphor-icons/react/dist/ssr";
 
 const steps = [
-  { icon: ListChecks, label: "计划" },
-  { icon: ClockCountdown, label: "专注" },
-  { icon: CalendarCheck, label: "打卡" },
-  { icon: Sparkle, label: "AI 复盘" },
+  { icon: Notebook, label: "记录" },
+  { icon: ChatsCircle, label: "共笔" },
+  { icon: Brain, label: "记忆" },
 ];
 
 export function Footer() {
@@ -19,10 +18,10 @@ export function Footer() {
             <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-primary/35 bg-primary/15">
               <Leaf className="h-5 w-5 text-primary" weight="fill" />
             </span>
-            <span className="text-[15px] font-semibold tracking-wide">Summer Checkin</span>
+            <span className="text-[15px] font-semibold tracking-wide">织念 WeaveNote</span>
           </div>
 
-          {/* 四步流程 */}
+          {/* 三步流程 */}
           <nav className="flex flex-wrap items-center gap-0" aria-label="产品流程">
             {steps.map((step, idx) => {
               const Icon = step.icon;

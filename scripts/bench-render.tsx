@@ -1,12 +1,12 @@
 /* ============================================================
- * 渲染性能基准：文档阅读器 + 聊天室（优化前后对比用）
+ * 渲染性能基准：文档阅读器（优化前后对比用）
  *
  * 跑法：npx tsx scripts/bench-render.tsx
  *
  * 量的是「渲染策略」而不是某个组件的最终浏览器表现，所以优化前后都能跑，
  * 数字可以直接对比：
- *   · full     —— 优化前：整篇 / 全部消息一次性渲染
- *   · windowed —— 优化后：只渲染视口窗口内的若干项（Virtuoso 的实际行为）
+ *   · full     —— 优化前：整篇一次性渲染
+ *   · windowed —— 优化后：只渲染视口窗口内的若干块（Virtuoso 的实际行为）
  *
  * 口径说明：这里是 Node + react-dom/server 的**渲染成本**（耗时 + 产出 DOM 节点数）；
  * 浏览器里的滚动 FPS 需要真机才能测，脚本里不做假设。
@@ -16,14 +16,11 @@ import { performance } from "node:perf_hooks";
 import { createElement, type ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { MarkdownRenderer } from "../src/components/ai/markdown-renderer";
-import { MessageRow } from "../src/components/chatroom/chat-room";
 import { splitMarkdownBlocks, type MarkdownBlock } from "../src/lib/studio/markdown-blocks";
 
-// 一屏能放下的项数（实测参考值）+ overscan
+// 一屏能放下的块数（实测参考值）+ overscan
 const DOC_VIEWPORT_BLOCKS = 8;
 const DOC_OVERSCAN_BLOCKS = 3;
-// 聊天室不做虚拟化，改为「消息窗口」：挂载上限固定 100 条（见 chat-room.tsx 的 WINDOW_SIZE）
-const CHAT_WINDOW_ROWS = 100;
 
 /* ────────────────────────── 指标 ────────────────────────── */
 
@@ -189,97 +186,14 @@ function benchDocs() {
   console.log(`  倍数                       ${fmt(fullMs / Math.max(blockMs, 0.01), 0)}×\n`);
 }
 
-/* ────────────────────────── 聊天室基准 ────────────────────────── */
-
-type BenchMessage = {
-  id: string;
-  userId: string | null;
-  userName: string | null;
-  image: string | null;
-  role: "user" | "assistant";
-  content: string;
-  createdAt: string;
-  aiRole?: "gentle" | "snarky";
-  replyTo?: null;
-};
-
-const noop = () => {};
-
-function makeMessages(total: number): BenchMessage[] {
-  const createdAt = new Date("2026-01-01T00:00:00Z").toISOString();
-  return Array.from({ length: total }, (_, i) => {
-    // 每 5 条里放一条 AI 长回复（走 Markdown 渲染，是最重的那类消息）
-    const isAi = i % 5 === 4;
-    return {
-      id: `msg-${i}`,
-      userId: isAi ? "ai-snarky" : `user-${i % 7}`,
-      userName: isAi ? "嘴欠宝" : `同学${i % 7}`,
-      image: null,
-      role: isAi ? "assistant" : "user",
-      content: isAi
-        ? `### 回答 ${i}\n\n这是第 ${i} 条 AI 回复，带 **加粗**、\`代码\` 和列表：\n\n- 要点一\n- 要点二\n\n\`\`\`ts\nconst n = ${i};\n\`\`\`\n`
-        : `第 ${i} 条用户消息，长度接近日常聊天里的一句话。`,
-      createdAt,
-      aiRole: isAi ? "snarky" : undefined,
-      replyTo: null,
-    };
-  });
-}
-
-function renderRows(messages: BenchMessage[], from: number, to: number): ReactElement {
-  const slice = messages.slice(from, to);
-  return createElement(
-    "div",
-    { className: "mx-auto flex max-w-3xl flex-col" },
-    ...slice.map((m, i) =>
-      createElement(MessageRow, {
-        key: m.id,
-        message: m,
-        isMine: m.role === "user",
-        grouped: false,
-        isFirst: i === 0,
-        onReply: noop,
-        onJumpTo: noop,
-      })
-    )
-  ) as ReactElement;
-}
-
-function benchChat() {
-  console.log("【聊天室】全部消息一次性渲染 vs 虚拟窗口渲染\n");
-  row(["消息条数", "策略", "耗时 ms", "HTML", "DOM 节点", "渲染行数"]);
-
-  for (const n of [100, 500, 1000, 5000]) {
-    const messages = makeMessages(n);
-    const full = measure(() => renderRows(messages, 0, n));
-    row([String(n), "full", fmt(full.ms), kb(full.htmlBytes), String(full.domNodes), String(n)]);
-
-    // 消息窗口：最多只挂 WINDOW_SIZE 条
-    const rows = CHAT_WINDOW_ROWS;
-    const from = Math.max(0, Math.floor(n / 2) - Math.floor(rows / 2));
-    const win = measure(() => renderRows(messages, from, from + rows));
-    row([
-      String(n),
-      "windowed",
-      fmt(win.ms),
-      kb(win.htmlBytes),
-      String(win.domNodes),
-      String(rows),
-    ]);
-    console.log("");
-  }
-}
-
 /* ────────────────────────── 主流程 ────────────────────────── */
 
 function main() {
   console.log("渲染性能基准（Node + react-dom/server，对比的是渲染成本）\n");
   console.log(
-    `  窗口设定：文档 ${DOC_VIEWPORT_BLOCKS} 块 + overscan ${DOC_OVERSCAN_BLOCKS} 块；` +
-      `聊天窗口上限 ${CHAT_WINDOW_ROWS} 行\n`
+    `  窗口设定：文档 ${DOC_VIEWPORT_BLOCKS} 块 + overscan ${DOC_OVERSCAN_BLOCKS} 块\n`
   );
   benchDocs();
-  benchChat();
 }
 
 main();

@@ -1,16 +1,16 @@
 import {
   Brain,
-  CalendarCheck,
   Check,
   Leaf,
+  Notebook,
   Sparkle,
   Target,
 } from "@phosphor-icons/react/dist/ssr";
 
 const loadingSteps = [
-  { label: "学习空间", icon: Leaf },
-  { label: "今日节奏", icon: CalendarCheck },
-  { label: "AI 伙伴", icon: Brain },
+  { label: "笔记库", icon: Notebook },
+  { label: "智能体", icon: Brain },
+  { label: "AI 伙伴", icon: Leaf },
 ];
 
 export default function GlobalLoading() {
@@ -26,14 +26,14 @@ export default function GlobalLoading() {
 
         <div className="mt-7 flex items-center justify-center gap-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary/80">
           <Sparkle className="size-3" weight="fill" />
-          <span>Summer Checkin</span>
+          <span>织念 WeaveNote</span>
           <Sparkle className="size-3" weight="fill" />
         </div>
         <h1 className="mt-4 text-2xl font-semibold tracking-tight text-white/90 sm:text-[30px]">
-          正在把你的学习空间点亮
+          正在把你的笔记库点亮
         </h1>
         <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-white/48">
-          同步计划、专注记录与 AI 伙伴，马上回到你熟悉的节奏。
+          同步笔记与 AI 伙伴，马上回到你熟悉的节奏。
         </p>
 
         <div className="mx-auto mt-10 max-w-[420px] text-left">
@@ -65,7 +65,7 @@ export default function GlobalLoading() {
 
         <div className="mt-12 flex items-center justify-center gap-2 text-[11px] text-white/28">
           <Target className="size-3.5 text-primary/60" weight="duotone" />
-          <span>每一次专注，都留下生长的痕迹</span>
+          <span>每一次落笔，都留下生长的痕迹</span>
         </div>
       </section>
 

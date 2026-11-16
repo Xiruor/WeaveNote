@@ -65,31 +65,21 @@ const DEFAULT_QUOTAS: Record<MemoryKind, number> = {
  *
  * 这些是**配额**，不是加权总分：先过滤，再按 kind 封顶，
  * 避免某一类（例如大量 fact）挤掉目标与偏好。
+ *
+ * M0：workspace / note 暂共用同一套配置（沿用原 chat 场景的数值），M4 再细化。
  */
 export const TASK_CONFIG: Record<MemoryTask, TaskConfig> = {
-  chat: {
+  workspace: {
     stableKinds: ["goal", "preference"],
     stableLimit: 14,
     quotas: { ...DEFAULT_QUOTAS, preference: 7 },
     total: 14,
   },
-  planning: {
+  note: {
     stableKinds: ["goal", "preference"],
     stableLimit: 14,
-    quotas: { ...DEFAULT_QUOTAS, goal: 3, skill: 3, weakness: 2, preference: 6 },
+    quotas: { ...DEFAULT_QUOTAS, preference: 7 },
     total: 14,
-  },
-  analysis: {
-    stableKinds: ["goal", "preference"],
-    stableLimit: 12,
-    quotas: { ...DEFAULT_QUOTAS, goal: 2, habit: 2, weakness: 3, preference: 5 },
-    total: 12,
-  },
-  doc_edit: {
-    stableKinds: ["preference", "fact"],
-    stableLimit: 10,
-    quotas: { ...DEFAULT_QUOTAS, preference: 5, fact: 4, goal: 1 },
-    total: 10,
   },
 };
 

@@ -1,20 +1,15 @@
 // ============================================================
-// Day 7 新增：
-// ① isStepCount       — 控制多步调用，Tool Calling 需要 ≥2 步
-// ② createStudyTools  — 工厂函数，为当前用户创建学习助手工具
-// ③ tools             — streamText 的 tools 参数，让 LLM 调用项目功能
+// /api/ai —— 所有 AI 入口共用的对话端点
 //
-// Day 13 新增：长期记忆
+// ① isStepCount       — 控制多步调用，Tool Calling 需要 ≥2 步
+// ② createMemoryTools — 为当前用户创建长期记忆读工具（getMyMemories）
+// ③ tools             — streamText 的 tools 参数，按场景裁剪（白名单见
+//                       lib/tools/router.ts）：workspace（跨笔记工作台）/
+//                       note（笔记编辑器侧栏，M1 接入宿主）
+//
+// 长期记忆（原 Day 13）：
 // ④ 注入记忆          — streamText 前构建 memory_context 拼入 system prompt
 // ⑤ 抽取记忆          — onEnd 中排入候选任务，异步抽取后由 Manager 写库
-//
-// Day 16 新增：RAG 知识库
-// ⑥ RAG 工具          — searchKnowledgeBase 搜索知识库文档
-// ⑦ RAG 注入          — 主动检索知识库，结果拼入 system prompt
-//
-// Day 22 新增：Agent Workflow
-// ⑧ Agent 工具        — breakdownPlanTasks, getPlanTasks, updateTaskStatus, getTodayTasks
-// ⑨ 增至 10 步        — Agent 工作流需要更多 LLM 步骤
 // ============================================================
 
 import { NextRequest, NextResponse } from "next/server";
@@ -32,9 +27,9 @@ import {
 } from "ai";
 import { streamTextWithFallback, isQuotaError, isTransientNetworkError } from "@/lib/model-pool";
 import { assertInteractiveUsageAllowed, UsageLimitError, ENERGY_DOWN_MESSAGE } from "@/lib/usage";
-import { createStudyTools, createRAGTool, createAgentTools, createTodoTools } from "@/lib/tools";
-import { createStudioTools } from "@/lib/tools/studio-tools";
-import { pickTools, surfaceOf, AI_SURFACES, type AiSurface } from "@/lib/tools/router";
+import { createMemoryTools } from "@/lib/tools";
+import { createContextTools } from "@/lib/tools/context-tools";
+import { pickTools, surfaceOf, type AiSurface } from "@/lib/tools/router";
 import {
   messageText,
   toViewParts,
@@ -44,7 +39,6 @@ import {
   type ViewPart,
 } from "@/lib/ai/parts";
 import { buildConversationContext } from "@/lib/context/builder";
-import { createContextTools } from "@/lib/tools/context-tools";
 import { scheduleExtraction } from "@/lib/memory/extraction";
 import { readableAIError } from "@/lib/ai-error";
 
@@ -65,7 +59,7 @@ type ChatProtocol = "ui" | "text";
 /**
  * Tool Calling 循环的步数上限。
  *
- * ⚠️ 这是「防跑飞」的保险丝，不是编排策略：模型从十几个工具里选错、
+ * ⚠️ 这是「防跑飞」的保险丝，不是编排策略：模型选错工具、
  * 拿到结果再自我纠正，最多烧这么多步。烧完了 AI SDK 不给任何标记
  * （finish 事件复用最后一步的 finishReason，见 ai@7 的 stopWhen 实现），
  * 所以下面 onEnd 里显式判定并告警，否则「正常回答」和「被砍断的回答」
@@ -95,9 +89,8 @@ export async function POST(request: NextRequest) {
     const rawMessages = body.messages as unknown[] | undefined;
     const conversationId = body.conversationId as string | undefined;
     const deepThink = body.deepThink as boolean | undefined;
-    const studioContext = body.studioContext as
-      | { kind?: "plan" | "doc"; refId?: string; document?: string }
-      | undefined;
+    const requestedSurface = typeof body.surface === "string" ? body.surface : null;
+    const refId = typeof body.refId === "string" && body.refId ? body.refId : null;
 
     if (!rawMessages || !Array.isArray(rawMessages) || rawMessages.length === 0) {
       return NextResponse.json(
@@ -124,11 +117,12 @@ export async function POST(request: NextRequest) {
     const lastUserMsg = uiMessages[uiMessages.length - 1];
     const lastUserText = messageText(lastUserMsg);
 
-    // 会话归属：已有会话必须属于当前用户；新会话按 studioContext 创建。
+    // 会话归属：已有会话必须属于当前用户；新会话按请求里的 surface + refId 创建
+    // （note 场景 refId = noteId，M1 接入宿主后才有；workspace 为 null）。
     // 历史由服务端从 DB 加载，客户端只负责发当前这一条。
     let activeConversation: {
       id: string;
-      surface: string;
+      surface: AiSurface;
       refId: string | null;
     };
     if (conversationId) {
@@ -142,26 +136,33 @@ export async function POST(request: NextRequest) {
           { status: 404 }
         );
       }
-      activeConversation = existing;
+      // 历史遗留的 agent/plan/doc 等旧值统一收敛到 workspace
+      activeConversation = {
+        id: existing.id,
+        surface: surfaceOf(existing.surface),
+        refId: existing.refId,
+      };
     } else {
       const title = await generateChatTitle(lastUserText, user.id);
-      activeConversation = await prisma.conversation.create({
+      const newSurface = surfaceOf(requestedSurface);
+      const created = await prisma.conversation.create({
         data: {
           userId: user.id,
           title,
-          surface: surfaceOf(studioContext),
-          refId: studioContext?.refId ?? null,
+          surface: newSurface,
+          refId,
         },
-        select: { id: true, surface: true, refId: true },
+        select: { id: true, refId: true },
       });
+      activeConversation = {
+        id: created.id,
+        surface: newSurface,
+        refId: created.refId,
+      };
     }
 
     const activeConversationId = activeConversation.id;
-    const surface: AiSurface = (AI_SURFACES as readonly string[]).includes(
-      activeConversation.surface
-    )
-      ? (activeConversation.surface as AiSurface)
-      : "agent";
+    const surface: AiSurface = activeConversation.surface;
 
     // 保存当前用户消息（只保存最后一条；历史由服务端从 DB 加载）
     const savedUser = await prisma.conversationMessage.create({
@@ -186,49 +187,19 @@ export async function POST(request: NextRequest) {
       currentUserMessageId: savedUser.id,
       currentUserText: lastUserText,
       userName: user.name,
-      clientDocument: studioContext?.document ?? null,
     });
 
     const modelMessages = context.messages;
     const fullSystem = context.system;
-    const conversationHint = context.conversationHint;
-    const memoryPrompt = context.memoryPrompt;
 
     // ============================================================
-    // Day 16 知识库检索：不再主动注入
-    // 交给 AI 通过 searchKnowledgeBase 工具自行判断是否检索，
-    // 避免寒暄/闲聊消息也白白做向量检索拖慢回复
-    // ============================================================
-
-    // ============================================================
-    // 工作台工具：只依赖当前会话的 surface + refId。
-    // 文档正文由 Context Builder 的 Scene Context 从数据库加载，不再信任
-    // 客户端传来的整篇文档。
-    // ============================================================
-    let studioTools = {};
-    if ((surface === "plan" || surface === "doc") && activeConversation.refId) {
-      studioTools = createStudioTools(user.id, {
-        kind: surface,
-        id: activeConversation.refId,
-      });
-    }
-
-    // ============================================================
-    // Day 3 核心：streamText 替代 getAIResponse
+    // streamText：走模型池 HIGH 档（对话主链路），免费额度耗尽自动降级
     // ① streamText() 返回一个流式结果，AI 的每个 token 实时产出
     // ② onEnd 回调 — 流+工具全部完成后触发，保存 AI 回复到 DB
-    // ③ toTextStreamResponse() — 将流包装成 HTTP Response 返回给前端
-    //
-    // Day 7 新增：Tool Calling — 让 AI 操作项目已有功能
-    // ④ tools      — createStudyTools(userId) 为当前用户创建工具
-    //                 AI 可以：创建计划、查询计划、查询打卡记录
-    // ⑤ stopWhen   — isStepCount(10) 允许多步调用：
-    //                 Step 1: LLM 判断 → 调用 tool → execute 写入 DB
-    //                 Step 2: LLM 基于 tool 结果 → 生成自然语言回复
-    //                 （默认 isStepCount(1) 无法完成 Tool Calling 闭环；
-    //                   Day 7 起为 5，Day 22 因 Agent Workflow 增至 10）
+    // ③ stopWhen — isStepCount(10) 允许多步调用：
+    //    Step 1: LLM 判断 → 调用 tool → execute
+    //    Step 2: LLM 基于 tool 结果 → 生成自然语言回复
     // ============================================================
-    // 走模型池 HIGH 档（agent/文档），免费额度耗尽自动降级到下一个模型
     const { stream } = await streamTextWithFallback("high", (_entry, model) => ({
       model,
       system: fullSystem,
@@ -237,24 +208,13 @@ export async function POST(request: NextRequest) {
       allowSystemInMessages: true,
       providerOptions: getDeepThinkOptions(deepThink ?? false),
       messages: modelMessages,
-      // Day 7: 学习工具 + Day 16: RAG 知识库工具 + Day 22: Agent Workflow 工具
-      // Phase 1: Coach 工具（学习分析 + 计划调整）
-      // 工具集按场景裁剪（白名单见 lib/tools/router.ts）。
-      // 工作台不持有「改非当前对象」的写工具——文档编辑器里不该能顺手删掉待办。
-      //
-      // 先建全部候选再过滤：conversation/memories 只被 createPlan 用到，而 createPlan
-      // 只在智能体场景入选，所以工作台多建一次没有副作用（纯对象构造，不碰数据库）。
+      // 工具集按场景裁剪（白名单见 lib/tools/router.ts）：
+      // 长期记忆读工具 + 会话上下文工具，两个场景统一。
+      // updateAgentState 只写当前会话的 AgentState，不碰业务数据。
       tools: pickTools(
         {
-          ...createStudyTools(user.id, {
-            conversation: conversationHint,
-            memories: memoryPrompt,
-          }),
-          ...createRAGTool(user.id),
+          ...createMemoryTools(user.id),
           ...createContextTools(user.id, activeConversationId),
-          ...createAgentTools(user.id),
-          ...createTodoTools(user.id),
-          ...studioTools,
         },
         surface
       ),
@@ -318,9 +278,9 @@ export async function POST(request: NextRequest) {
       },
     }), {
       userId: user.id,
-      // 记账口径：文档与计划合并为 studio（与 conversation.surface 的三值口径不同，
-      // 那边要区分到具体文档/计划，这边只需按界面统计；历史数据也按这个口径落库）
-      surface: surface === "agent" ? "agent" : "studio",
+      // 记账口径：与 conversation.surface 同值（workspace / note），
+      // 与 lib/usage.ts 的 COUNTED_SURFACES 对齐
+      surface,
       enforce: true,
     });
 

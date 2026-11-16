@@ -774,23 +774,12 @@ export type $ConversationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     userId: string
     /**
      * *
-     *    * 界面来源，三选一：agent 智能体页 / doc 文档工作台 / plan 计划工作台。
-     *    * 三者共用这一张表，靠 surface + refId 才能严格区分。
-     *    *
-     *    * 注意：与 tokenusage.surface 是**两套不同的口径**，不要强行对齐——
-     *    * 那边是记账用的（agent | studio | chatroom | title | memory | split | agent-bg），
-     *    * 历史数据已按旧口径落库，且把文档与计划合并为 studio 即可满足统计需要；
-     *    * 这里要区分到「哪篇文档/计划」，粒度更细。
+     *    * 界面来源：workspace 跨笔记工作台 / note 笔记编辑器侧栏；refId = noteId
      */
     surface: string
     /**
      * *
-     *    * 归属对象：surface=doc 时为文档 id，surface=plan 时为计划 id，agent 时为 null。
-     *    *
-     *    * 有了这一列，工作台才能直接问服务端「这篇文档/计划的对话是哪一条」——
-     *    * 在此之前这个绑定只存在浏览器 localStorage 里（studio-chat:doc:<id>），
-     *    * 换设备 / 清缓存就断，点「新对话」更会把上一条变成谁也够不着的孤儿。
-     *    * 历史上（2026-09 之前）创建的对话没有这一列的值，无法追溯归属，只能为 null。
+     *    * surface=note 时为笔记 id
      */
     refId: string | null
     title: string

@@ -14,7 +14,7 @@
 import { randomUUID } from "node:crypto";
 import type { Prisma } from "@prisma-generated/client";
 import { prisma } from "@/lib/prisma";
-import { toPgVector } from "@/lib/rag/retriever";
+import { toPgVector } from "@/lib/rag/vector";
 import type {
   MemoryCandidateStatus,
   MemoryKind,

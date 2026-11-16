@@ -12,12 +12,11 @@ import { NextRequest } from "next/server";
 // ④ 两种协议请求体形状不同，服务端要能各认各的
 
 vi.mock("@/lib/auth-utils", () => ({ getAuthUser: vi.fn() }));
+
 vi.mock("@/lib/prisma", () => ({
   prisma: {
     conversation: { create: vi.fn(), update: vi.fn(), findFirst: vi.fn() },
     conversationMessage: { create: vi.fn() },
-    plan: { findFirst: vi.fn() },
-    document: { findFirst: vi.fn() },
   },
 }));
 vi.mock("@/lib/usage", async (importOriginal) => {
