@@ -27,12 +27,14 @@ export type AiSurface = (typeof AI_SURFACES)[number];
  *
  * 各段含哪些工具名（决定它能不能给场景）：
  *   toolReference     getMyMemories, searchConversationHistory, updateAgentState
- *   noteTools         searchNotes, readNote
+ *   noteTools         searchNotes, readNote, listNotes, summarizeNote
+ *   noteEdit          createNote, proposeNoteEdit
  *   conduct           不新增工具名
  */
 export const ALL_PROMPT_GROUPS = [
   "toolReference", // 能力清单 / 什么时候用工具
-  "noteTools", // 笔记检索引擎与引用规则
+  "noteTools", // 笔记检索、阅读与引用规则
+  "noteEdit", // 笔记写工具与 diff 确认
   "conduct", // 行为准则
 ] as const satisfies readonly string[];
 
@@ -44,14 +46,22 @@ const READ_TOOLS = [
 ] as const;
 
 /**
- * 笔记检索工具（M2）。
+ * 笔记工具（M2 检索 → M3 加写工具）。
  *
- * 两个场景都给：
- *   · note      编辑器侧栏需要跨笔记回答「我另一篇笔记里怎么写的」
- *   · workspace 跨笔记工作台的主职责就是检索与汇总
- * 只读，作用域由 userId 收口，不给写工具（M3 再上 diff 确认）。
+ * 两个场景都给同一套：
+ *   · note      编辑器侧栏：检索 + 读 + 改当前笔记（diff 确认）
+ *   · workspace 跨笔记工作台：检索 + 汇总 + 新建 / 改任意笔记
+ * 作用域由 userId 收口；proposeNoteEdit 只写 NoteProposal，正文改动
+ * 必须经 apply 接口在事务里校验 baseHash 后才落库，不是直接写。
  */
-const NOTE_TOOLS = ["searchNotes", "readNote"] as const;
+const NOTE_TOOLS = [
+  "searchNotes",
+  "readNote",
+  "listNotes",
+  "summarizeNote",
+  "createNote",
+  "proposeNoteEdit",
+] as const;
 
 
 /**

@@ -66,6 +66,7 @@ export const ModelName = {
   Note: 'Note',
   NoteChunk: 'NoteChunk',
   NoteProposal: 'NoteProposal',
+  NoteVersion: 'NoteVersion',
   Notification: 'Notification',
   TokenUsage: 'TokenUsage',
   Announcement: 'Announcement'
@@ -320,6 +321,18 @@ export const NoteProposalScalarFieldEnum = {
 } as const
 
 export type NoteProposalScalarFieldEnum = (typeof NoteProposalScalarFieldEnum)[keyof typeof NoteProposalScalarFieldEnum]
+
+
+export const NoteVersionScalarFieldEnum = {
+  id: 'id',
+  noteId: 'noteId',
+  userId: 'userId',
+  title: 'title',
+  content: 'content',
+  createdAt: 'createdAt'
+} as const
+
+export type NoteVersionScalarFieldEnum = (typeof NoteVersionScalarFieldEnum)[keyof typeof NoteVersionScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {

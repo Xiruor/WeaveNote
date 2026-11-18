@@ -29,6 +29,7 @@ import {
   type IconWeight,
 } from "@phosphor-icons/react";
 import { EditorPane, type EditorPaneHandle, type EditorPaneMode } from "./editor-pane";
+import type { InlineDiffProps } from "@/components/notes/inline-diff";
 import { OutlinePanel } from "./outline-panel";
 import { AiChatPanel, type AiChatThread } from "./ai-chat-panel";
 import { extractHeadings } from "@/lib/studio/outline";
@@ -117,7 +118,17 @@ export interface MarkdownStudioProps {
   ai?: {
     context?: Record<string, string>;
     fetchLatest?: () => Promise<string | null>;
+    /** AI 流结束后回调（note 宿主借此拉取 pending 提案渲染内联 diff） */
+    onStreamEnd?: () => void;
   };
+  /**
+   * AI 提案内联对照：存在时正文区右侧换成 diff 视图、左侧照常渲染草稿正文。
+   * 由笔记宿主管理状态与提交，工作台只负责透传给 EditorPane。
+   */
+  diffReview?: InlineDiffProps & { draftContent: string };
+  /** 外部正文同步（应用提案后由宿主回写）；服务端已落库，不触发自动保存。
+   *  nonce 保证每次提交都是新对象，即使内容相同也会同步一次。 */
+  contentOverride?: { content: string; nonce: number };
   /** 新建计划跳转（?focusAi=1）：进入后自动聚焦 AI 输入框并预填引导语 */
   autoFocusAi?: boolean;
   readOnly?: boolean;
@@ -141,6 +152,8 @@ export function MarkdownStudio({
   onRename,
   onExit,
   ai,
+  diffReview,
+  contentOverride,
   autoFocusAi = false,
   readOnly = false,
   defaultMode,
@@ -221,6 +234,20 @@ export function MarkdownStudio({
   useEffect(() => {
     onSaveRef.current = onSave;
   });
+
+  // 宿主回写正文（提案已由服务端落库）：同步内容但不再触发自动保存
+  useEffect(() => {
+    if (!contentOverride) return;
+    const next = contentOverride.content;
+    if (timerRef.current !== null) {
+      window.clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    contentRef.current = next;
+    dirtyRef.current = false;
+    setContent(next);
+    setSaveState("saved");
+  }, [contentOverride]);
 
   useEffect(() => {
     if (!aiEnabled) {
@@ -422,6 +449,8 @@ export function MarkdownStudio({
 
   // AI 流结束后：拉取最新文档 → 更新内容 → 标记已保存（可撤销）
   const handleAiStreamEnd = useCallback(async () => {
+    // M3：先通知宿主（note 宿主据此拉 pending 提案，在正文区渲染内联 diff）
+    ai?.onStreamEnd?.();
     if (!aiEnabled) return;
     if (!ai?.fetchLatest) return;
     try {
@@ -834,6 +863,7 @@ export function MarkdownStudio({
                   selectionActionEnabled={aiEnabled}
                   headings={headings}
                   onActiveHeadingIndexChange={setActiveHeadingIndex}
+                  diff={diffReview}
                 />
               </main>
             );

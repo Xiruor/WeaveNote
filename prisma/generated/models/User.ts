@@ -250,6 +250,7 @@ export type UserWhereInput = {
   notes?: Prisma.NoteListRelationFilter
   noteChunks?: Prisma.NoteChunkListRelationFilter
   noteProposals?: Prisma.NoteProposalListRelationFilter
+  noteVersions?: Prisma.NoteVersionListRelationFilter
   tokenUsages?: Prisma.TokenUsageListRelationFilter
 }
 
@@ -278,6 +279,7 @@ export type UserOrderByWithRelationInput = {
   notes?: Prisma.NoteOrderByRelationAggregateInput
   noteChunks?: Prisma.NoteChunkOrderByRelationAggregateInput
   noteProposals?: Prisma.NoteProposalOrderByRelationAggregateInput
+  noteVersions?: Prisma.NoteVersionOrderByRelationAggregateInput
   tokenUsages?: Prisma.TokenUsageOrderByRelationAggregateInput
 }
 
@@ -309,6 +311,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.NoteListRelationFilter
   noteChunks?: Prisma.NoteChunkListRelationFilter
   noteProposals?: Prisma.NoteProposalListRelationFilter
+  noteVersions?: Prisma.NoteVersionListRelationFilter
   tokenUsages?: Prisma.TokenUsageListRelationFilter
 }, "id" | "email">
 
@@ -373,6 +376,7 @@ export type UserCreateInput = {
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -401,6 +405,7 @@ export type UserUncheckedCreateInput = {
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -429,6 +434,7 @@ export type UserUpdateInput = {
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -457,6 +463,7 @@ export type UserUncheckedUpdateInput = {
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -725,6 +732,20 @@ export type UserUpdateOneRequiredWithoutNoteProposalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNoteProposalsInput, Prisma.UserUpdateWithoutNoteProposalsInput>, Prisma.UserUncheckedUpdateWithoutNoteProposalsInput>
 }
 
+export type UserCreateNestedOneWithoutNoteVersionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNoteVersionsInput, Prisma.UserUncheckedCreateWithoutNoteVersionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNoteVersionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNoteVersionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNoteVersionsInput, Prisma.UserUncheckedCreateWithoutNoteVersionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNoteVersionsInput
+  upsert?: Prisma.UserUpsertWithoutNoteVersionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNoteVersionsInput, Prisma.UserUpdateWithoutNoteVersionsInput>, Prisma.UserUncheckedUpdateWithoutNoteVersionsInput>
+}
+
 export type UserCreateNestedOneWithoutNotificationsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
@@ -777,6 +798,7 @@ export type UserCreateWithoutSessionsInput = {
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -804,6 +826,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -847,6 +870,7 @@ export type UserUpdateWithoutSessionsInput = {
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -874,6 +898,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -901,6 +926,7 @@ export type UserCreateWithoutAccountsInput = {
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -928,6 +954,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -971,6 +998,7 @@ export type UserUpdateWithoutAccountsInput = {
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -998,6 +1026,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1025,6 +1054,7 @@ export type UserCreateWithoutConversationsInput = {
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -1052,6 +1082,7 @@ export type UserUncheckedCreateWithoutConversationsInput = {
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -1095,6 +1126,7 @@ export type UserUpdateWithoutConversationsInput = {
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -1122,6 +1154,7 @@ export type UserUncheckedUpdateWithoutConversationsInput = {
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1149,6 +1182,7 @@ export type UserCreateWithoutMemoriesInput = {
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -1176,6 +1210,7 @@ export type UserUncheckedCreateWithoutMemoriesInput = {
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -1219,6 +1254,7 @@ export type UserUpdateWithoutMemoriesInput = {
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -1246,6 +1282,7 @@ export type UserUncheckedUpdateWithoutMemoriesInput = {
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1273,6 +1310,7 @@ export type UserCreateWithoutMemoryItemsInput = {
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -1300,6 +1338,7 @@ export type UserUncheckedCreateWithoutMemoryItemsInput = {
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -1343,6 +1382,7 @@ export type UserUpdateWithoutMemoryItemsInput = {
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -1370,6 +1410,7 @@ export type UserUncheckedUpdateWithoutMemoryItemsInput = {
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1397,6 +1438,7 @@ export type UserCreateWithoutMemoryEventsInput = {
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -1424,6 +1466,7 @@ export type UserUncheckedCreateWithoutMemoryEventsInput = {
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -1467,6 +1510,7 @@ export type UserUpdateWithoutMemoryEventsInput = {
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -1494,6 +1538,7 @@ export type UserUncheckedUpdateWithoutMemoryEventsInput = {
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1521,6 +1566,7 @@ export type UserCreateWithoutMemoryCandidatesInput = {
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -1548,6 +1594,7 @@ export type UserUncheckedCreateWithoutMemoryCandidatesInput = {
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -1591,6 +1638,7 @@ export type UserUpdateWithoutMemoryCandidatesInput = {
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -1618,6 +1666,7 @@ export type UserUncheckedUpdateWithoutMemoryCandidatesInput = {
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1645,6 +1694,7 @@ export type UserCreateWithoutFoldersInput = {
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -1672,6 +1722,7 @@ export type UserUncheckedCreateWithoutFoldersInput = {
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -1715,6 +1766,7 @@ export type UserUpdateWithoutFoldersInput = {
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -1742,6 +1794,7 @@ export type UserUncheckedUpdateWithoutFoldersInput = {
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1769,6 +1822,7 @@ export type UserCreateWithoutNotesInput = {
   folders?: Prisma.FolderCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -1796,6 +1850,7 @@ export type UserUncheckedCreateWithoutNotesInput = {
   folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -1839,6 +1894,7 @@ export type UserUpdateWithoutNotesInput = {
   folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -1866,6 +1922,7 @@ export type UserUncheckedUpdateWithoutNotesInput = {
   folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1893,6 +1950,7 @@ export type UserCreateWithoutNoteChunksInput = {
   folders?: Prisma.FolderCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -1920,6 +1978,7 @@ export type UserUncheckedCreateWithoutNoteChunksInput = {
   folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -1963,6 +2022,7 @@ export type UserUpdateWithoutNoteChunksInput = {
   folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -1990,6 +2050,7 @@ export type UserUncheckedUpdateWithoutNoteChunksInput = {
   folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -2017,6 +2078,7 @@ export type UserCreateWithoutNoteProposalsInput = {
   folders?: Prisma.FolderCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -2044,6 +2106,7 @@ export type UserUncheckedCreateWithoutNoteProposalsInput = {
   folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -2087,6 +2150,7 @@ export type UserUpdateWithoutNoteProposalsInput = {
   folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -2114,6 +2178,135 @@ export type UserUncheckedUpdateWithoutNoteProposalsInput = {
   folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
+  tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutNoteVersionsInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  password?: string | null
+  bio?: string | null
+  theme?: string
+  vip?: boolean
+  announcementSeenOn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  memories?: Prisma.UserMemoryCreateNestedManyWithoutUserInput
+  memoryItems?: Prisma.MemoryCreateNestedManyWithoutUserInput
+  memoryEvents?: Prisma.MemoryEventCreateNestedManyWithoutUserInput
+  memoryCandidates?: Prisma.MemoryCandidateCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutNoteVersionsInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  password?: string | null
+  bio?: string | null
+  theme?: string
+  vip?: boolean
+  announcementSeenOn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  memories?: Prisma.UserMemoryUncheckedCreateNestedManyWithoutUserInput
+  memoryItems?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
+  memoryEvents?: Prisma.MemoryEventUncheckedCreateNestedManyWithoutUserInput
+  memoryCandidates?: Prisma.MemoryCandidateUncheckedCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
+  noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutNoteVersionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNoteVersionsInput, Prisma.UserUncheckedCreateWithoutNoteVersionsInput>
+}
+
+export type UserUpsertWithoutNoteVersionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNoteVersionsInput, Prisma.UserUncheckedUpdateWithoutNoteVersionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNoteVersionsInput, Prisma.UserUncheckedCreateWithoutNoteVersionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNoteVersionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNoteVersionsInput, Prisma.UserUncheckedUpdateWithoutNoteVersionsInput>
+}
+
+export type UserUpdateWithoutNoteVersionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  theme?: Prisma.StringFieldUpdateOperationsInput | string
+  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  memories?: Prisma.UserMemoryUpdateManyWithoutUserNestedInput
+  memoryItems?: Prisma.MemoryUpdateManyWithoutUserNestedInput
+  memoryEvents?: Prisma.MemoryEventUpdateManyWithoutUserNestedInput
+  memoryCandidates?: Prisma.MemoryCandidateUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNoteVersionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  theme?: Prisma.StringFieldUpdateOperationsInput | string
+  vip?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  announcementSeenOn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  memories?: Prisma.UserMemoryUncheckedUpdateManyWithoutUserNestedInput
+  memoryItems?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
+  memoryEvents?: Prisma.MemoryEventUncheckedUpdateManyWithoutUserNestedInput
+  memoryCandidates?: Prisma.MemoryCandidateUncheckedUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
+  noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -2141,6 +2334,7 @@ export type UserCreateWithoutNotificationsInput = {
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageCreateNestedManyWithoutUserInput
 }
 
@@ -2168,6 +2362,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
   tokenUsages?: Prisma.TokenUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -2211,6 +2406,7 @@ export type UserUpdateWithoutNotificationsInput = {
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUpdateManyWithoutUserNestedInput
 }
 
@@ -2238,6 +2434,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
   tokenUsages?: Prisma.TokenUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -2266,6 +2463,7 @@ export type UserCreateWithoutTokenUsagesInput = {
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTokenUsagesInput = {
@@ -2293,6 +2491,7 @@ export type UserUncheckedCreateWithoutTokenUsagesInput = {
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   noteChunks?: Prisma.NoteChunkUncheckedCreateNestedManyWithoutUserInput
   noteProposals?: Prisma.NoteProposalUncheckedCreateNestedManyWithoutUserInput
+  noteVersions?: Prisma.NoteVersionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTokenUsagesInput = {
@@ -2336,6 +2535,7 @@ export type UserUpdateWithoutTokenUsagesInput = {
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTokenUsagesInput = {
@@ -2363,6 +2563,7 @@ export type UserUncheckedUpdateWithoutTokenUsagesInput = {
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   noteChunks?: Prisma.NoteChunkUncheckedUpdateManyWithoutUserNestedInput
   noteProposals?: Prisma.NoteProposalUncheckedUpdateManyWithoutUserNestedInput
+  noteVersions?: Prisma.NoteVersionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -2383,6 +2584,7 @@ export type UserCountOutputType = {
   notes: number
   noteChunks: number
   noteProposals: number
+  noteVersions: number
   tokenUsages: number
 }
 
@@ -2399,6 +2601,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   notes?: boolean | UserCountOutputTypeCountNotesArgs
   noteChunks?: boolean | UserCountOutputTypeCountNoteChunksArgs
   noteProposals?: boolean | UserCountOutputTypeCountNoteProposalsArgs
+  noteVersions?: boolean | UserCountOutputTypeCountNoteVersionsArgs
   tokenUsages?: boolean | UserCountOutputTypeCountTokenUsagesArgs
 }
 
@@ -2499,6 +2702,13 @@ export type UserCountOutputTypeCountNoteProposalsArgs<ExtArgs extends runtime.Ty
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountNoteVersionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NoteVersionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountTokenUsagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TokenUsageWhereInput
 }
@@ -2529,6 +2739,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   notes?: boolean | Prisma.User$notesArgs<ExtArgs>
   noteChunks?: boolean | Prisma.User$noteChunksArgs<ExtArgs>
   noteProposals?: boolean | Prisma.User$noteProposalsArgs<ExtArgs>
+  noteVersions?: boolean | Prisma.User$noteVersionsArgs<ExtArgs>
   tokenUsages?: boolean | Prisma.User$tokenUsagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -2592,6 +2803,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   notes?: boolean | Prisma.User$notesArgs<ExtArgs>
   noteChunks?: boolean | Prisma.User$noteChunksArgs<ExtArgs>
   noteProposals?: boolean | Prisma.User$noteProposalsArgs<ExtArgs>
+  noteVersions?: boolean | Prisma.User$noteVersionsArgs<ExtArgs>
   tokenUsages?: boolean | Prisma.User$tokenUsagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -2613,6 +2825,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     notes: Prisma.$NotePayload<ExtArgs>[]
     noteChunks: Prisma.$NoteChunkPayload<ExtArgs>[]
     noteProposals: Prisma.$NoteProposalPayload<ExtArgs>[]
+    noteVersions: Prisma.$NoteVersionPayload<ExtArgs>[]
     tokenUsages: Prisma.$TokenUsagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -3042,6 +3255,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   notes<T extends Prisma.User$notesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   noteChunks<T extends Prisma.User$noteChunksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$noteChunksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoteChunkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   noteProposals<T extends Prisma.User$noteProposalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$noteProposalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoteProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  noteVersions<T extends Prisma.User$noteVersionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$noteVersionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoteVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tokenUsages<T extends Prisma.User$tokenUsagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tokenUsagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TokenUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3762,6 +3976,30 @@ export type User$noteProposalsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.NoteProposalScalarFieldEnum | Prisma.NoteProposalScalarFieldEnum[]
+}
+
+/**
+ * User.noteVersions
+ */
+export type User$noteVersionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NoteVersion
+   */
+  select?: Prisma.NoteVersionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NoteVersion
+   */
+  omit?: Prisma.NoteVersionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NoteVersionInclude<ExtArgs> | null
+  where?: Prisma.NoteVersionWhereInput
+  orderBy?: Prisma.NoteVersionOrderByWithRelationInput | Prisma.NoteVersionOrderByWithRelationInput[]
+  cursor?: Prisma.NoteVersionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NoteVersionScalarFieldEnum | Prisma.NoteVersionScalarFieldEnum[]
 }
 
 /**

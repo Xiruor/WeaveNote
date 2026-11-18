@@ -210,13 +210,16 @@ export async function POST(request: NextRequest) {
       providerOptions: getDeepThinkOptions(deepThink ?? false),
       messages: modelMessages,
       // 工具集按场景裁剪（白名单见 lib/tools/router.ts）：
-      // 长期记忆读工具 + 会话上下文工具 + 笔记检索工具（M2）。
-      // 全部只读；updateAgentState 只写当前会话的 AgentState，不碰业务数据。
+      // 长期记忆读工具 + 会话上下文工具 + 笔记工具（M2 检索 → M3 加写工具）。
+      // 笔记工具带 noteId（note 场景的当前笔记）与 conversationId（提案溯源）。
       tools: pickTools(
         {
           ...createMemoryTools(user.id),
           ...createContextTools(user.id, activeConversationId),
-          ...createNoteTools(user.id),
+          ...createNoteTools(user.id, {
+            noteId: surface === "note" ? activeConversation.refId : null,
+            conversationId: activeConversationId,
+          }),
         },
         surface
       ),

@@ -399,6 +399,7 @@ export const ModelName = {
   Note: 'Note',
   NoteChunk: 'NoteChunk',
   NoteProposal: 'NoteProposal',
+  NoteVersion: 'NoteVersion',
   Notification: 'Notification',
   TokenUsage: 'TokenUsage',
   Announcement: 'Announcement'
@@ -417,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "avatarChange" | "conversation" | "conversationMessage" | "agentState" | "userMemory" | "memory" | "memoryEvent" | "memoryCandidate" | "folder" | "note" | "noteChunk" | "noteProposal" | "notification" | "tokenUsage" | "announcement"
+    modelProps: "user" | "session" | "account" | "avatarChange" | "conversation" | "conversationMessage" | "agentState" | "userMemory" | "memory" | "memoryEvent" | "memoryCandidate" | "folder" | "note" | "noteChunk" | "noteProposal" | "noteVersion" | "notification" | "tokenUsage" | "announcement"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1531,6 +1532,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    NoteVersion: {
+      payload: Prisma.$NoteVersionPayload<ExtArgs>
+      fields: Prisma.NoteVersionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NoteVersionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NoteVersionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NoteVersionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NoteVersionPayload>
+        }
+        findFirst: {
+          args: Prisma.NoteVersionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NoteVersionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NoteVersionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NoteVersionPayload>
+        }
+        findMany: {
+          args: Prisma.NoteVersionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NoteVersionPayload>[]
+        }
+        create: {
+          args: Prisma.NoteVersionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NoteVersionPayload>
+        }
+        createMany: {
+          args: Prisma.NoteVersionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NoteVersionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NoteVersionPayload>[]
+        }
+        delete: {
+          args: Prisma.NoteVersionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NoteVersionPayload>
+        }
+        update: {
+          args: Prisma.NoteVersionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NoteVersionPayload>
+        }
+        deleteMany: {
+          args: Prisma.NoteVersionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NoteVersionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NoteVersionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NoteVersionPayload>[]
+        }
+        upsert: {
+          args: Prisma.NoteVersionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NoteVersionPayload>
+        }
+        aggregate: {
+          args: Prisma.NoteVersionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNoteVersion>
+        }
+        groupBy: {
+          args: Prisma.NoteVersionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NoteVersionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NoteVersionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NoteVersionCountAggregateOutputType> | number
+        }
+      }
+    }
     Notification: {
       payload: Prisma.$NotificationPayload<ExtArgs>
       fields: Prisma.NotificationFieldRefs
@@ -2027,6 +2102,18 @@ export const NoteProposalScalarFieldEnum = {
 export type NoteProposalScalarFieldEnum = (typeof NoteProposalScalarFieldEnum)[keyof typeof NoteProposalScalarFieldEnum]
 
 
+export const NoteVersionScalarFieldEnum = {
+  id: 'id',
+  noteId: 'noteId',
+  userId: 'userId',
+  title: 'title',
+  content: 'content',
+  createdAt: 'createdAt'
+} as const
+
+export type NoteVersionScalarFieldEnum = (typeof NoteVersionScalarFieldEnum)[keyof typeof NoteVersionScalarFieldEnum]
+
+
 export const NotificationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2324,6 +2411,7 @@ export type GlobalOmitConfig = {
   note?: Prisma.NoteOmit
   noteChunk?: Prisma.NoteChunkOmit
   noteProposal?: Prisma.NoteProposalOmit
+  noteVersion?: Prisma.NoteVersionOmit
   notification?: Prisma.NotificationOmit
   tokenUsage?: Prisma.TokenUsageOmit
   announcement?: Prisma.AnnouncementOmit

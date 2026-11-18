@@ -137,6 +137,11 @@
   font-weight: 600;
 }
 
+/* ── 编辑面板空状态：正文为空时提示从哪里开始输入 ── */
+.studio-edit-textarea::placeholder {
+  color: color-mix(in srgb, var(--studio-text-muted, #9aa4b2) 75%, transparent);
+}
+
 /* ── 淡滚动条（阅读面板 + 编辑面板）── */
 .studio-scroll {
   scrollbar-width: thin;

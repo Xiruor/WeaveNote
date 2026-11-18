@@ -49,6 +49,7 @@ model User {
   notes            Note[]
   noteChunks       NoteChunk[]
   noteProposals    NoteProposal[]
+  noteVersions     NoteVersion[]
 
   // ── 用量记账 ──
   tokenUsages      TokenUsage[]
@@ -359,6 +360,7 @@ model Note {
   folder    Folder?   @relation(fields: [folderId], references: [id], onDelete: SetNull)
   chunks    NoteChunk[]
   proposals NoteProposal[]
+  versions  NoteVersion[]
 
   @@index([userId, updatedAt])
   @@index([userId, folderId])
@@ -404,6 +406,22 @@ model NoteProposal {
   @@index([userId, status, createdAt])
   @@index([noteId, status])
   @@map("noteproposal")
+}
+
+/// 应用提案 / AI 改稿前的正文快照。版本历史 UI 归 M5，M3 只在 apply 时写快照。
+model NoteVersion {
+  id        String   @id @default(cuid())
+  noteId    String
+  userId    String
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+
+  note Note @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([noteId, createdAt])
+  @@map("noteversion")
 }
 
 model Notification {

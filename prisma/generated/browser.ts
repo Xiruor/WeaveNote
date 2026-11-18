@@ -103,6 +103,11 @@ export type NoteChunk = Prisma.NoteChunkModel
  */
 export type NoteProposal = Prisma.NoteProposalModel
 /**
+ * Model NoteVersion
+ * 应用提案 / AI 改稿前的正文快照。版本历史 UI 归 M5，M3 只在 apply 时写快照。
+ */
+export type NoteVersion = Prisma.NoteVersionModel
+/**
  * Model Notification
  * 
  */

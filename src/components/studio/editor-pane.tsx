@@ -12,9 +12,18 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type UIEvent as ReactUIEvent,
 } from "react";
-import { CaretDown, CaretUp, ChatCircleText, MagnifyingGlass, X } from "@phosphor-icons/react";
+import {
+  Bookmark,
+  CaretDown,
+  CaretUp,
+  ChatCircleText,
+  MagnifyingGlass,
+  X,
+} from "@phosphor-icons/react";
 import { Virtuoso, type ListRange, type VirtuosoHandle } from "react-virtuoso";
 import { MarkdownRenderer } from "@/components/ai/markdown-renderer";
+import { InlineDiff, type InlineDiffProps } from "@/components/notes/inline-diff";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { blockIndexForLine, splitMarkdownBlocks } from "@/lib/studio/markdown-blocks";
 import { clearHighlights, countMatches, highlightMatches, stripMarkdownSyntax } from "@/lib/studio/find";
 import type { HeadingInfo } from "@/lib/studio/outline";
@@ -37,6 +46,11 @@ interface EditorPaneProps {
   headings?: HeadingInfo[];
   /** 阅读面板滚动时，当前章节在 headings 中的下标（无则 null） */
   onActiveHeadingIndexChange?: (index: number | null) => void;
+  /**
+   * AI 提案内联对照：存在时右栏源码区替换为 diff 视图，
+   * 左栏正文渲染「已处置改动」后的草稿（draftContent）。
+   */
+  diff?: InlineDiffProps & { draftContent: string };
 }
 
 interface SelectionState {
@@ -51,6 +65,50 @@ const READ_PANE_COMPONENTS = {
   Footer: () => <div className="h-8" />,
 };
 
+/**
+ * 量出 textarea 内「第 charIndex 个字符所在行」的纵向排版高度（px）。
+ *
+ * 源码行号 ≠ 视觉行号：窄栏里长行会自动换行，把行号乘以行高得到的位置
+ * 会和实际渲染相差好几行，标题跳转因此会跳偏。这里用一个同宽同字体的
+ * 隐藏镜像复制 CSS 排版，让浏览器自己算出换行后的真实高度。
+ */
+function measureWrappedOffset(textarea: HTMLTextAreaElement, charIndex: number): number {
+  const style = window.getComputedStyle(textarea);
+  const mirror = document.createElement("div");
+  mirror.style.cssText = [
+    "position:absolute",
+    "top:0",
+    "left:-9999px",
+    "visibility:hidden",
+    `width:${textarea.clientWidth}px`,
+    "box-sizing:border-box",
+    "margin:0",
+    "border:0",
+    `padding:${style.padding}`,
+    `font-family:${style.fontFamily}`,
+    `font-size:${style.fontSize}`,
+    `font-style:${style.fontStyle}`,
+    `font-weight:${style.fontWeight}`,
+    `line-height:${style.lineHeight}`,
+    `letter-spacing:${style.letterSpacing}`,
+    `tab-size:${style.tabSize}`,
+    `white-space:${style.whiteSpace}`,
+    `overflow-wrap:${style.overflowWrap}`,
+    `word-break:${style.wordBreak}`,
+  ].join(";");
+  mirror.textContent = textarea.value.slice(0, Math.max(0, charIndex));
+  const marker = document.createElement("span");
+  marker.textContent = "\u200b";
+  mirror.appendChild(marker);
+  document.body.appendChild(mirror);
+  const offset =
+    marker.getBoundingClientRect().top -
+    mirror.getBoundingClientRect().top -
+    (Number.parseFloat(style.paddingTop) || 0);
+  mirror.remove();
+  return Math.max(0, offset);
+}
+
 export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
   function EditorPane(
     {
@@ -62,6 +120,7 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
       selectionActionEnabled = true,
       headings = [],
       onActiveHeadingIndexChange,
+      diff,
     },
     ref
   ) {
@@ -88,6 +147,8 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
       readScrollerRef.current = ref instanceof HTMLElement ? ref : null;
     }, []);
     const [selection, setSelection] = useState<SelectionState | null>(null);
+    /** 编辑模式下收起左侧原文预览：源码独占整行、居中显示 */
+    const [previewHidden, setPreviewHidden] = useState(false);
     const activeSelectionRef = useRef<{ range: Range; text: string } | null>(null);
     const onSelectionActionRef = useRef(onSelectionAction);
     useEffect(() => {
@@ -104,7 +165,8 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
      * 渲染退到低优先级，不在按键的关键路径上。
      */
     const deferredValue = useDeferredValue(value);
-    const blocks = useMemo(() => splitMarkdownBlocks(deferredValue), [deferredValue]);
+    const previewSource = diff ? diff.draftContent : deferredValue;
+    const blocks = useMemo(() => splitMarkdownBlocks(previewSource), [previewSource]);
 
     /**
      * 源码总行数。
@@ -196,13 +258,15 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
       function handleKeyDown(event: KeyboardEvent) {
         if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "f") {
           event.preventDefault();
+          // 高亮画在阅读面板上：原文被收起时先恢复预览，否则搜索不可见
+          if (!readOnly && mode === "split") setPreviewHidden(false);
           setSearchOpen(true);
           requestAnimationFrame(() => searchInputRef.current?.select());
         }
       }
       window.addEventListener("keydown", handleKeyDown);
       return () => window.removeEventListener("keydown", handleKeyDown);
-    }, []);
+    }, [mode, readOnly]);
 
     /** 跳到第 globalIndex 次命中：先滚到它所在的块，再在该块 DOM 里贴高亮 */
     const scrollToMatch = useCallback(
@@ -322,7 +386,25 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
           if (headingIdx < 0) return;
           const blockIndex = headingBlockIndex[headingIdx];
           if (blockIndex === undefined || blockIndex < 0) return;
-          // 先把所在的块滚进来（虚拟化后它可能还没渲染），再精确对齐到标题本身
+
+          // 源码面板：把标题所在行滚到顶部并留 12px 余量，避免标题贴着编辑区上沿被顶栏视觉遮挡
+          const edit = editRef.current;
+          const heading = headings[headingIdx];
+          if (edit) {
+            const lines = edit.value.split("\n");
+            let charIndex = 0;
+            for (let i = 0; i < Math.min(heading.line, lines.length); i += 1) {
+              charIndex += lines[i].length + 1;
+            }
+            // 这里给足静默窗：随后阅读面板的定位滚动不能反过来覆盖源码位置
+            suppressScrollSyncUntilRef.current = performance.now() + 400;
+            edit.scrollTop = Math.min(
+              Math.max(0, measureWrappedOffset(edit, charIndex) - 12),
+              Math.max(0, edit.scrollHeight - edit.clientHeight)
+            );
+          }
+
+          // 阅读面板：先把所在的块滚进来（虚拟化后它可能还没渲染），再精确对齐到标题本身
           virtuosoRef.current?.scrollToIndex({ index: blockIndex, align: "start" });
           requestAnimationFrame(() => {
             const host = readRef.current?.querySelector<HTMLElement>(
@@ -331,7 +413,8 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
             if (!host) return;
             for (const h of host.querySelectorAll<HTMLElement>("h1, h2, h3, h4, h5, h6")) {
               if (h.textContent?.trim() === target) {
-                h.scrollIntoView({ behavior: "smooth", block: "start" });
+                // 用即时滚动：平滑动画会在静默窗结束后继续派发滚动事件，把源码位置带偏
+                h.scrollIntoView({ block: "start" });
                 return;
               }
             }
@@ -341,14 +424,23 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
       [headings, headingBlockIndex]
     );
 
-    // 左右面板同步滚动。
-    //
-    // 三条约束（都是踩过的坑）：
-    //   1. 只处理用户滚动（event.isTrusted）。脚本赋值 scrollTop、Virtuoso
-    //      测量块高后修正位置也会触发 scroll；处理它们会让两侧互相拉扯，
-    //      表现就是滚动时一闪一闪的抽搐。
-    //   2. 程序同步后开一个 180ms 静默窗，兜住浏览器/虚拟列表的异步位置修正。
-    //   3. 阅读侧先换算成源码行号，再使用编辑器的实际行高定位。
+    /* ── 左右面板滚动联动 ──────────────────────────────────────────
+     * 规则：滚轮只滚当前面板（两侧独立）；拖滚动条 / 键盘翻页才联动另一侧。
+     * 实现上不区分滚动来源，而是用「滚轮手势时间窗」标记：窗口内的滚动事件
+     * 一律视为本人操作，不反向驱动另一侧。
+     *
+     * 另有三条约束（都是踩过的坑）：
+     *   1. 只处理用户滚动（event.isTrusted）。脚本赋值 scrollTop、Virtuoso
+     *      测量块高后修正位置也会触发 scroll；处理它们会让两侧互相拉扯，
+     *      表现就是滚动时一闪一闪的抽搐。
+     *   2. 程序同步后开一个 180ms 静默窗，兜住浏览器/虚拟列表的异步位置修正。
+     *   3. 阅读侧先换算成源码行号，再使用编辑器的实际行高定位。
+     */
+    const wheelUntilRef = useRef(0);
+    const markWheel = useCallback(() => {
+      wheelUntilRef.current = performance.now() + 180;
+    }, []);
+
     const suppressScrollSync = useCallback(() => {
       suppressScrollSyncUntilRef.current = performance.now() + 180;
     }, []);
@@ -356,6 +448,9 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
     /** 阅读 → 编辑：找第一个与视口相交的已渲染块，按块内偏移换算成源码行 */
     const syncFromRead = useCallback(() => {
       if (readOnly || mode !== "split") return;
+      // 原文收起时阅读面板不可见，不能由它反向驱动源码位置
+      if (previewHidden) return;
+      if (performance.now() < wheelUntilRef.current) return;
       if (performance.now() < suppressScrollSyncUntilRef.current) return;
       const edit = editRef.current;
       const read = readRef.current;
@@ -389,7 +484,7 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
         line * lineHeight,
         Math.max(0, edit.scrollHeight - edit.clientHeight)
       );
-    }, [blocks, mode, readOnly, suppressScrollSync, totalSourceLines]);
+    }, [blocks, mode, previewHidden, readOnly, suppressScrollSync, totalSourceLines]);
 
     const scrollReadToSourceLine = useCallback(
       (line: number, intraRatio: number) => {
@@ -439,16 +534,21 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
       };
       // 滚动不冒泡，但能在捕获阶段拿到内部滚动容器的滚动
       read.addEventListener("scroll", onScroll, { passive: true, capture: true });
+      // 滚轮手势：本面板自己滚，不联动源码面板
+      read.addEventListener("wheel", markWheel, { passive: true, capture: true });
       return () => {
         read.removeEventListener("scroll", onScroll, { capture: true });
+        read.removeEventListener("wheel", markWheel, { capture: true });
         if (raf !== null) cancelAnimationFrame(raf);
       };
-    }, [mode, readOnly, syncFromRead]);
+    }, [markWheel, mode, readOnly, syncFromRead]);
 
     /** 编辑 → 阅读：按文本框顶部对应的源码行定位到阅读块 */
     const syncFromEdit = useCallback(
       (event: ReactUIEvent<HTMLTextAreaElement>) => {
+        if (previewHidden) return;
         if (!event.nativeEvent.isTrusted) return;
+        if (performance.now() < wheelUntilRef.current) return;
         if (performance.now() < suppressScrollSyncUntilRef.current) return;
         if (editSyncRafRef.current !== null) return;
 
@@ -472,7 +572,7 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
           scrollReadToSourceLine(line, intraRatio);
         });
       },
-      [blocks, scrollReadToSourceLine, totalSourceLines]
+      [blocks, previewHidden, scrollReadToSourceLine, totalSourceLines]
     );
 
     // 卸载时取消尚未执行的编辑区同步
@@ -588,9 +688,12 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
       <div
         className="absolute inset-0 grid transition-[grid-template-columns] duration-300 ease-in-out"
         style={{
-          gridTemplateColumns:
-            !readOnly && mode === "split"
-              ? "minmax(0,1fr) minmax(0,1fr)"
+          gridTemplateColumns: diff
+            ? "minmax(0,1fr) minmax(0,1fr)"
+            : !readOnly && mode === "split"
+              ? previewHidden
+                ? "0fr minmax(0,1fr)"
+                : "minmax(0,1fr) minmax(0,1fr)"
               : "minmax(0,1fr) 0fr",
         }}
       >
@@ -620,22 +723,59 @@ export const EditorPane = forwardRef<EditorPaneHandle, EditorPaneProps>(
 
         {/* 编辑面板 */}
         <div className="min-w-0 overflow-hidden">
-          {!readOnly && (
+          {diff ? (
             <div className="h-full border-l border-white/8">
-              <div className="mx-auto h-full max-w-3xl px-8 py-8">
-                <textarea
-                  ref={editRef}
-                  value={value}
-                  onChange={(e) => onChange(e.target.value)}
-                  onScroll={syncFromEdit}
-                  spellCheck={false}
-                  className="studio-edit-textarea studio-scroll h-full w-full resize-none bg-transparent font-mono text-sm leading-7 outline-none"
-                />
-              </div>
+              <InlineDiff {...diff} />
             </div>
+          ) : (
+            !readOnly && (
+              <div className={`h-full ${previewHidden ? "" : "border-l border-white/8"}`}>
+              {/* 源码区与阅读区同尺寸：textarea 铺满整栏（滚动条贴住右边缘、满高），
+                  再用内边距把文字收进与左侧正文一致的居中列（max-w-3xl + 左右 2rem）。
+                  内边距按栏宽百分比计算，收起目录 / AI 面板导致分栏变宽时自动重算。 */}
+              <textarea
+                ref={editRef}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                onScroll={syncFromEdit}
+                onWheel={markWheel}
+                spellCheck={false}
+                placeholder="点击这里开始记录…"
+                style={{
+                  paddingLeft: "max(2rem, calc((100% - 48rem) / 2 + 2rem))",
+                  paddingRight: "max(2rem, calc((100% - 48rem) / 2 + 2rem))",
+                }}
+                className="studio-edit-textarea studio-scroll h-full w-full resize-none bg-transparent py-8 font-mono text-sm leading-7 outline-none"
+              />
+              </div>
+            )
           )}
         </div>
 
+        {/* 原文显隐开关：固定在编辑区右上角（避开居中的拖拽把手） */}
+        {!diff && !readOnly && mode === "split" && !searchOpen && (
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <button
+                  type="button"
+                  onClick={() => setPreviewHidden((v) => !v)}
+                  aria-label={previewHidden ? "显示原文" : "隐藏原文"}
+                  className="group absolute left-1/2 -translate-x-15  top-1 z-20 flex size-6 items-center justify-center rounded-md border border-foreground/10 bg-background/70 backdrop-blur transition-colors hover:border-foreground/25"
+                >
+                  <Bookmark
+                    weight={previewHidden ? "fill" : "regular"}
+                    className={`size-3.5 text-[color:var(--studio-link)] transition-opacity group-hover:opacity-100 ${previewHidden ? "opacity-90" : "opacity-55"
+                      }`}
+                  />
+                </button>
+              }
+            />
+            <TooltipContent side="bottom" className="text-xs font-medium">
+              {previewHidden ? "显示原文" : "隐藏原文"}
+            </TooltipContent>
+          </Tooltip>
+        )}
         {/* 文档内搜索栏（Ctrl+F） */}
         {searchOpen && (
           <div className="absolute right-4 top-3 z-30 flex items-center gap-1.5 rounded-lg border border-white/12 bg-background/95 p-1.5 pl-2.5 shadow-xl backdrop-blur">

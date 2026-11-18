@@ -4,7 +4,7 @@
 // M0 裁剪后只剩会话链路需要的部分：
 //   context-tools  会话上下文工具（searchConversationHistory / updateAgentState）
 //   memory-tools   长期记忆读工具工厂（createMemoryTools → getMyMemories）
-//   note-tools     笔记检索工具工厂（createNoteTools → searchNotes / readNote）
+//   note-tools     笔记工具工厂（createNoteTools → 六个笔记工具，含 diff 确认）
 //   router         场景白名单 / 提示词分组
 //   tool-ui        工具卡片展示元数据
 //   utils          safeExecute

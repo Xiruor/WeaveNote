@@ -48,7 +48,7 @@ export const TOOL_UI: Record<string, ToolUiSpec> = {
     summarize: (input) => str(field(input, "query")),
   },
 
-  // M2：笔记检索（只读）
+  // M2 → M3：笔记检索 / 阅读（只读）
   searchNotes: {
     label: "检索笔记",
     kind: "read",
@@ -57,7 +57,27 @@ export const TOOL_UI: Record<string, ToolUiSpec> = {
 
   readNote: { label: "读取笔记", kind: "read" },
 
+  listNotes: {
+    label: "列出笔记",
+    kind: "read",
+    summarize: (input) => str(field(input, "folderId"), 24),
+  },
+
+  summarizeNote: { label: "总结笔记", kind: "read" },
+
   // ---------- 写工具：展开成卡片 ----------
+  createNote: {
+    label: "新建笔记",
+    kind: "write",
+    summarize: (input) => str(field(input, "title")),
+  },
+
+  proposeNoteEdit: {
+    label: "生成修改提案",
+    kind: "write",
+    summarize: (input) => str(field(input, "reason")) ?? str(field(input, "newTitle")),
+  },
+
   updateAgentState: {
     label: "更新会话状态",
     kind: "write",
