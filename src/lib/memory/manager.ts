@@ -20,6 +20,7 @@ import {
   insertMemory,
   insertMemoryEvent,
   markCandidate,
+  setMemoryEmbedding,
   softDeleteMemory,
   supersedeMemory,
   withUserMemoryLock,
@@ -390,5 +391,144 @@ export const MEMORY_SIMILARITY_THRESHOLDS = {
   update: SIMILAR_UPDATE_THRESHOLD,
   noop: SIMILAR_NOOP_THRESHOLD,
 } as const;
+
+// ============================================================
+// 用户手动编辑（M4 记忆管理页）
+//
+// 与抽取链路分开：这里没有候选、没有 evidence 校验，入参已在 API 层
+// 用 normalizeMemoryContent / clampScore 收口。仍然遵守两条铁律：
+//   · 只有 Manager 写库（事务 + advisory lock）；
+//   · 任何变更都写 MemoryEvent（actor=user）。
+//
+// sourceType 决策：**保留原值**，不改成 user_edit。追溯「这条记忆最初从
+// 哪来」比「它被手改过」更有价值；手动修改这件事由 MemoryEvent 的
+// actor=user 记录。
+// ============================================================
+
+export interface UpdateMemoryByUserInput {
+  content?: string;
+  kind?: MemoryKind;
+  importance?: number;
+}
+
+export type UpdateMemoryByUserResult =
+  | { ok: true; memory: MemoryRecord }
+  | { ok: false; reason: "not_found" | "no_change" };
+
+export async function updateMemoryByUser(
+  userId: string,
+  memoryId: string,
+  patch: UpdateMemoryByUserInput
+): Promise<UpdateMemoryByUserResult> {
+  const before = await findMemoryById(memoryId, userId);
+  if (!before || before.status !== "active") {
+    return { ok: false, reason: "not_found" };
+  }
+
+  const content =
+    patch.content !== undefined && patch.content !== before.content
+      ? patch.content
+      : undefined;
+  const kind =
+    patch.kind !== undefined && patch.kind !== before.kind
+      ? patch.kind
+      : undefined;
+  const importance =
+    patch.importance !== undefined && patch.importance !== before.importance
+      ? patch.importance
+      : undefined;
+
+  if (content === undefined && kind === undefined && importance === undefined) {
+    return { ok: false, reason: "no_change" };
+  }
+
+  // 网络调用不能发生在事务里，否则会长时间持有 advisory lock。
+  const prepared = content
+    ? await embedMemory(content)
+    : { embedding: null, embeddingModel: null };
+
+  const updated = await withUserMemoryLock(userId, async (tx) => {
+    const current = await findMemoryById(memoryId, userId, tx);
+    if (!current || current.status !== "active") return null;
+
+    // 键冲突兜底：正常不会发生（同键只能有一条 active），但数据异常时
+    // 直接更新会撞部分唯一索引，让整笔事务失败。
+    if (content !== undefined && current.normalizedKey) {
+      const conflict = await findActiveByKey(
+        userId,
+        current.normalizedKey,
+        tx
+      );
+      if (conflict && conflict.id !== current.id) {
+        await supersedeMemory(tx, conflict.id, userId);
+        await insertMemoryEvent(tx, {
+          userId,
+          memoryId: conflict.id,
+          action: "supersede",
+          actor: "user",
+          before: summary(conflict),
+          after: { reason: "normalized_key_conflict" },
+        });
+      }
+    }
+
+    await tx.memory.updateMany({
+      where: { id: memoryId, userId, status: "active" },
+      data: {
+        ...(content !== undefined ? { content } : {}),
+        ...(kind !== undefined ? { kind } : {}),
+        ...(importance !== undefined ? { importance } : {}),
+        lastConfirmedAt: new Date(),
+      },
+    });
+
+    if (prepared.embedding) {
+      await setMemoryEmbedding(
+        tx,
+        memoryId,
+        userId,
+        prepared.embedding,
+        prepared.embeddingModel
+      );
+    }
+
+    const after = await findMemoryById(memoryId, userId, tx);
+    if (after) {
+      await insertMemoryEvent(tx, {
+        userId,
+        memoryId,
+        action: "update",
+        actor: "user",
+        before: summary(current),
+        after: summary(after),
+      });
+    }
+    return after;
+  });
+
+  if (!updated) return { ok: false, reason: "not_found" };
+  return { ok: true, memory: updated };
+}
+
+/** 用户手动删除（软删）。返回 false 表示不存在 / 无权访问 / 已删除。 */
+export async function deleteMemoryByUser(
+  userId: string,
+  memoryId: string
+): Promise<boolean> {
+  return withUserMemoryLock(userId, async (tx) => {
+    const target = await findMemoryById(memoryId, userId, tx);
+    if (!target || target.status === "deleted") return false;
+
+    await softDeleteMemory(tx, memoryId, userId);
+    await insertMemoryEvent(tx, {
+      userId,
+      memoryId,
+      action: "delete",
+      actor: "user",
+      before: summary(target),
+    });
+    return true;
+  });
+}
 
 export type { MemoryKind };

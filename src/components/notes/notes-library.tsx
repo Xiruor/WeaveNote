@@ -26,6 +26,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Zhibao } from "@/components/ui/zhibao";
 
 export interface FolderLite {
   id: string;
@@ -478,7 +479,7 @@ export function NotesLibrary({
 
         {visibleNotes.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-white/15 py-16 text-center">
-            <Notebook className="size-10 text-muted-foreground/50" weight="duotone" />
+            <Zhibao scale={0.15} />
             <p className="text-sm text-muted-foreground">还没有笔记，写下第一篇吧</p>
             <Button variant="outline" onClick={() => createNote(selected === "root" ? null : selected)}>
               <NotePencil className="size-4" />

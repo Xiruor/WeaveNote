@@ -129,6 +129,43 @@ export async function listActiveMemories(
   return rows.map(toMemoryRecord);
 }
 
+export interface ListMemoriesOptions {
+  /** 默认 active；传 "all" 返回全部状态 */
+  status?: MemoryStatus | "all";
+  kind?: MemoryKind;
+  /** 正文关键词（ILIKE），大小写不敏感 */
+  q?: string;
+  limit?: number;
+}
+
+/**
+ * 记忆管理页列表。
+ *
+ * 显式 select（memorySelect）而不是 findMany() 全字段：embedding 是
+ * Unsupported("vector(1024)")，Prisma 既读不了也不该读。
+ */
+export async function listMemories(
+  userId: string,
+  options: ListMemoriesOptions = {},
+  db: Db = prisma
+): Promise<MemoryRecord[]> {
+  const q = options.q?.trim();
+  const rows = await db.memory.findMany({
+    where: {
+      userId,
+      ...(options.status && options.status !== "all"
+        ? { status: options.status }
+        : {}),
+      ...(options.kind ? { kind: options.kind } : {}),
+      ...(q ? { content: { contains: q, mode: "insensitive" } } : {}),
+    },
+    select: memorySelect,
+    orderBy: { updatedAt: "desc" },
+    take: Math.max(1, Math.min(options.limit ?? 200, 500)),
+  });
+  return rows.map(toMemoryRecord);
+}
+
 /** 按给定 id 顺序取回 active 记忆（检索阶段保持相似度排序）。 */
 export async function findMemoriesByIds(
   ids: string[],
@@ -267,8 +304,11 @@ export async function setMemoryEmbedding(
   model: string | null
 ): Promise<number> {
   const result = await tx.$executeRawUnsafe(
+    // updatedAt 是 timestamp(3)（无时区），Prisma 的约定是存 UTC。
+    // 直接写 now() 会按数据库会话时区落成本地墙上时间，读回时被当成 UTC，
+    // 时间会偏移一个时区（Asia/Shanghai 下 +8 小时）。显式转成 UTC。
     `UPDATE memory
-     SET embedding = $1::vector, "embeddingModel" = $2, "updatedAt" = now()
+     SET embedding = $1::vector, "embeddingModel" = $2, "updatedAt" = (now() AT TIME ZONE 'UTC')
      WHERE id = $3 AND "userId" = $4`,
     toPgVector(embedding),
     model,

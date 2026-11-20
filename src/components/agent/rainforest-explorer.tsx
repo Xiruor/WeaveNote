@@ -20,6 +20,7 @@ import { MessageBubble } from "@/components/ai/message-bubble";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Zhibao } from "@/components/ui/zhibao";
 import { cn } from "@/lib/utils";
 import { readableAIError } from "@/lib/ai-error";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
@@ -496,7 +497,7 @@ export function RainforestExplorer({ initialPlanner = false }: { initialPlanner?
                 <MessageListSkeleton />
               ) : messages.length === 0 ? (
                 <div className="mx-auto flex h-full max-w-xl flex-col items-center justify-center text-center">
-                  <div className="relative flex size-14 items-center justify-center rounded-lg border border-primary/30 bg-primary/10 text-primary"><Sparkle className="size-6" weight="fill" /></div>
+                  <Zhibao scale={0.13} />
                   <h2 className="mt-5 text-xl font-semibold">今天想探索什么？</h2>
                   <p className="mt-2 max-w-md text-sm leading-6 text-white/48">我可以和你讨论笔记里的内容，也会记得我们聊过的东西。</p>
                   <div className="mt-6 grid w-full gap-2 sm:grid-cols-3">

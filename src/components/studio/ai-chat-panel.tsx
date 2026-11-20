@@ -7,6 +7,7 @@ import { MessageBubble } from "@/components/ai/message-bubble";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Zhibao } from "@/components/ui/zhibao";
 import { readableAIError } from "@/lib/ai-error";
 import type { ChatMessage } from "@/types";
 
@@ -339,13 +340,11 @@ export function AiChatPanel({
       <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto thin-scrollbar px-3 py-3">
         {messages.length === 0 && historyLoading ? (
           <div className="flex h-full items-center justify-center">
-            <div className="size-5 animate-spin rounded-full border-2 border-primary/30 border-t-primary" />
+            <Zhibao scale={0.1} />
           </div>
         ) : messages.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center text-center">
-            <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-              <Sparkle className="size-6" weight="duotone" />
-            </div>
+            <Zhibao scale={0.13} />
             <p className="mt-4 text-[13px] font-medium text-foreground">
               {context ? "让我帮你改这篇笔记" : "有什么想问的？"}
             </p>

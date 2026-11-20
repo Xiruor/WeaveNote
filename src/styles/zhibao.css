@@ -1,0 +1,81 @@
+/* ───────────────────────────────────────────────────────────────
+   织宝 · CSS Sprite 逐帧动画
+   雪碧图 7360×482，横排 16 帧（单帧 460×482），RGBA 透明背景。
+   核心规则按资源说明原样保留：位移终点必须等于整张图宽度的负值，
+   时间函数必须是 steps(16)，否则会出现相邻帧串位 / 半张脸。
+   ─────────────────────────────────────────────────────────────── */
+.zhibao {
+  --s: 1;                 /* 缩放系数 */
+  width: calc(460px * var(--s));
+  height: calc(482px * var(--s));
+  background-image: url("/zhibao-sprite-web.png");
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: calc(460px * 16 * var(--s)) calc(482px * var(--s));
+  animation: zhibao-play 1.6s steps(16) infinite;
+}
+
+@keyframes zhibao-play {
+  from { background-position-x: 0px; }
+  to   { background-position-x: calc(460px * 16 * var(--s) * -1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zhibao { animation: none; background-position-x: 0; }
+}
+
+/* 附加（不改动上面的核心规则）：在 flex 行里不被压扁；透明背景不补色 */
+.zhibao {
+  flex: 0 0 auto;
+  display: block;
+}
+
+/* ── 思考状态行 ──
+   显隐只切 class，不销毁 DOM：动画不会在每轮流式片段到达时从头跳帧。
+   隐藏时 display:none，不占布局空间。 */
+.zhibao-thinking {
+  display: none;
+  align-items: center;
+  gap: 2px;
+  width: fit-content;
+  max-width: 100%;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.zhibao-thinking.is-on {
+  display: inline-flex;
+}
+
+.zhibao-status-text {
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  /* 用 currentColor 取所在主题的文字色；透明靠 text-fill-color，
+     不能写 color:transparent，否则 currentColor 也会变成透明。 */
+  background-image: linear-gradient(
+    100deg,
+    color-mix(in oklab, currentColor 48%, transparent) 30%,
+    currentColor 48%,
+    color-mix(in oklab, currentColor 48%, transparent) 66%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: zhibao-shimmer 1.9s linear infinite;
+}
+
+@keyframes zhibao-shimmer {
+  from { background-position: 130% 0; }
+  to   { background-position: -80% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zhibao-status-text {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+}

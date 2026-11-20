@@ -58,8 +58,9 @@ export async function reembedMissingMemories(
       const vector = data[index];
       if (!vector) continue;
       const count = await prisma.$executeRawUnsafe(
+        // 同上：updatedAt 无时区且按 UTC 存，now() 需显式转 UTC，否则偏移一个时区
         `UPDATE memory
-         SET embedding = $1::vector, "embeddingModel" = $2, "updatedAt" = now()
+         SET embedding = $1::vector, "embeddingModel" = $2, "updatedAt" = (now() AT TIME ZONE 'UTC')
          WHERE id = $3 AND "userId" = $4`,
         toPgVector(vector),
         model,

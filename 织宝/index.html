@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>织宝 · CSS Sprite 逐帧动画</title>
+<style>
+  :root {
+    --fw: 460px;      /* 单帧宽 */
+    --fh: 482px;      /* 单帧高 */
+    --n: 16;          /* 帧数 */
+    --dur: 1.6s;      /* 一轮时长 → 16 帧 / 1.6s = 10fps */
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: #0E0F12;
+    color: #E8E6E1;
+    font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 56px 24px 72px;
+    min-height: 100vh;
+  }
+  .wrap { width: 100%; max-width: 860px; }
+
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: .22em;
+    color: #8A8F99;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: .01em;
+    margin: 14px 0 10px;
+  }
+  .sub {
+    color: #9BA0AA;
+    font-size: 14.5px;
+    line-height: 1.75;
+    margin: 0 0 28px;
+  }
+  .sub code, .code code { font-family: ui-monospace, Consolas, monospace; }
+
+  /* ---------- 核心：sprite 逐帧动画 ---------- */
+  .zhibao {
+    --s: 1;                 /* 缩放系数 */
+    width: calc(var(--fw) * var(--s));
+    height: calc(var(--fh) * var(--s));
+    background-image: url("zhibao-sprite.png");
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: calc(var(--fw) * var(--n) * var(--s)) calc(var(--fh) * var(--s));
+    animation: zhibao-play var(--dur) steps(var(--n)) infinite;
+    will-change: background-position;
+  }
+  @keyframes zhibao-play {
+    from { background-position-x: 0px; }
+    to   { background-position-x: calc(var(--fw) * var(--n) * var(--s) * -1); }
+  }
+  /* 暂停 */
+  .paused .zhibao { animation-play-state: paused; }
+  /* 尊重系统减少动态偏好 */
+  @media (prefers-reduced-motion: reduce) {
+    .zhibao { animation: none; background-position-x: 0; }
+  }
+
+  /* ---------- 舞台 ---------- */
+  .stage {
+    position: relative;
+    background:
+      radial-gradient(circle at 50% 34%, rgba(217,164,65,.10), transparent 62%),
+      #15171C;
+    border: 1px solid #23262D;
+    border-radius: 18px;
+    height: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .stage::after {              /* 地面投影，纯静态 */
+    content: "";
+    position: absolute;
+    bottom: 74px; left: 50%;
+    width: 300px; height: 34px;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, rgba(0,0,0,.55), transparent 70%);
+    filter: blur(2px);
+  }
+  .stage .zhibao { position: relative; z-index: 1; }
+
+  .hud {
+    position: absolute;
+    left: 18px; bottom: 16px;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 12px;
+    color: #6E7480;
+    letter-spacing: .06em;
+    z-index: 2;
+  }
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 18px 0 34px;
+  }
+  button {
+    appearance: none;
+    border: 1px solid #2E323A;
+    background: #191C22;
+    color: #D9D5CD;
+    font-family: inherit;
+    font-size: 13px;
+    padding: 9px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  button:hover { border-color: #3E434D; background: #1E222A; }
+  button:active { transform: translateY(1px); }
+  input[type="range"] { width: 170px; accent-color: #D9A441; }
+  .ctl-label { font-size: 12.5px; color: #7E848F; font-family: ui-monospace, Consolas, monospace; }
+
+  /* ---------- 状态行示例（仿思考中） ---------- */
+  .section-title {
+    font-size: 13px;
+    letter-spacing: .16em;
+    color: #8A8F99;
+    margin: 0 0 14px;
+    text-transform: uppercase;
+  }
+  .status-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #15171C;
+    border: 1px solid #23262D;
+    border-radius: 12px;
+    padding: 6px 18px 6px 6px;
+  }
+  .status-row .zhibao { --s: .19; }
+  .status-text {
+    font-size: 15px;
+    letter-spacing: .04em;
+    font-weight: 500;
+    background: linear-gradient(100deg, #6F7681 30%, #F2EEE6 48%, #6F7681 66%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 1.9s linear infinite;
+  }
+  @keyframes shimmer {
+    from { background-position: 130% 0; }
+    to   { background-position: -80% 0; }
+  }
+
+  /* ---------- 代码块 ---------- */
+  .code {
+    margin-top: 34px;
+    background: #12141A;
+    border: 1px solid #22252C;
+    border-radius: 14px;
+    padding: 22px 24px;
+    font-size: 12.8px;
+    line-height: 1.85;
+    color: #A9B0BC;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .code .c { color: #5E646F; }
+  .code .p { color: #C9A15B; }
+  .code .v { color: #8FBF9F; }
+  .note {
+    margin-top: 18px;
+    font-size: 12.5px;
+    color: #6E7480;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">CSS Sprite Sheet · Frame by Frame</div>
+  <h1>织宝 · 逐帧呼吸动画</h1>
+  <p class="sub">
+    16 帧横排雪碧图 + <code>steps()</code> 逐帧播放，纯 CSS，无 JS 驱动、无序列帧请求。
+    动作是呼吸缩放 ＋ 上下浮动 ＋ 轻微摇摆的无缝循环，节奏类似 DeepSeek 蓝鲸的思考态。
+  </p>
+
+  <div class="stage" id="stage">
+    <div class="zhibao" id="zhibao"></div>
+    <div class="hud" id="hud">frame 01 / 16 · 10 fps</div>
+  </div>
+
+  <div class="controls">
+    <button id="toggle">暂停</button>
+    <button id="slower">慢一点</button>
+    <button id="faster">快一点</button>
+    <span class="ctl-label" id="rate">1.6s / 轮（10 fps）</span>
+  </div>
+
+  <p class="section-title">用法示例 · 思考状态行</p>
+  <div class="status-row">
+    <div class="zhibao"></div>
+    <span class="status-text">织宝正在思考中…</span>
+  </div>
+
+  <div class="code"><span class="c">/* 1. 容器按单帧尺寸限制，背景横向铺开 N 倍 */</span>
+<span class="p">.zhibao</span> {
+  <span class="v">width</span>: 460px;  <span class="v">height</span>: 482px;
+  <span class="v">background</span>: url(<span class="v">"zhibao-sprite.png"</span>) 0 0 / 7360px 482px no-repeat;
+  <span class="v">animation</span>: play 1.6s <span class="p">steps(16)</span> infinite;   <span class="c">/* 16 帧 → 10fps */</span>
+}
+<span class="c">/* 2. 位移恰好等于整张图宽度，steps 把过程切成 16 格 */</span>
+<span class="p">@keyframes play</span> {
+  <span class="v">from</span> { background-position-x: 0px; }
+  <span class="v">to</span>   { background-position-x: <span class="v">-7360px</span>; }
+}</div>
+
+  <p class="note">
+    小尺寸复用只需缩放：容器宽高与 <code>background-size</code> 同步乘以系数（示例里 --s: .19）。
+    整张图 7360×482，RGBA 透明背景，单文件 3.6&nbsp;MB。
+  </p>
+</div>
+
+<script>
+  const stage = document.getElementById('stage');
+  const zhibao = document.getElementById('zhibao');
+  const hud = document.getElementById('hud');
+  const rate = document.getElementById('rate');
+  const toggle = document.getElementById('toggle');
+  const FRAMES = 16;
+  let dur = 1.6;
+  let paused = false;
+  let lastFrame = -1;
+
+  document.documentElement.style.setProperty('--dur', dur + 's');
+
+  function setDur(v) {
+    dur = Math.min(4, Math.max(0.6, +v.toFixed(2)));
+    document.documentElement.style.setProperty('--dur', dur + 's');
+    rate.textContent = dur + 's / 轮（' + Math.round(FRAMES / dur) + ' fps）';
+  }
+  document.getElementById('slower').onclick = () => setDur(dur + 0.2);
+  document.getElementById('faster').onclick = () => setDur(dur - 0.2);
+
+  toggle.onclick = () => {
+    paused = !paused;
+    stage.classList.toggle('paused', paused);
+    toggle.textContent = paused ? '继续' : '暂停';
+  };
+
+  // HUD：读取当前帧号（仅展示用，动画本身不依赖 JS）
+  (function tick() {
+    if (!paused) {
+      const t = performance.now() / 1000;
+      const f = Math.floor((t % dur) / dur * FRAMES);
+      if (f !== lastFrame) {
+        lastFrame = f;
+        hud.textContent = 'frame ' + String(f + 1).padStart(2, '0') + ' / 16 · ' + Math.round(FRAMES / dur) + ' fps';
+      }
+    }
+    requestAnimationFrame(tick);
+  })();
+</script>
+</body>
+</html>

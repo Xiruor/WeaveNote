@@ -29,12 +29,14 @@ export type AiSurface = (typeof AI_SURFACES)[number];
  *   toolReference     getMyMemories, searchConversationHistory, updateAgentState
  *   noteTools         searchNotes, readNote, listNotes, summarizeNote
  *   noteEdit          createNote, proposeNoteEdit
+ *   memoryWrite       remember
  *   conduct           不新增工具名
  */
 export const ALL_PROMPT_GROUPS = [
   "toolReference", // 能力清单 / 什么时候用工具
   "noteTools", // 笔记检索、阅读与引用规则
   "noteEdit", // 笔记写工具与 diff 确认
+  "memoryWrite", // 长期记忆写入工具（remember）
   "conduct", // 行为准则
 ] as const satisfies readonly string[];
 
@@ -65,6 +67,16 @@ const NOTE_TOOLS = [
 
 
 /**
+ * 长期记忆写工具（M4）。
+ *
+ * 只有 remember 一个：只在用户明确要求「记住」时调用，内部走
+ * 候选 → Manager，不裸写库。两个场景都放行（笔记里说「记住」和工作台里
+ * 说「记住」是同一个产品语义）。
+ */
+const MEMORY_WRITE_TOOLS = ["remember"] as const;
+
+
+/**
  * 会话上下文工具（所有入口都需要）：
  *   searchConversationHistory 找回被摘要压缩的原文
  *   updateAgentState          维护当前会话的 workingMemory / todoList
@@ -86,12 +98,22 @@ export interface SurfacePolicy {
 export const SURFACE_POLICY: Record<AiSurface, SurfacePolicy> = {
   // 两个场景拿同一套只读工具与提示词；差异等 M3（写工具 + diff 确认）再引入。
   workspace: {
-    tools: [...NOTE_TOOLS, ...READ_TOOLS, ...CONTEXT_TOOLS],
+    tools: [
+      ...NOTE_TOOLS,
+      ...READ_TOOLS,
+      ...MEMORY_WRITE_TOOLS,
+      ...CONTEXT_TOOLS,
+    ],
     promptGroups: ALL_PROMPT_GROUPS,
   },
 
   note: {
-    tools: [...NOTE_TOOLS, ...READ_TOOLS, ...CONTEXT_TOOLS],
+    tools: [
+      ...NOTE_TOOLS,
+      ...READ_TOOLS,
+      ...MEMORY_WRITE_TOOLS,
+      ...CONTEXT_TOOLS,
+    ],
     promptGroups: ALL_PROMPT_GROUPS,
   },
 };

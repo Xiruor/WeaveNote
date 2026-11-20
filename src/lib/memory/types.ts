@@ -43,10 +43,15 @@ export const MEMORY_STATUSES = [
 
 export type MemoryStatus = (typeof MEMORY_STATUSES)[number];
 
-/** 记忆来源。assistant_inference 已被服务端拒绝，不会落库。 */
+/**
+ * 记忆来源。assistant_inference 已被服务端拒绝，不会落库。
+ *
+ * note：用户在笔记/对话里**主动要求** AI 记下的事实或偏好（M4 的 remember 工具）。
+ */
 export const MEMORY_SOURCE_TYPES = [
   "user_statement",
   "user_correction",
+  "note",
   "consolidation",
   "legacy",
   "user_edit",

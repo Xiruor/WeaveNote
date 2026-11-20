@@ -20,9 +20,10 @@ import { createContextTools } from "@/lib/tools/context-tools";
 import { createNoteTools } from "@/lib/tools/note-tools";
 import { buildSystemPrompt } from "@/lib/deepseek";
 
-/** 统一契约：AI surface 只剩工作台与笔记，保留的 AI 工具（M2：+ 笔记检索；M3：+ 读/写工具） */
+/** 统一契约：AI surface 只剩工作台与笔记，保留的 AI 工具（M2：+ 笔记检索；M3：+ 读/写工具；M4：+ remember） */
 const RETAINED_TOOLS = [
   "getMyMemories",
+  "remember",
   "searchConversationHistory",
   "updateAgentState",
   "searchNotes",

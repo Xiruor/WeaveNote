@@ -8,9 +8,10 @@ import { describe, expect, it } from "vitest";
 import { SURFACE_POLICY } from "@/lib/tools/router";
 import { TOOL_UI, toolUi } from "@/lib/tools/tool-ui";
 
-/** 统一契约里保留的 AI 工具（M2：+ 笔记检索；M3：+ 读/写工具） */
+/** 统一契约里保留的 AI 工具（M2：+ 笔记检索；M3：+ 读/写工具；M4：+ remember） */
 const RETAINED_TOOLS = [
   "getMyMemories",
+  "remember",
   "searchConversationHistory",
   "updateAgentState",
   "searchNotes",
@@ -53,7 +54,7 @@ describe("TOOL_UI 注册表", () => {
     }
   });
 
-  it("读/写分类：检索/读笔记/列笔记/总结是 read，写笔记与提案是 write", () => {
+  it("读/写分类：检索/读笔记/列笔记/总结是 read，写笔记、提案与记忆写入是 write", () => {
     expect(TOOL_UI.getMyMemories?.kind).toBe("read");
     expect(TOOL_UI.searchConversationHistory?.kind).toBe("read");
     expect(TOOL_UI.searchNotes?.kind).toBe("read");
@@ -62,6 +63,7 @@ describe("TOOL_UI 注册表", () => {
     expect(TOOL_UI.summarizeNote?.kind).toBe("read");
     expect(TOOL_UI.createNote?.kind).toBe("write");
     expect(TOOL_UI.proposeNoteEdit?.kind).toBe("write");
+    expect(TOOL_UI.remember?.kind).toBe("write");
     expect(TOOL_UI.updateAgentState?.kind).toBe("write");
   });
 });

@@ -15,12 +15,17 @@ vi.mock("@/lib/memory/store", () => ({
   insertMemory: vi.fn(),
   insertMemoryEvent: vi.fn(),
   markCandidate: vi.fn(),
+  setMemoryEmbedding: vi.fn(),
   softDeleteMemory: vi.fn(),
   supersedeMemory: vi.fn(),
   withUserMemoryLock: vi.fn(),
 }));
 
-import { commitCandidate } from "@/lib/memory/manager";
+import {
+  commitCandidate,
+  deleteMemoryByUser,
+  updateMemoryByUser,
+} from "@/lib/memory/manager";
 import {
   findActiveByKey,
   findCandidateById,
@@ -29,6 +34,7 @@ import {
   insertMemory,
   insertMemoryEvent,
   markCandidate,
+  setMemoryEmbedding,
   softDeleteMemory,
   supersedeMemory,
   withUserMemoryLock,
@@ -45,6 +51,7 @@ const mockMark = vi.mocked(markCandidate);
 const mockSoftDelete = vi.mocked(softDeleteMemory);
 const mockSupersede = vi.mocked(supersedeMemory);
 const mockLock = vi.mocked(withUserMemoryLock);
+const mockSetEmbedding = vi.mocked(setMemoryEmbedding);
 
 function memory(overrides: Partial<MemoryRecord> = {}): MemoryRecord {
   return {
@@ -247,5 +254,110 @@ describe("commitCandidate", () => {
 
     expect(mockInsert).not.toHaveBeenCalled();
     expect(mockLock).not.toHaveBeenCalled();
+  });
+});
+
+describe("updateMemoryByUser", () => {
+  function withTx() {
+    const updateMany = vi.fn();
+    mockLock.mockImplementation(async (_userId, fn) =>
+      fn({ memory: { updateMany } } as never)
+    );
+    return updateMany;
+  }
+
+  it("越权 / 不存在 → not_found，不开事务", async () => {
+    mockFindById.mockResolvedValue(null);
+
+    const result = await updateMemoryByUser("u1", "m-other", {
+      content: "新内容",
+    });
+
+    expect(result).toEqual({ ok: false, reason: "not_found" });
+    expect(mockLock).not.toHaveBeenCalled();
+  });
+
+  it("字段没有变化 → no_change，不写事件", async () => {
+    mockFindById.mockResolvedValue(memory({ content: "Vue 熟练" }));
+
+    const result = await updateMemoryByUser("u1", "m1", { content: "Vue 熟练" });
+
+    expect(result).toEqual({ ok: false, reason: "no_change" });
+    expect(mockEvent).not.toHaveBeenCalled();
+  });
+
+  it("改正文 → 重嵌入 + 写 update 事件（actor=user，保留 sourceType）", async () => {
+    const target = memory({ content: "Vue 熟练" });
+    mockFindById.mockResolvedValue(target);
+    const updateMany = withTx();
+
+    const result = await updateMemoryByUser("u1", "m1", {
+      content: "Vue 与 React 都熟练",
+      importance: 0.9,
+    });
+
+    expect(result.ok).toBe(true);
+    expect(mockSetEmbedding).toHaveBeenCalledWith(
+      expect.anything(),
+      "m1",
+      "u1",
+      expect.any(Array),
+      "test-embedding"
+    );
+    expect(updateMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: "m1", userId: "u1", status: "active" },
+        data: expect.objectContaining({
+          content: "Vue 与 React 都熟练",
+          importance: 0.9,
+        }),
+      })
+    );
+    expect(mockEvent.mock.calls[0][1]).toMatchObject({
+      action: "update",
+      actor: "user",
+      userId: "u1",
+      memoryId: "m1",
+    });
+    // sourceType 保留原值（追溯来源），不改成 user_edit
+    expect(result.ok && result.memory.sourceType).toBe("user_statement");
+  });
+
+  it("同键出现异常重复项时先 supersede 冲突项", async () => {
+    mockFindById.mockResolvedValue(
+      memory({ id: "m1", normalizedKey: "skill:frontend" })
+    );
+    mockFindActiveByKey.mockResolvedValue(
+      memory({ id: "m2", normalizedKey: "skill:frontend" })
+    );
+    withTx();
+
+    await updateMemoryByUser("u1", "m1", { content: "新的描述" });
+
+    expect(mockSupersede).toHaveBeenCalledWith(expect.anything(), "m2", "u1");
+  });
+});
+
+describe("deleteMemoryByUser", () => {
+  it("不存在 / 已删除 → false，不写事件", async () => {
+    mockFindById.mockResolvedValue(null);
+
+    const result = await deleteMemoryByUser("u1", "m1");
+
+    expect(result).toBe(false);
+    expect(mockSoftDelete).not.toHaveBeenCalled();
+  });
+
+  it("软删并写 delete 事件", async () => {
+    mockFindById.mockResolvedValue(memory());
+
+    const result = await deleteMemoryByUser("u1", "m1");
+
+    expect(result).toBe(true);
+    expect(mockSoftDelete).toHaveBeenCalledWith(expect.anything(), "m1", "u1");
+    expect(mockEvent.mock.calls[0][1]).toMatchObject({
+      action: "delete",
+      actor: "user",
+    });
   });
 });

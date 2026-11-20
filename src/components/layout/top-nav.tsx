@@ -7,6 +7,7 @@ import { LogoutButton } from "@/app/(dashboard)/actions";
 import {
   List,
   Notebook,
+  Brain,
   Question,
   Sparkle,
   X,
@@ -41,10 +42,11 @@ interface TopNavProps {
   };
 }
 
-// 主导航：织念的两个核心页面
+// 主导航：织念的核心页面
 const MAIN_NAV = [
   { href: "/notes", label: "笔记库", icon: Notebook },
   { href: "/agent", label: "智能体", icon: Sparkle },
+  { href: "/memories", label: "记忆", icon: Brain },
 ] as const;
 
 export function TopNav({ user }: TopNavProps) {

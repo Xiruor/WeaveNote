@@ -6,6 +6,7 @@ import {
   Sparkle,
   Target,
 } from "@phosphor-icons/react/dist/ssr";
+import { Zhibao } from "@/components/ui/zhibao";
 
 const loadingSteps = [
   { label: "笔记库", icon: Notebook },
@@ -20,9 +21,7 @@ export default function GlobalLoading() {
       <div className="pointer-events-none absolute left-1/2 top-[19%] h-px w-[min(72vw,720px)] -translate-x-1/2 bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
 
       <section className="relative z-10 w-full max-w-[520px] text-center">
-        <div className="mx-auto flex size-16 items-center justify-center rounded-[22px] border border-primary/25 bg-primary/12 text-primary shadow-[0_0_0_8px_rgba(215,239,131,0.04),0_18px_55px_rgba(0,0,0,0.22)]">
-          <Leaf className="size-8" weight="fill" />
-        </div>
+        <Zhibao scale={0.15} className="mx-auto" />
 
         <div className="mt-7 flex items-center justify-center gap-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary/80">
           <Sparkle className="size-3" weight="fill" />

@@ -78,6 +78,21 @@ export const TOOL_UI: Record<string, ToolUiSpec> = {
     summarize: (input) => str(field(input, "reason")) ?? str(field(input, "newTitle")),
   },
 
+  // M4：把用户明确要求记住的内容写入长期记忆
+  remember: {
+    label: "记录长期记忆",
+    kind: "write",
+    summarize: (input) => {
+      const memories = field(input, "memories");
+      if (!Array.isArray(memories) || memories.length === 0) return undefined;
+      const first = memories[0] as Record<string, unknown> | null;
+      const content = first ? str(field(first, "content"), 32) : undefined;
+      return memories.length > 1
+        ? `${memories.length} 条：${content ?? ""}`
+        : content;
+    },
+  },
+
   updateAgentState: {
     label: "更新会话状态",
     kind: "write",

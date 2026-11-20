@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkle } from "@phosphor-icons/react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Zhibao } from "@/components/ui/zhibao";
 import { useSceneCopy } from "@/context/scene-context";
 
 function clamp(value: number, min: number, max: number) {
@@ -98,10 +98,7 @@ export function AgentOrb() {
           />
         }
       >
-        <span className="rainforest-orb__halo" />
-        <span className="rainforest-orb__core"><Sparkle weight="fill" /></span>
-        <span className="rainforest-orb__spark rainforest-orb__spark--one" />
-        <span className="rainforest-orb__spark rainforest-orb__spark--two" />
+        <Zhibao scale={0.13} className="pointer-events-none" />
       </TooltipTrigger>
       <TooltipContent side="left">{explorerTitle}</TooltipContent>
     </Tooltip>

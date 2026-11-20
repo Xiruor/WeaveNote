@@ -214,7 +214,13 @@ export async function POST(request: NextRequest) {
       // 笔记工具带 noteId（note 场景的当前笔记）与 conversationId（提案溯源）。
       tools: pickTools(
         {
-          ...createMemoryTools(user.id),
+          // 记忆工具：getMyMemories 只读；remember 把用户明确要求记住的内容
+          // 写成候选（messageId = 当前用户消息 id，天然幂等），交给 Manager 落库。
+          ...createMemoryTools(user.id, {
+            conversationId: activeConversationId,
+            messageId: savedUser.id,
+            currentUserText: lastUserText,
+          }),
           ...createContextTools(user.id, activeConversationId),
           ...createNoteTools(user.id, {
             noteId: surface === "note" ? activeConversation.refId : null,

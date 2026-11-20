@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { formatMessageTime } from "@/lib/datetime";
 import { MarkdownRenderer } from "@/components/ai/markdown-renderer";
 import { ToolCallBox, type ToolViewPart } from "@/components/ai/tool-call-box";
+import { ThinkingStatus } from "@/components/ui/zhibao";
 import type { ViewPart } from "@/lib/ai/parts";
 import type { ChatMessage } from "@/types";
 
@@ -79,18 +80,13 @@ export function MessageBubble({
 
         {/* 空转提示。有 parts 时只在「正在生成且还没有任何文字」时出现——
             工具卡片自己带转圈，再叠一个「思考中」就重复了；而全部工具跑完之后
-            模型组织最终回答的那段时间，只剩一排打勾的卡片，没有它就看着像卡死。 */}
-        {!hasText && (!hasParts || streaming) ? (
-          <span
-            className={cn(
-              "flex items-center gap-1.5 opacity-70",
-              hasParts && "mt-2 text-[12px]"
-            )}
-          >
-            <span className="inline-block size-1.5 animate-pulse rounded-full bg-current" />
-            思考中…
-          </span>
-        ) : null}
+            模型组织最终回答的那段时间，只剩一排打勾的卡片，没有它就看着像卡死。
+            状态行始终保留在 DOM 里，只切 .is-on：流式片段不断到达时动画不会反复从头开始。 */}
+        <ThinkingStatus
+          active={!hasText && (!hasParts || streaming)}
+          scale={0.1}
+          className={hasParts ? "mt-2" : undefined}
+        />
 
         <p className={cn("mt-1 text-[10px] opacity-55")}>
           {formatMessageTime(message.createdAt)}

@@ -253,7 +253,7 @@ model Memory {
   /// 被哪条新记忆覆盖（指向 memory.id）
   supersedesId  String?
 
-  /// user_statement | user_correction | consolidation | legacy | user_edit
+  /// user_statement | user_correction | note | consolidation | legacy | user_edit
   sourceType    String
   sourceConversationId String?
   sourceMessageId      String?
